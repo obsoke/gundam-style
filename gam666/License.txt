@@ -1,0 +1,52 @@
+fwk4gps License
+---------------
+
+Copyright (c) 2012, Chris Szalwinski
+
+Permission to use, copy, modify, and distribute this software and its documentation 
+for any purpose, without fee, and without a written agreement is hereby granted, 
+provided that the above copyright notice and this paragraph and the following two 
+paragraphs appear in all copies.
+
+IN NO EVENT SHALL Chris Szalwinski BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, 
+INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE 
+OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF Chris Szalwinski HAS BEEN ADVISED OF THE 
+POSSIBILITY OF SUCH DAMAGE.
+
+Chris Szalwinski SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE 
+SOFTWARE PROVIDED HEREUNDER IS ON AN "AS IS" BASIS, AND Chris Szalwinski HAS NO 
+OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+
+
+Audio Files Licenses
+--------------------
+Each of the following sound files is redistributed with fwks4gps under a Creative 
+Commons Sampling Plus 1.0 License.
+
+The user friendly description of this license is at 
+http://creativecommons.org/licenses/sampling+/1.0/
+
+The legal version of this license is at
+http://creativecommons.org/licenses/sampling+/1.0/legalcode
+
+Sound files redistributed:
+
+By reinsamba (http://www.freesound.org/usersViewSingle.php?id=18799)
+    1202_goat.wav (http://www.freesound.org/samplesViewSingle.php?id=57794)
+    MerlothPark_crickets1.wav (http://www.freesound.org/samplesViewSingle.php?id=58235)
+    Pandeiro (1).wav (http://www.freesound.org/samplesViewSingle.php?id=21164)
+    kalimba1.wav (http://www.freesound.org/samplesViewSingle.php?id=24793)
+    carnival_parade_cologne_drums_and_pipes.wav (http://www.freesound.org/samplesViewSingle.php?id=68757)
+    street accordeonist.wav (http://www.freesound.org/samplesViewSingle.php?id=21684)
+    jazz_street_musicians.wav (http://www.freesound.org/samplesViewSingle.php?id=54066)
+    samba_batucada1.wav (http://www.freesound.org/samplesViewSingle.php?id=53704)
+    gong.wav (http://www.freesound.org/samplesViewSingle.php?id=46062)
+    Fortaleza election campaign.wav (http://www.freesound.org/samplesViewSingle.php?id=14385)
+    evening in the forest.wav (http://www.freesound.org/samplesViewSingle.php?id=18765)
+
+By nicStage (http://www.freesound.org/usersViewSingle.php?id=1198)
+    pianoLoop1.wav (http://www.freesound.org/samplesViewSingle.php?id=1907)
+
+By sleep (http://www.freesound.org/usersViewSingle.php?id=838)
+    parker_piezo_g.wav (http://www.freesound.org/samplesViewSingle.php?id=913)
