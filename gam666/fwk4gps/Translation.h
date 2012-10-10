@@ -11,7 +11,7 @@
  * distributed under TPL - see ../Licenses.txt
  */
 
-#define WND_CAPTION      L"Rocket Jump and Dale"
+#define WND_CAPTION      L"Gundam Style"
 
 #define MAX_DESC 255     // max string length throughout
 
@@ -37,7 +37,7 @@
 #define IDC_CTO 114
 
 // DO NOT REMOVE WITHOUT WRITTEN PERMISSION
-#define COPYRIGHT_LINE_1 "fwk4gps is copyright (c) 2012, Chris Szalwinski. Source code is distributed under the"
+#define COPYRIGHT_LINE_1 "Gundam Style is Copyright (c) 2012, Rocket Jump and Dale. Source code is distributed under the"
 #define COPYRIGHT_LINE_2 "PostgreSQL Open Source License (TPL).  For the full text, see ../Licenses.txt"
 #define COPYRIGHT_LINE_3 "Audio clips are redistributed under Creative Commons Sampling Plus 1.0 licenses.  "
 #define COPYRIGHT_LINE_4 "For full text, see ../Licenses.txt"
