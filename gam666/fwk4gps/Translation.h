@@ -11,7 +11,7 @@
  * distributed under TPL - see ../Licenses.txt
  */
 
-#define WND_CAPTION      L"fwk4gps"
+#define WND_CAPTION      L"Rocket Jump and Dale"
 
 #define MAX_DESC 255     // max string length throughout
 
