@@ -38,6 +38,7 @@ class iObject : public Frame, public Base {
 	virtual void Delete() const                      = 0;
     friend class Coordinator;
     friend class Design;
+    friend class World;
   public:
     virtual iObject* clone() const                   = 0;
 };
