@@ -11,13 +11,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> // for WinMain and Windows Types
 
-#include "Design.h"  // for the Design class definition
+#include "Game\Game.h"  // for the Design class definition
 
 // Entry point for the Application
 //
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cp, int show) {
 
-    Design game(hinst, show);
+    Game game(hinst, show);
 
-    return game.run();
 }
