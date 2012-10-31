@@ -6,7 +6,7 @@ PhysicsWorld::PhysicsWorld() {
   dispatcher = new btCollisionDispatcher(collisionConfiguration);
   solver = new btSequentialImpulseConstraintSolver;
   world = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
-  world->setGravity(btVector3(0,-10,0));
+  world->setGravity(btVector3(0,-20,0));
 }
 
 PhysicsWorld::~PhysicsWorld() {
@@ -18,5 +18,5 @@ PhysicsWorld::~PhysicsWorld() {
 }
 
 void PhysicsWorld::update() {
-  world->stepSimulation(1/60.f,10);
+  world->stepSimulation(1/30.f,10);
 }

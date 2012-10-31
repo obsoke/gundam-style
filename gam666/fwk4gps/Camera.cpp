@@ -30,7 +30,7 @@ iCamera* CreateCamera() {
 
 // constructor adds the Camera Instance to the coordinator
 //
-Camera::Camera() {
+Camera::Camera(bool useInput) : useInput(useInput) {
 
     coordinator->add(this);
     current = this;
@@ -54,86 +54,87 @@ int Camera::change(Action a) const { return coordinator->change(a); }
 // to the user's interventions
 //
 void Camera::update() {
+    if (useInput) {
+      int delta = now - lastUpdate;
+      int dx = 0, // pitch up/down
+          dy = 0, // yaw left/right
+          dz = 0; // advance/retreat
+      int rx = 0,
+          ry = 0,
+          rz = 0;
 
-    int delta = now - lastUpdate;
-    int dx = 0, // pitch up/down
-        dy = 0, // yaw left/right
-        dz = 0; // advance/retreat
-    int rx = 0,
-        ry = 0,
-        rz = 0;
+      // controller input
+      int jx = change(GF_CT_POSX);
+      int jy = change(GF_CT_POSY);
+      int jr = change(GF_CT_ROTZ);
+      if (jy)
+          rx = -(int)(jy * CTR_SPEED);
+      if (jr)
+          ry = (int)(jr * CTR_SPEED);
+      if (jx)
+          rz = (int)(jx * CTR_SPEED);
 
-    // controller input
-    int jx = change(GF_CT_POSX);
-    int jy = change(GF_CT_POSY);
-    int jr = change(GF_CT_ROTZ);
-    if (jy)
-        rx = -(int)(jy * CTR_SPEED);
-    if (jr)
-        ry = (int)(jr * CTR_SPEED);
-    if (jx)
-        rz = (int)(jx * CTR_SPEED);
-
-	// mouse input
-    int mx = change(CAM_SMOOTH_YAW);
-    int my = change(CAM_SMOOTH_PITCH);
-    int mz = change(CAM_SMOOTH_F_B);
-	if (mx)
-		ry += mx * MOUSE_SPEED;
-	if (my)
-		rx += my * MOUSE_SPEED;
-	if (mz)
-		dz += mz * MOUSE_SPEED;
+	  // mouse input
+      int mx = change(CAM_SMOOTH_YAW);
+      int my = change(CAM_SMOOTH_PITCH);
+      int mz = change(CAM_SMOOTH_F_B);
+	  if (mx)
+		  ry += mx * MOUSE_SPEED;
+	  if (my)
+		  rx += my * MOUSE_SPEED;
+	  if (mz)
+		  dz += mz * MOUSE_SPEED;
 		
-	// keyboard input
-    if (pressed(CAM_PAN_LEFT))
-        dx -= delta;
-    if (pressed(CAM_PAN_RIGHT))
-        dx += delta;
-    if (pressed(CAM_PAN_LEFT_ALT))
-        dx -= delta;
-    if (pressed(CAM_PAN_RIGHT_ALT))
-        dx += delta;
-    if (pressed(CAM_FLY_DOWN))
-        dy -= delta;
-    if (pressed(CAM_FLY_UP))
-        dy += delta;
-    if (pressed(CAM_ADVANCE))
-        dz += delta;
-    if (pressed(CAM_RETREAT))
-        dz -= delta;
-    if (pressed(CAM_PITCH_UP))
-        rx -= delta;
-    if (pressed(CAM_PITCH_DOWN))
-        rx += delta;
-    if (pressed(CAM_YAW_LEFT))
-        ry -= delta;
-    if (pressed(CAM_YAW_RIGHT))
-        ry += delta;
-    if (pressed(CAM_ROLL_LEFT))
-        rz -= delta;
-    if (pressed(CAM_ROLL_RIGHT))
-        rz += delta;
+	  // keyboard input
+      if (pressed(CAM_PAN_LEFT))
+          dx -= delta;
+      if (pressed(CAM_PAN_RIGHT))
+          dx += delta;
+      if (pressed(CAM_PAN_LEFT_ALT))
+          dx -= delta;
+      if (pressed(CAM_PAN_RIGHT_ALT))
+          dx += delta;
+      if (pressed(CAM_FLY_DOWN))
+          dy -= delta;
+      if (pressed(CAM_FLY_UP))
+          dy += delta;
+      if (pressed(CAM_ADVANCE))
+          dz += delta;
+      if (pressed(CAM_RETREAT))
+          dz -= delta;
+      if (pressed(CAM_PITCH_UP))
+          rx -= delta;
+      if (pressed(CAM_PITCH_DOWN))
+          rx += delta;
+      if (pressed(CAM_YAW_LEFT))
+          ry -= delta;
+      if (pressed(CAM_YAW_RIGHT))
+          ry += delta;
+      if (pressed(CAM_ROLL_LEFT))
+          rz -= delta;
+      if (pressed(CAM_ROLL_RIGHT))
+          rz += delta;
 
-    // adjust camera orientation
-	if ((rx || ry || rz)) {
-        // yaw left/right
-		if (ry)
-            rotate(orientation('y'), ry * ANG_CAM_SPEED);
-		// pitch up/down
-        if (rx) 
-            rotate(orientation('x'), rx * ANG_CAM_SPEED);
-		// roll left/right
-        if (rz) 
-            rotate(orientation('z'), rz * ANG_CAM_SPEED);
-    }
-	// adjust camera position
-    if ((dx || dy || dz)) { 
-        Vector displacement = 
-         (float) dx * CAM_SPEED * orientation('x') +
-         (float) dy * CAM_SPEED * orientation('y') + 
-         (float) dz * CAM_SPEED * orientation('z');
-        translate(displacement.x, displacement.y, displacement.z);
+      // adjust camera orientation
+	  if ((rx || ry || rz)) {
+          // yaw left/right
+		  if (ry)
+              rotate(orientation('y'), ry * ANG_CAM_SPEED);
+		  // pitch up/down
+          if (rx) 
+              rotate(orientation('x'), rx * ANG_CAM_SPEED);
+		  // roll left/right
+          if (rz) 
+              rotate(orientation('z'), rz * ANG_CAM_SPEED);
+      }
+	  // adjust camera position
+      if ((dx || dy || dz)) { 
+          Vector displacement = 
+           (float) dx * CAM_SPEED * orientation('x') +
+           (float) dy * CAM_SPEED * orientation('y') + 
+           (float) dz * CAM_SPEED * orientation('z');
+          translate(displacement.x, displacement.y, displacement.z);
+      }
     }
 
     current = this;

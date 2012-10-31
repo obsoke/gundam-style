@@ -30,9 +30,11 @@ class Camera : public iCamera {
     virtual ~Camera();
 
   public:
+    bool useInput;
+
     static Frame** getCurrent() { return (Frame**)&current; }
     static void*    getView()    { return &view; }
-    Camera();
+    Camera(bool useInput = false);
 	Camera(const Camera& c);
     void* clone() const          { return new Camera(*this); }
 	// execution
