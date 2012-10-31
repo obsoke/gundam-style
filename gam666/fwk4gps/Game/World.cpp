@@ -39,8 +39,10 @@ void World::initializeHUD() {
 void World::initializeLighting() {
   Colour white(1, 1, 1);
   Colour black(0, 0, 0);
+  Colour blue(0, 1, 0);
   setAmbientLight(0.2f, 0.2f, 0.2f);
   defaultLight = CreateDistantLight(white, white, black, true);
+  defaultLight->rotate(Vector(1, 1, 0), 3.14f / 4);
 }
 
 void World::initializeObjects() {
@@ -54,11 +56,11 @@ void World::initializeObjects() {
   //camera->useInput = true;
 
   iObject* bg = CreateSprite(CreateGraphic(), '\xFF');
-  bg->attach(CreateTexture(L"stonehenge.bmp"));
+  bg->attach(CreateTexture(L"blue_nebula.jpg"));
   
   iGraphic* longPlate = CreateBox(-30, -10, 0, 1600, 10, 1600);
   iObject* floorModel = CreateObject(longPlate, &whiteish);
-  iTexture* check = CreateTexture(L"check.bmp");
+  iTexture* check = CreateTexture(L"metalbare.jpg");
   floorModel->attach(check);
   floor = new Floor(this, floorModel);
   floor->setRotation(0, 1, 0, 3.14f / 4);
