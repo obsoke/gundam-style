@@ -59,6 +59,7 @@ void World::initializeObjects() {
 
   player = new Player();
   player->speed.x = 0.1f;
+  player->speed.y = 0.5f;
   player->speed.z = 1;
   player->angularSpeed = Vector(0.1f, 0.1f, 0);
   add(player);
@@ -67,6 +68,17 @@ void World::initializeObjects() {
 void World::update() {
   for (int i=0, length=gameObjects.size(); i<length; ++i) {
     gameObjects[i]->update();
+
+	//check if the game object leaves the boundary, reverse speed if it does
+	Vector tmp = gameObjects[i]->position();
+
+	//check all 6 sides
+	if (tmp.x > WORLDX2 || tmp.x < WORLDX1 || tmp.y > WORLDY2 || tmp.y < WORLDY1 || tmp.z > WORLDZ2 || tmp.z < WORLDZ1) {
+		//determine what kind of GameObject it is
+		//gameObjects[i]->translate(gameObjects[i]->speed.x * -1,gameObjects[i]->speed.y * -1,gameObjects[i]->speed.z * -1);
+		gameObjects[i]->hitBoundary();
+	}
+
   }
 }
 

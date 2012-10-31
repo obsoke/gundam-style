@@ -15,6 +15,7 @@ public:
   void setModel(iObject* object);
   void setModel(iGraphic* graphic, Reflectivity* reflectivity = nullptr);
   void update();
+  virtual void hitBoundary() = 0;  //perform action when the game object hits environment boundary
 };
 
 #endif

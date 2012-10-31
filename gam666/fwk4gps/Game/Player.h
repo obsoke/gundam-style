@@ -7,6 +7,7 @@ class Player : public GameObject {
 
 public:
   Player() : GameObject() { };
+  void hitBoundary();  //implementation of GameObject virtual function
 };
 
 #endif
