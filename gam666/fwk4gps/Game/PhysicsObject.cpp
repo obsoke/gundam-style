@@ -25,7 +25,7 @@ PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBod
   if (!body) {
     // Create a default cube body
     AABB aabb = object->model->getAABB();
-    shape = new btBoxShape(btVector3(aabb.width(),aabb.height(),aabb.depth()));
+    shape = new btBoxShape(btVector3(aabb.width() / 2.05f, aabb.height() / 2.05f, aabb.depth() / 2.05f));
     motionState = new btDefaultMotionState(btTransform
       (btQuaternion(0,0,0,1),toBtVector(object->position())));
     btVector3 fallInertia(0,0,0);
