@@ -20,6 +20,7 @@ public:
   void setTranslation(const Vector& v);
   void setSpeed(const Vector& v);
   void setAngularSpeed(const Vector& v);
+  void applyForce(const Vector& v);
   void create();
   void remove();
   void update();

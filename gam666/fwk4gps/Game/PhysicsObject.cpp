@@ -72,3 +72,7 @@ void PhysicsObject::setSpeed(const Vector& v) {
 void PhysicsObject::setAngularSpeed(const Vector& v) {
   body->setAngularVelocity(toBtVector(v));
 }
+
+void PhysicsObject::applyForce(const Vector& v) {
+  body->applyForce(toBtVector(v), btVector3(0,0,0));
+}

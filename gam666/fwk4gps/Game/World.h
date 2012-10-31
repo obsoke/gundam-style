@@ -28,6 +28,8 @@ public:
   void add(GameObject* gameObject);
   void remove(GameObject* gameObject);
   void update();
+  unsigned int getNow() { return now; };
+  unsigned int getDelta() { return lastUpdate; };
 };
 
 #endif

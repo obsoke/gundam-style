@@ -25,9 +25,11 @@ public:
   void setTranslation(float x, float y, float z) { setTranslation(Vector(x,y,z)); };
   void setSpeed(const Vector& v);
   void setSpeed(float x, float y, float z) { setSpeed(Vector(x,y,z)); };
+  void applyForce(const Vector& v);
+  void applyForce(float x, float y, float z) { applyForce(Vector(x,y,z)); };
   void setAngularSpeed(const Vector& v);
   void setAngularSpeed(float x, float y, float z) { setAngularSpeed(Vector(x,y,z)); };
-  void update();
+  virtual void update();
 };
 
 #endif

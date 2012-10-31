@@ -116,9 +116,6 @@ class Coordinator : public iCoordinator {
     void setAmbientLight(float, float, float);
     void setTimerText(void* text)     { timerText = (iText*)text; }
  	// execution
-    bool pressed(Action a) const;
-    bool ptrPressed() const;
-    bool ctrPressed() const;
     int  change(Action a) const;
     void release(Action);
     const wchar_t* file (ModelSound s) const;
@@ -152,6 +149,9 @@ class Coordinator : public iCoordinator {
     void  remove(iGraphic* g) { ::remove(graphic, g); }
     void  remove(iText* t)    { ::remove(text, t); }
     void  remove(iHUD* h)     { ::remove(hud, h); }
+    bool pressed(Action a) const;
+    bool ptrPressed() const;
+    bool ctrPressed() const;
 };
 
 #endif

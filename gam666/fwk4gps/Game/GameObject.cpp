@@ -61,3 +61,7 @@ void GameObject::setAngularSpeed(const Vector& v) {
   angularSpeed = v;
   if (physics) physics->setAngularSpeed(v);
 }
+
+void GameObject::applyForce(const Vector& v) {
+  if (physics) physics->applyForce(v);
+}
