@@ -20,16 +20,20 @@ Matrix toMatrix(const btMatrix3x3& mat, const btVector3& m4) {
                 m4.x(), m4.y(), m4.z(), 1);
 }
 
-PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body) :
+PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body, bool isStatic) :
     shape(nullptr), motionState(nullptr), body(body), world(world), object(object) {
   if (!body) {
     // Create a default cube body
-    shape = new btBoxShape(btVector3(20,20,20));
+    AABB aabb = object->model->getAABB();
+    shape = new btBoxShape(btVector3(aabb.width(),aabb.height(),aabb.depth()));
     motionState = new btDefaultMotionState(btTransform
       (btQuaternion(0,0,0,1),toBtVector(object->position())));
-    btScalar mass = 1;
     btVector3 fallInertia(0,0,0);
-    shape->calculateLocalInertia(mass,fallInertia);
+    btScalar mass = 0;
+    if (!isStatic) {
+      mass = 1;
+      shape->calculateLocalInertia(mass,fallInertia);
+    }
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass,motionState,shape,fallInertia);
     this->body = new btRigidBody(fallRigidBodyCI);
   }

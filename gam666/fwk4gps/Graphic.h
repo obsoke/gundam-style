@@ -27,8 +27,9 @@ class Graphic : public iGraphic {
     int          height_;      // height of the enclosing rectangle
     float        radius;       // radius of bounding sphere
     iAPIGraphic* apiGraphic;   // points to the apiGraphic
-
   protected:   
+    AABB aabb;
+
     Graphic(const Graphic&);
     Graphic& operator=(const Graphic&);
     virtual ~Graphic();
@@ -41,6 +42,8 @@ class Graphic : public iGraphic {
     float getRadius() const { return radius; }
     int  width() const  { return width_; }
     int  height() const { return height_; }
+    AABB getAABB() const { return aabb; }
+    virtual AABB calcAABB();
     void beginDraw();
     void render(int, int, unsigned char);
     void endDraw();
@@ -72,6 +75,7 @@ class VertexList : public Graphic {
     void*   clone() const                 { return new VertexList(*this); }
     virtual unsigned add(const T& v);
     Vector  position(unsigned) const;
+    AABB calcAABB() { aabb = apiVertexList->calcAABB(); return aabb; }
     void    setWorld(const void* w)       { apiVertexList->setWorld(w); }
     void    set(void* r)                  { apiVertexList->setReflectivity(r); }
     void render(int x, int y, unsigned char a)  { apiVertexList->draw(); }
@@ -92,8 +96,8 @@ iGraphic* CreateVertexList(PrimitiveType t, int np) {
 //
 template <class T>
 VertexList<T>::VertexList(PrimitiveType t, int np) {
-
     apiVertexList = CreateAPIVertexList<T>(t, np);
+    calcAABB();
 }
 
 // assignment operator copies the vertex list and clone the Translation
@@ -106,6 +110,7 @@ VertexList<T>& VertexList<T>::operator=(const VertexList<T>& src) {
             apiVertexList->Delete();
         apiVertexList = src.apiVertexList->clone();
     }
+    calcAABB();
 
     return *this;
 }

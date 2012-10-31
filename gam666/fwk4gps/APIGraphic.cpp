@@ -9,6 +9,7 @@
  */
 
 #include "APIGraphic.h" // for the APIGraphic class definition
+#include "MathDecl.h"
 
 // note - all other code is currently template code - see APIGraphic.h
 
@@ -159,4 +160,3 @@ APIGraphic::~APIGraphic() {
 
     release();
 }
-

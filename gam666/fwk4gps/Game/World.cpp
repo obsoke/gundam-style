@@ -63,7 +63,7 @@ void World::initializeObjects() {
 
   player = new Player(this);
   player->setTranslation(0, 10, 0);
-  player->setSpeed(10, 0, 10);
+  player->setSpeed(10, 0, 20);
   player->setAngularSpeed(2, 2, 0);
   add(player);
 }

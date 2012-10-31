@@ -15,7 +15,7 @@ public:
   btDefaultMotionState* motionState;
   btRigidBody* body;
 
-  PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body = nullptr);
+  PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body = nullptr, bool isStatic = false);
   ~PhysicsObject();
   void setTranslation(const Vector& v);
   void setSpeed(const Vector& v);
