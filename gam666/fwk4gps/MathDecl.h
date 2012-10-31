@@ -199,4 +199,13 @@ struct Reflectivity {
     }
 };
 
+struct AABB {
+  Vector minimum;
+  Vector maximum;
+  
+  float width() { return maximum.x - minimum.x; };
+  float height() { return maximum.y - minimum.y; };
+  float depth() { return maximum.z - minimum.z; };
+};
+
 #endif

@@ -23,6 +23,7 @@ class  iGraphic;
 struct Matrix;
 struct Reflectivity;
 enum   Category;
+struct AABB;
 
 class iObject : public Frame, public Base {
 	// initialization
@@ -34,12 +35,13 @@ class iObject : public Frame, public Base {
     virtual void render()                            = 0;
     virtual void setTextureFilter(unsigned)          = 0;
     virtual bool belongsTo(Category category) const  = 0;
-	// termination function
-	virtual void Delete() const                      = 0;
+	  // termination function
+	  virtual void Delete() const                      = 0;
     friend class Coordinator;
     friend class Design;
     friend class World;
   public:
+    virtual AABB getAABB() const                     = 0;
     virtual iObject* clone() const                   = 0;
 };
 

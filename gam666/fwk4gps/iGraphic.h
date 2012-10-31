@@ -20,6 +20,7 @@
 enum PrimitiveType;
 struct Colour;
 struct Vector;
+struct AABB;
 
 class iGraphic : public Base {
     virtual void setWorld(const void*)                        = 0;
@@ -28,6 +29,7 @@ class iGraphic : public Base {
     virtual void beginDraw()                                  = 0;
     virtual void render(int = 0, int = 0, unsigned char = 0) = 0;
     virtual void endDraw()                                    = 0;
+    virtual AABB getAABB() const = 0;
     virtual int  width() const                                = 0;
     virtual int  height() const                               = 0;
     virtual void set(void*)                                   = 0;

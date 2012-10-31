@@ -42,6 +42,7 @@ class Object : public iObject  {
     int  width() const;
     int  height() const;
     float radius() const;
+    AABB getAABB() const;
     void setTextureFilter(unsigned f)      { flags = f; }
     bool belongsTo(Category c) const       { return c == category; }
     void render();

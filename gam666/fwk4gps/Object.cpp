@@ -130,3 +130,7 @@ Object::~Object() {
 
     coordinator->remove(this);
 }
+
+AABB Object::getAABB() const { 
+  return graphic->getAABB(); 
+}
