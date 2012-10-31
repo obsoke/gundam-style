@@ -39,8 +39,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)include;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;Game\lib\Bullet\include</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib\x86;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;Game\lib\Bullet</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -56,7 +56,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dsound.lib;x3daudio.lib;dinput8.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;dsound.lib;x3daudio.lib;dinput8.lib;winmm.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,13 +93,16 @@
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coordinator.cpp" />
+    <ClCompile Include="Game\GameObjects\Floor.cpp" />
+    <ClCompile Include="Game\GameObjects\Player.cpp" />
+    <ClCompile Include="Game\GameObjects\Projectile.cpp" />
     <ClCompile Include="Game\InputComponent.cpp" />
-    <ClCompile Include="Game\Player.cpp" />
+    <ClCompile Include="Game\PhysicsObject.cpp" />
+    <ClCompile Include="Game\PhysicsWorld.cpp" />
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameObject.cpp" />
-    <ClCompile Include="Game\Projectile.cpp" />
     <ClCompile Include="Game\Utils.cpp" />
     <ClCompile Include="Game\World.cpp" />
     <ClCompile Include="Graphic.cpp" />
@@ -132,9 +135,12 @@
     <ClInclude Include="Frame.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameObject.h" />
+    <ClInclude Include="Game\GameObjects\Floor.h" />
+    <ClInclude Include="Game\GameObjects\Player.h" />
+    <ClInclude Include="Game\GameObjects\Projectile.h" />
     <ClInclude Include="Game\InputComponent.h" />
-    <ClInclude Include="Game\Player.h" />
-    <ClInclude Include="Game\Projectile.h" />
+    <ClInclude Include="Game\PhysicsObject.h" />
+    <ClInclude Include="Game\PhysicsWorld.h" />
     <ClInclude Include="Game\Utils.h" />
     <ClInclude Include="Game\World.h" />
     <ClInclude Include="Graphic.h" />

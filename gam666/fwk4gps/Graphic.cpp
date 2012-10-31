@@ -15,6 +15,7 @@
 #include "iUtilities.h"   // for error()
 #include "APIVertex.h"    // for ...Vertex class definitions
 #include "MathDef.h"      // for Vector
+#include "MathDecl.h"     // for AABB
 #include "Model.h"        // for ASSET_DIRECTORY
 #include "Translation.h"
 
@@ -149,6 +150,7 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
     add(vertexList, p6, p2, p1, p5, Vector(-1, 0, 0)); // left
     add(vertexList, p1, p4, p8, p5, Vector(0, -1, 0)); // bottom
     add(vertexList, p2, p6, p7, p3, Vector(0, 1,  0)); // top
+    vertexList->calcAABB();
 
     return vertexList;
 }
@@ -188,6 +190,7 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
     add(vertexList, p6, p2, p1, p5, colour); // left
     add(vertexList, p1, p4, p8, p5, colour); // bottom
     add(vertexList, p2, p6, p7, p3, colour); // top
+    vertexList->calcAABB();
 
     return vertexList;
 }
@@ -213,6 +216,7 @@ iGraphic* CreateGrid(float min, float max, int n) {
         vertexList->add(Vertex(Vector(cur, 0, min), Vector(0, 1, 0)));
         vertexList->add(Vertex(Vector(cur, 0, max), Vector(0, 1, 0)));
     }
+    vertexList->calcAABB();
 
     return vertexList;
 }
@@ -235,6 +239,7 @@ iGraphic* CreateGrid(float min, float max, int n, const Colour& colour) {
         vertexList->add(LitVertex(Vector(cur, 0, min), colour));
         vertexList->add(LitVertex(Vector(cur, 0, max), colour));
     }
+    vertexList->calcAABB();
 
     return vertexList;
 }
@@ -262,6 +267,7 @@ iGraphic* CreateRectangleList(float minx, float miny, float maxx, float maxy) {
            p3 = Vector(maxx, maxy, 0),
            p4 = Vector(maxx, miny, 0);
     add(vertexList, p1, p2, p3, p4, Vector(0, 0, -1)); 
+    vertexList->calcAABB();
     
     return vertexList;
 }
@@ -314,6 +320,7 @@ iGraphic* TriangleList(const wchar_t* file) {
         graphic = vertexList;
         // bounding sphere
         vertexList->setRadius(1.73205f * max);
+        vertexList->calcAABB();
     }
     
     return graphic;
@@ -366,6 +373,7 @@ iGraphic* TriangleList(const wchar_t* file, const Colour& colour) {
             vertexList->setRadius(1.73205f * max);
         }
         graphic = vertexList;
+        vertexList->calcAABB();
     }
     
     return graphic;
@@ -392,3 +400,5 @@ void add(VertexList<LitVertex>* vertexList, const Vector& p1, const Vector& p2,
     vertexList->add(LitVertex(p3, colour));
     vertexList->add(LitVertex(p4, colour));
 }
+
+AABB Graphic::calcAABB() { return AABB(); };

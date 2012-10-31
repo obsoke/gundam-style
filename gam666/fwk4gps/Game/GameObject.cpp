@@ -1,9 +1,14 @@
 #include "GameObject.h"
+#include "World.h"
 #include "..\Model.h"
 #include "..\iObject.h"
 #include "..\iGraphic.h"
+#include "PhysicsObject.h"
 
-GameObject::GameObject(iObject* object) : isAlive(true) {
+float epsilon = 0.00000001f;
+
+GameObject::GameObject(World* world, iObject* object) : 
+    world(world), isAlive(true) {
   if (!object) {
     // Default GameObject to a green cube for now.
     Colour green(0.1f, 0.8f, 0.1f);
@@ -13,11 +18,19 @@ GameObject::GameObject(iObject* object) : isAlive(true) {
   setModel(object);
 }
 
+GameObject::~GameObject() {
+  delete physics;
+}
+
 void GameObject::update() {
-  float angularLength = angularSpeed.length();
-  Vector angularNormal = (1 / angularLength) * angularSpeed;
-  rotate(angularNormal, angularLength);
-  translate(speed.x, speed.y, speed.z);
+  if (physics) {
+    physics->update();
+  } else {
+    float angularLength = angularSpeed.length();
+    Vector angularNormal = (1 / (angularLength + epsilon)) * angularSpeed;
+    rotate(angularNormal, angularLength);
+    translate(speed.x, speed.y, speed.z);
+  }
 }
 
 void GameObject::setModel(iObject* object) {
@@ -30,4 +43,21 @@ void GameObject::setModel(iGraphic* graphic, Reflectivity* reflectivity) {
     reflectivity = &Reflectivity(Colour(1, 1, 1));
   }
   setModel(CreateObject(graphic, reflectivity));
+}
+
+void GameObject::setTranslation(const Vector& v, bool sendToPhysics) {
+  Frame::setTranslation(v);
+  if (physics && sendToPhysics) {
+    physics->setTranslation(v);
+  }
+}
+
+void GameObject::setSpeed(const Vector& v) {
+  speed = v;
+  if (physics) physics->setSpeed(v);
+}
+
+void GameObject::setAngularSpeed(const Vector& v) {
+  angularSpeed = v;
+  if (physics) physics->setAngularSpeed(v);
 }
