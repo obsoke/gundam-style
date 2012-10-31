@@ -17,6 +17,7 @@
 #define DIFFUSE 0.9f
 #define SPECULAR 0.8f
 #define POWER 10.0f
+#define EPSILON 0.00000001f
 
 //-------------------------------- Vector -------------------------------------
 //

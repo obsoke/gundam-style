@@ -4,6 +4,8 @@
 #include <btBulletDynamicsCommon.h>
 #include "..\MathDecl.h"
 
+#define BULLET_SIZE 1.5f
+
 class PhysicsWorld;
 class GameObject;
 
@@ -19,6 +21,7 @@ public:
   ~PhysicsObject();
   void setTranslation(const Vector& v);
   void setSpeed(const Vector& v);
+  void setRotation(const Vector& axis, float angle);
   void setAngularSpeed(const Vector& v);
   void applyForce(const Vector& v);
   void create();
