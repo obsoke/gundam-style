@@ -15,6 +15,10 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Utils.h"
+#include "btBulletDynamicsCommon.h"
+
+#include "GameObjects\Player.h"
+#include "GameObjects\Floor.h"
 
 World::World(Game* game) : Coordinator(game->handle, game->show) {
   this->game = game;
@@ -52,19 +56,20 @@ void World::initializeObjects() {
   bg->attach(CreateTexture(L"stonehenge.bmp"));
   
   iGraphic* longPlate = CreateBox(-30, -10, 0, 600, 10, 600);
-  iObject* floor = CreateObject(longPlate, &whiteish);
-  floor->translate(20, -80, 440);
+  iObject* floorModel = CreateObject(longPlate, &whiteish);
   iTexture* check = CreateTexture(L"check.bmp");
-  floor->attach(check);
+  floorModel->attach(check);
+  floor = new Floor(this, floorModel);
 
-  player = new Player();
-  player->speed.x = 0.1f;
-  player->speed.z = 1;
-  player->angularSpeed = Vector(0.1f, 0.1f, 0);
+  player = new Player(this);
+  player->setTranslation(0, 10, 0);
+  player->setSpeed(10, 0, 10);
+  player->setAngularSpeed(2, 2, 0);
   add(player);
 }
 
 void World::update() {
+  physics.update();
   for (int i=0, length=gameObjects.size(); i<length; ++i) {
     gameObjects[i]->update();
   }

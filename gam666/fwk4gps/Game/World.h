@@ -4,9 +4,11 @@
 #include <vector>
 #include "..\Coordinator.h"
 #include "GameObject.h"
-#include "Player.h"
+#include "PhysicsWorld.h"
 
 class Game;
+class Player;
+class Floor;
 
 class World : public Coordinator {
   iLight* defaultLight;
@@ -18,6 +20,8 @@ public:
   std::vector<GameObject*> gameObjects;
   Game* game;
   Player* player;
+  Floor* floor;
+  PhysicsWorld physics;
 
   World(Game* game);
   ~World();
