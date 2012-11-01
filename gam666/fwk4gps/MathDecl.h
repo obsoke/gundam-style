@@ -207,6 +207,8 @@ struct AABB {
   float width() { return maximum.x - minimum.x; };
   float height() { return maximum.y - minimum.y; };
   float depth() { return maximum.z - minimum.z; };
+  Vector size() { return Vector(width(), height(), depth()); };
+  Vector center() { return (minimum + maximum) / 2; };
 };
 
 #endif

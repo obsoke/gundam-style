@@ -89,6 +89,16 @@ class Coordinator : public iCoordinator {
 
     iText*                 timerText;        // points to timer's text object
 
+    Coordinator(const Coordinator& s);            // prevents copying
+    Coordinator& operator=(const Coordinator& s); // prevents assignment
+    bool setConfiguration();
+    void adjustVolume(int);
+    void adjustFrequency(int);
+	void update();
+    void render();
+    void render(Category category);
+
+  protected:
     // display device
     float                  nearcp;           // near clipping plane
     float                  farcp;            // far clipping plane
@@ -100,16 +110,6 @@ class Coordinator : public iCoordinator {
     bool                   wBuffering;       // w-buffering is on
     bool                   zBuffering;       // depth-buffering is on
 
-    Coordinator(const Coordinator& s);            // prevents copying
-    Coordinator& operator=(const Coordinator& s); // prevents assignment
-    bool setConfiguration();
-    void adjustVolume(int);
-    void adjustFrequency(int);
-	void update();
-    void render();
-    void render(Category category);
-
-  protected:
 	// configuration
     void initialize()                 { }
     void setProjection(float, float, float);

@@ -5,9 +5,9 @@
 #include "..\iGraphic.h"
 #include "PhysicsObject.h"
 
-GameObject::GameObject(World* world, iObject* object) : 
-    world(world), isAlive(true) {
-  if (!object) {
+GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) : 
+    world(world), physics(nullptr), isAlive(true) {
+  if (!object && createDefaultModel) {
     // Default GameObject to a green box for now.
     Colour green(0.1f, 0.8f, 0.1f);
     Colour red(0.8f, 0.1f, 0.1f);
@@ -18,7 +18,7 @@ GameObject::GameObject(World* world, iObject* object) :
     child->translate(0, 0, 20);
     child->attachTo(object);
   }
-  setModel(object);
+  if (object) setModel(object);
 }
 
 GameObject::~GameObject() {
@@ -31,7 +31,7 @@ void GameObject::update() {
   } else {
     float angularLength = angularSpeed.length();
     Vector angularNormal = (1 / (angularLength + EPSILON)) * angularSpeed;
-    rotate(angularNormal, angularLength);
+    rotate(angularNormal, -angularLength / 10);
     translate(speed.x, speed.y, speed.z);
   }
 }
@@ -51,7 +51,7 @@ void GameObject::setModel(iGraphic* graphic, Reflectivity* reflectivity) {
 void GameObject::setTranslation(const Vector& v, bool sendToPhysics) {
   Frame::setTranslation(v);
   if (physics && sendToPhysics) {
-    physics->setTranslation(v);
+    physics->setTranslation(center());
   }
 }
 
@@ -67,6 +67,7 @@ void GameObject::setAngularSpeed(const Vector& v) {
 
 void GameObject::applyForce(const Vector& v) {
   if (physics) physics->applyForce(v);
+  else setSpeed(v / 100);
 }
 
 void GameObject::setRotation(const Vector& axis, float angle, bool sendToPhysics) {
