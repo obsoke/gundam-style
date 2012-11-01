@@ -1,7 +1,20 @@
 #include "Utils.h"
+#include "windows.h"
 
-const char* toString(Vector& v) {
+void debug(const char* output) {
+  OutputDebugStringA(output);
+}
+
+void debug(std::string output) {
+  OutputDebugStringA(output.c_str());
+}
+
+void debug(Vector& v) {
+  debug(toString(v));
+}
+
+std::string toString(Vector& v) {
   std::stringstream ss;
-  ss << v.x << ", " << v.y << ", " << v.z;
-  return ss.str().c_str();
+  ss << "{ " << v.x << ", " << v.y << ", " << v.z << " }" << "\n";
+  return ss.str();
 }

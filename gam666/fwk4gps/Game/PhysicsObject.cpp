@@ -1,6 +1,7 @@
 #include "PhysicsObject.h"
 #include "GameObject.h"
 #include "PhysicsWorld.h"
+#include "Utils.h"
 
 Vector toVector(const btVector3& v) {
   return Vector(v.x(), v.y(), v.z());
@@ -30,7 +31,7 @@ PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBod
     shape(nullptr), motionState(nullptr), body(body), world(world), object(object) {
   if (!body) {
     // Create a default cube body
-    AABB aabb = object->model->getAABB();
+    AABB aabb = object->getAABB();
     shape = new btBoxShape(btVector3(aabb.width() / BULLET_SIZE, 
       aabb.height() / BULLET_SIZE, aabb.depth() / BULLET_SIZE));
     motionState = new btDefaultMotionState(toBtTransform(object->transform()));
@@ -42,10 +43,9 @@ PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBod
     }
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass,motionState,shape,fallInertia);
     this->body = new btRigidBody(fallRigidBodyCI);
+    this->setTranslation(object->center());
     if (isStatic)
       this->body->setFriction(1);
-    else
-      this->body->setDamping(0.15f, 0);
   }
   create();
 }
@@ -69,6 +69,7 @@ void PhysicsObject::update() {
   const btTransform& transform = body->getWorldTransform();
   Matrix mat = toMatrix(transform.getBasis(), transform.getOrigin());
   object->setMatrix(mat);
+  body->setDamping(body->isActive() ? 0.3f : 0, 0);
 }
 
 void PhysicsObject::setTranslation(const Vector& v) {
@@ -80,10 +81,12 @@ void PhysicsObject::setSpeed(const Vector& v) {
 }
 
 void PhysicsObject::setAngularSpeed(const Vector& v) {
+  body->setActivationState(ACTIVE_TAG);
   body->setAngularVelocity(toBtVector(v));
 }
 
 void PhysicsObject::applyForce(const Vector& v) {
+  body->setActivationState(ACTIVE_TAG);
   body->applyForce(toBtVector(v), btVector3(0,0,0));
 }
 

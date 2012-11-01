@@ -4,7 +4,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "..\MathDecl.h"
 
-#define BULLET_SIZE 1.5f
+#define BULLET_SIZE 2
 
 class PhysicsWorld;
 class GameObject;

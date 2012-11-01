@@ -16,8 +16,10 @@ class World : public Coordinator {
   void initializeLighting();
   void initializeObjects();
   void initializeHUD();
+  void initializeFloors();
 public:
   std::vector<GameObject*> gameObjects;
+  std::vector<Floor*> floors;
   Game* game;
   Player* player;
   Floor* floor;
@@ -27,7 +29,11 @@ public:
   ~World();
   void add(GameObject* gameObject);
   void remove(GameObject* gameObject);
+  void add(iObject* object) { Coordinator::add(object); };
+  void remove(iObject* object) { Coordinator::remove(object); };
   void update();
+  void addFloor(const Vector& position, const Vector& tiles = Vector(1, 1, 1), 
+    const Vector& tileSize = Vector(100, 10, 100), iTexture* tex = nullptr);
   unsigned int getNow() { return now; };
   unsigned int getDelta() { return lastUpdate; };
 };
