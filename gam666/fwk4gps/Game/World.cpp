@@ -50,7 +50,6 @@ void World::initializeObjects() {
   Reflectivity bluish(blue);
 
   Camera* camera = (Camera*)CreateCamera();
-  camera->translate(-5, 0, -600);
   //camera->useInput = true;
 
   iObject* bg = CreateSprite(CreateGraphic(), '\xFF');
@@ -63,11 +62,16 @@ void World::initializeObjects() {
   floor = new Floor(this, floorModel);
   floor->setRotation(0, 1, 0, 3.14f / 4);
 
+  
+
   player = new Player(this);
   player->setTranslation(0, 10, 0);
   player->setSpeed(10, 0, 20);
   //player->setAngularSpeed(2, 2, 0);
+  
   add(player);
+  camera->attachTo(player);
+  camera->translate(0, 40, -100);
 }
 
 void World::update() {
