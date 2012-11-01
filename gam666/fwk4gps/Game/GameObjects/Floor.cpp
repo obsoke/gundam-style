@@ -25,6 +25,7 @@ Floor::Floor(World* world, iObject* object,
     }
   }
   translate(pos.x, pos.y, pos.z);
+  calcAABB();
   physics = new PhysicsObject(&(world->physics), this, nullptr, true);
 }
 
@@ -34,7 +35,7 @@ Floor::~Floor() {
   }
 }
 
-AABB Floor::getAABB() {
+AABB Floor::calcAABB() {
   AABB aabb;
   for (int i=0; i<tiles.size(); ++i) {
     AABB child = tiles[i]->getAABB();
@@ -52,6 +53,11 @@ AABB Floor::getAABB() {
     aabb.maximum.y = std::max(aabb.maximum.y, maximum.y);
     aabb.maximum.z = std::max(aabb.maximum.z, maximum.z);
   }
+  this->aabb = aabb;
+  return aabb;
+}
+
+AABB Floor::getAABB() {
   return aabb;
 }
 
