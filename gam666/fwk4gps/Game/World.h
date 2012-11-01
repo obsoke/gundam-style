@@ -22,7 +22,6 @@ public:
   std::vector<Floor*> floors;
   Game* game;
   Player* player;
-  Floor* floor;
   PhysicsWorld physics;
 
   World(Game* game);

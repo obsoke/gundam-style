@@ -104,6 +104,8 @@ void World::remove(GameObject* gameObject) {
 }
 
 World::~World() {
-  if (floor) delete floor;
+  for (int i=0, length=floors.size(); i<length; ++i) {
+    delete floors[i];
+  }
   if (player) delete player;
 }
