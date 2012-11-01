@@ -49,22 +49,24 @@ void World::initializeObjects() {
   Reflectivity whiteish(Colour(1, 1, 1, 0.5f));
   Reflectivity bluish(blue);
 
-  iCamera* camera = CreateCamera();
-  camera->translate(-5, 0, -80);
+  Camera* camera = (Camera*)CreateCamera();
+  camera->translate(-5, 0, -600);
+  //camera->useInput = true;
 
   iObject* bg = CreateSprite(CreateGraphic(), '\xFF');
   bg->attach(CreateTexture(L"stonehenge.bmp"));
   
-  iGraphic* longPlate = CreateBox(-30, -10, 0, 600, 10, 600);
+  iGraphic* longPlate = CreateBox(-30, -10, 0, 1600, 10, 1600);
   iObject* floorModel = CreateObject(longPlate, &whiteish);
   iTexture* check = CreateTexture(L"check.bmp");
   floorModel->attach(check);
   floor = new Floor(this, floorModel);
+  floor->setRotation(0, 1, 0, 3.14f / 4);
 
   player = new Player(this);
   player->setTranslation(0, 10, 0);
   player->setSpeed(10, 0, 20);
-  player->setAngularSpeed(2, 2, 0);
+  //player->setAngularSpeed(2, 2, 0);
   add(player);
 }
 

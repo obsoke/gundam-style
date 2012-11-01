@@ -33,6 +33,7 @@ class Frame {
     void   orient(const Matrix& rot)             { T.orient(rot); }
     Vector position() const;
     Matrix rotation() const;
+  Matrix transform() const { return T; }
 	Vector orientation(const Vector& v) const;
 	Vector orientation(char c) const;
     Matrix world() const;

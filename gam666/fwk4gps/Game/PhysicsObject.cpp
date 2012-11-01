@@ -20,22 +20,32 @@ Matrix toMatrix(const btMatrix3x3& mat, const btVector3& m4) {
                 m4.x(), m4.y(), m4.z(), 1);
 }
 
+btTransform toBtTransform(const Matrix& mat) {
+  btMatrix3x3 rotation = btMatrix3x3(mat.m11, mat.m12, mat.m13, 
+    mat.m21, mat.m22, mat.m23, mat.m31, mat.m32, mat.m33);
+  return btTransform(rotation, btVector3(mat.m41, mat.m42, mat.m43));
+}
+
 PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body, bool isStatic) :
     shape(nullptr), motionState(nullptr), body(body), world(world), object(object) {
   if (!body) {
     // Create a default cube body
     AABB aabb = object->model->getAABB();
-    shape = new btBoxShape(btVector3(aabb.width(),aabb.height(),aabb.depth()));
-    motionState = new btDefaultMotionState(btTransform
-      (btQuaternion(0,0,0,1),toBtVector(object->position())));
+    shape = new btBoxShape(btVector3(aabb.width() / BULLET_SIZE, 
+      aabb.height() / BULLET_SIZE, aabb.depth() / BULLET_SIZE));
+    motionState = new btDefaultMotionState(toBtTransform(object->transform()));
     btVector3 fallInertia(0,0,0);
     btScalar mass = 0;
     if (!isStatic) {
-      mass = 1;
+      mass = 4;
       shape->calculateLocalInertia(mass,fallInertia);
     }
     btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass,motionState,shape,fallInertia);
     this->body = new btRigidBody(fallRigidBodyCI);
+    if (isStatic)
+      this->body->setFriction(1);
+    else
+      this->body->setDamping(0.15f, 0);
   }
   create();
 }
@@ -71,4 +81,13 @@ void PhysicsObject::setSpeed(const Vector& v) {
 
 void PhysicsObject::setAngularSpeed(const Vector& v) {
   body->setAngularVelocity(toBtVector(v));
+}
+
+void PhysicsObject::applyForce(const Vector& v) {
+  body->applyForce(toBtVector(v), btVector3(0,0,0));
+}
+
+void PhysicsObject::setRotation(const Vector& axis, float angle) {
+  body->getWorldTransform().setRotation(btQuaternion(toBtVector(axis), angle));
+  update();
 }

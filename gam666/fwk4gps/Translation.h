@@ -184,10 +184,10 @@ typedef enum Key {
 //
 // enumeration constants
 typedef enum Action {
-    SPRITE_PLUS_X,
-    SPRITE_MINUS_X,
-    SPRITE_PLUS_Y,
-    SPRITE_MINUS_Y,
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    MOVE_BACKWARD,
+    MOVE_FORWARD,
     ROLL_SQUARE,
     PITCH_BOX,
     ROLL_LEFT_BOX,
@@ -242,6 +242,7 @@ typedef enum Action {
     GF_CT_POSY,
     GF_CT_DSPZ,
     GF_CT_ROTZ,
+    THRUSTER
 } Action;
 
 // user friendly descriptions of actions - used in the dialog box
@@ -306,12 +307,13 @@ typedef enum Action {
     L"Controller Displacement Y", \
     L"Controller Displacement Z", \
     L"Controller Displacement X", \
+    L"Thruster", \
 }
 
 // initial mappings of actions to keys
 //
 #define ACTION_KEY_MAP {\
-    KEY_4, KEY_5, KEY_6, KEY_7, \
+    KEY_D, KEY_A, KEY_S, KEY_W, \
     KEY_R, KEY_U, KEY_I, KEY_T, \
     KEY_O, KEY_P, \
     KEY_PGUP, KEY_PGDN, KEY_Z, KEY_C, KEY_W, KEY_S, KEY_Q, KEY_E, \
@@ -323,6 +325,7 @@ typedef enum Action {
     KEY_0, KEY_1, KEY_2, \
 	KEY_1, KEY_F3, KEY_F4, KEY_F6, KEY_F7, KEY_W, KEY_S, KEY_F8, KEY_F9, KEY_0, \
     KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, \
+    KEY_SPACE \
 }
 
 // initial mappings of pointer objects to actions
