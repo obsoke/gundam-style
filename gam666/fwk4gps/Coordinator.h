@@ -76,17 +76,6 @@ class Coordinator : public iCoordinator {
     std::vector<iHUD*>     hud;              // points to huds
     std::vector<iObject*>  object;           // points to objects
 
-    unsigned               framecount;       // no of frames since 'lastReset'
-    unsigned               fps;              // frame rate per sec
-    unsigned               lastReset;        // last time framecount reset to 0
-
-    unsigned               currentCam;       // index - current camera
-    unsigned               lastCameraToggle; // time - most recent cam toggle
-    unsigned               lastWFrameToggle; // time - most recent wire frame toggle
-    unsigned               currentHUD;       // index - current HUD
-    unsigned               lastHUDToggle;    // time - most recent hud toggle
-    unsigned               lastAudioUpdate;  // time - most recent audio update
-
     iText*                 timerText;        // points to timer's text object
 
     Coordinator(const Coordinator& s);            // prevents copying
@@ -109,6 +98,17 @@ class Coordinator : public iCoordinator {
     bool                   wireFrame;        // wire frame mode
     bool                   wBuffering;       // w-buffering is on
     bool                   zBuffering;       // depth-buffering is on
+
+    unsigned               framecount;       // no of frames since 'lastReset'
+    unsigned               fps;              // frame rate per sec
+    unsigned               lastReset;        // last time framecount reset to 0
+
+    unsigned               currentCam;       // index - current camera
+    unsigned               lastCameraToggle; // time - most recent cam toggle
+    unsigned               lastWFrameToggle; // time - most recent wire frame toggle
+    unsigned               currentHUD;       // index - current HUD
+    unsigned               lastHUDToggle;    // time - most recent hud toggle
+    unsigned               lastAudioUpdate;  // time - most recent audio update
 
 	// configuration
     void initialize()                 { }
