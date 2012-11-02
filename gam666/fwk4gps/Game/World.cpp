@@ -21,6 +21,7 @@
 #include "GameObjects\Floor.h"
 
 World::World(Game* game) : Coordinator(game->handle, game->show) {
+  farcp = 10000.0f;
   this->game = game;
   initializeLighting();
   initializeObjects();
@@ -48,7 +49,6 @@ void World::initializeLighting() {
 void World::initializeObjects() {
   Colour green(0.1f, 0.8f, 0.1f);
   Colour blue(0.1f, 0.1f, 0.9f);
-  Reflectivity whiteish(Colour(1, 1, 1, 0.5f));
   Reflectivity bluish(blue);
 
   Camera* camera = (Camera*)CreateCamera();
@@ -56,24 +56,32 @@ void World::initializeObjects() {
 
   iObject* bg = CreateSprite(CreateGraphic(), '\xFF');
   bg->attach(CreateTexture(L"blue_nebula.jpg"));
-  
-  iGraphic* longPlate = CreateBox(-30, -10, 0, 1600, 10, 1600);
-  iObject* floorModel = CreateObject(longPlate, &whiteish);
-  iTexture* check = CreateTexture(L"metalbare.jpg");
-  floorModel->attach(check);
-  floor = new Floor(this, floorModel);
-  floor->setRotation(0, 1, 0, 3.14f / 4);
 
-  
+  initializeFloors();
 
   player = new Player(this);
   player->setTranslation(0, 10, 0);
-  player->setSpeed(10, 0, 20);
-  //player->setAngularSpeed(2, 2, 0);
   
   add(player);
   camera->attachTo(player);
   camera->translate(0, 40, -100);
+
+}
+
+void World::initializeFloors() {
+  addFloor(Vector(0, -10, 0), Vector(20, 1, 20));
+  addFloor(Vector(500, -10, 0), Vector(5, 18, 5));
+  addFloor(Vector(0, 140, 0), Vector(5, 1, 5));
+  addFloor(Vector(0, -10, 250), Vector(5, 9, 5));
+}
+
+void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
+  if (!tex) tex = CreateTexture(L"metalbare.jpg");
+  Reflectivity white(Colour(1, 1, 1));
+  iGraphic* box = CreateBox(0, 0, 0, tileSize.x, tileSize.y, tileSize.z);
+  iObject* floorModel = CreateObject(box, &white);
+  floorModel->attach(tex);
+  floors.push_back(new Floor(this, floorModel, position, tiles));
 }
 
 void World::update() {
@@ -96,5 +104,8 @@ void World::remove(GameObject* gameObject) {
 }
 
 World::~World() {
+  for (int i=0, length=floors.size(); i<length; ++i) {
+    delete floors[i];
+  }
   if (player) delete player;
 }

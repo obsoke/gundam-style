@@ -10,14 +10,14 @@ class PhysicsObject;
 class GameObject : public Frame {
 protected:
   World* world;
-  PhysicsObject* physics;
 public:
+  PhysicsObject* physics;
   iObject* model;
   Vector speed;
   Vector angularSpeed;
   bool isAlive;
 
-  GameObject(World* world, iObject* object = nullptr);
+  GameObject(World* world, iObject* object = nullptr, bool createDefaultModel = true);
   ~GameObject();
   void setModel(iObject* object);
   void setModel(iGraphic* graphic, Reflectivity* reflectivity = nullptr);
@@ -35,6 +35,8 @@ public:
   void applyForce(float x, float y, float z) { applyForce(Vector(x,y,z)); };
   void setAngularSpeed(const Vector& v);
   void setAngularSpeed(float x, float y, float z) { setAngularSpeed(Vector(x,y,z)); };
+  virtual AABB getAABB() { return model ? model->getAABB() : AABB(); };
+  virtual Vector center() { return position(); };
   virtual void update();
 };
 

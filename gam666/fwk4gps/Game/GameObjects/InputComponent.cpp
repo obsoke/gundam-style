@@ -11,9 +11,9 @@ void InputComponent::update(World* world, Player* object) {
 
     // add changes introduced through keyboard input
     if (world->pressed(MOVE_LEFT))
-        ang -= delta;
-    if (world->pressed(MOVE_RIGHT))
         ang += delta;
+    if (world->pressed(MOVE_RIGHT))
+        ang -= delta;
     if (world->pressed(MOVE_BACKWARD))
         dz -= delta;
     if (world->pressed(MOVE_FORWARD))
@@ -24,9 +24,9 @@ void InputComponent::update(World* world, Player* object) {
     }
     
     Vector displacement = 
-      (float) dx * 200 * object->orientation('x') +
-      (float) dy * 300 * object->orientation('y') + 
-      (float) dz * 200 * object->orientation('z');
+      (float) dx * 300 * object->orientation('x') +
+      (float) dy * 500 * object->orientation('y') + 
+      (float) dz * 300 * object->orientation('z');
     if (dx || dy || dz)
       object->applyForce(displacement.x, displacement.y, displacement.z);
     object->setAngularSpeed(0, ang / 1.75f, 0);

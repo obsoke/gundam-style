@@ -107,6 +107,10 @@ AABB APIVertexList<T>::calcAABB() {
   AABB aabb;
   for (int i=0; i<nVertices; ++i) {
     Vector v = vertex[i].position();
+    if (!i) {
+      aabb.minimum = v;
+      aabb.maximum = v;
+    }
     aabb.minimum.x = min(aabb.minimum.x, v.x);
     aabb.minimum.y = min(aabb.minimum.y, v.y);
     aabb.minimum.z = min(aabb.minimum.z, v.z);
