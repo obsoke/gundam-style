@@ -22,6 +22,7 @@
 
 World::World(Game* game) : Coordinator(game->handle, game->show) {
   farcp = 10000.0f;
+  nearcp = 80.0f;
   this->game = game;
   initializeLighting();
   initializeObjects();
@@ -39,10 +40,10 @@ void World::initializeHUD() {
 
 void World::initializeLighting() {
   Colour white(1, 1, 1);
+  Colour gray(0.6, 0.6, 0.6);
   Colour black(0, 0, 0);
-  Colour blue(0, 1, 0);
-  setAmbientLight(0.2f, 0.2f, 0.2f);
-  defaultLight = CreateDistantLight(white, white, black, true);
+  setAmbientLight(0.1f, 0.1f, 0.1f);
+  defaultLight = CreateDistantLight(white, white, gray, true);
   defaultLight->rotate(Vector(1, 1, 0), 3.14f / 4);
 }
 
@@ -70,7 +71,7 @@ void World::initializeObjects() {
 
 void World::initializeFloors() {
   addFloor(Vector(0, -10, 0), Vector(20, 1, 20));
-  addFloor(Vector(500, -10, 0), Vector(5, 18, 5));
+  addFloor(Vector(500, -10, 0), Vector(5, 5, 5), Vector(100, 100, 100));
   addFloor(Vector(0, 140, 0), Vector(5, 1, 5));
   addFloor(Vector(0, -10, 250), Vector(5, 9, 5));
 }
