@@ -17,6 +17,24 @@
 #include "MathDecl.h"    // for Colour
 #include "Translation.h" // for MAX_DESC
 
+#include "D3D9Types.h"
+
+struct Viewport {
+  int x;
+  int y;
+  int width;
+  int height;
+  Viewport(int x, int y, int width, int height) :
+    x(x), y(y), width(width), height(height) { };
+  D3DVIEWPORT9 toDX() const {
+    D3DVIEWPORT9 v;
+    v.X = x; v.Y = y; 
+    v.Width = width; v.Height = height;
+    v.MinZ = 0; v.MaxZ = 1;
+    return v;
+  };
+};
+
 //-------------------------------- APIDisplaySet ------------------------------
 //
 // The APIDisplaySet class holds the information for the API Displays 
@@ -81,6 +99,7 @@ class APIDisplay : public iAPIDisplay, public APIBase {
 	// execution
     void beginDrawFrame(const void*);
     void set(RenderState, bool);
+    void setViewport(const Viewport& viewport);
     void beginDraw(unsigned flags);
     void endDraw();
     void endDrawFrame();

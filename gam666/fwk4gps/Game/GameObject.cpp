@@ -11,8 +11,12 @@ GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) :
     // Default GameObject to a green box for now.
     Colour green(0.1f, 0.8f, 0.1f);
     Colour red(0.8f, 0.1f, 0.1f);
+    Colour r(
+      1.0f / ((rand() % 2) + 2), 
+      1.0f / ((rand() % 2) + 2), 
+      1.0f / ((rand() % 2) + 2));
     iGraphic* boxg  = CreateBox(-10, -10, -20, 10, 10, 10);
-    object = CreateObject(boxg, &Reflectivity(green));
+    object = CreateObject(boxg, &Reflectivity(r));
     iGraphic* boxr  = CreateBox(-5, -5, -5, 20, 5, 5);
     iObject* child = CreateObject(boxr, &Reflectivity(red));
     child->translate(0, 0, 20);

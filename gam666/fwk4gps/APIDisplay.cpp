@@ -522,6 +522,12 @@ void APIDisplay::release() {
     }
 }
 
+void APIDisplay::setViewport(const Viewport& viewport) {
+  if (d3dd) {
+    d3dd->SetViewport(&viewport.toDX());
+  }
+}
+
 // destructor releases the APIDisplay object along with the Interface to the
 // reference object
 //
