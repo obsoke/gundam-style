@@ -11,6 +11,8 @@
  * distributed under TPL - see ../Licenses.txt
  */
 
+struct Viewport;
+
 //-------------------------------- iAPIDisplaySet -----------------------------
 //
 // iAPIDisplay is the Interface to the APIDisplay object
@@ -45,6 +47,7 @@ class iAPIDisplay {
 	// execution
     virtual void beginDrawFrame(const void*)          = 0;
     virtual void set(RenderState, bool)               = 0;
+    virtual void setViewport(const Viewport& viewport) = 0;
     virtual void beginDraw(unsigned flags)            = 0;
     virtual void endDraw()                            = 0;
     virtual void endDrawFrame()                       = 0;
@@ -54,6 +57,7 @@ class iAPIDisplay {
     virtual void release()                            = 0;
 	virtual void Delete()                             = 0;
     friend class Coordinator;
+    friend class World;
     friend class APIUserInput;
 };
 
