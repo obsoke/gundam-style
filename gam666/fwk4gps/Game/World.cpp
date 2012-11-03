@@ -15,8 +15,14 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Utils.h"
+#include "btBulletDynamicsCommon.h"
+
+#include "GameObjects\Player.h"
+#include "GameObjects\Floor.h"
 
 World::World(Game* game) : Coordinator(game->handle, game->show) {
+  farcp = 10000.0f;
+  nearcp = 80.0f;
   this->game = game;
   initializeLighting();
   initializeObjects();
@@ -34,38 +40,53 @@ void World::initializeHUD() {
 
 void World::initializeLighting() {
   Colour white(1, 1, 1);
+  Colour gray(0.6, 0.6, 0.6);
   Colour black(0, 0, 0);
-  setAmbientLight(0.2f, 0.2f, 0.2f);
-  defaultLight = CreateDistantLight(white, white, black, true);
+  setAmbientLight(0.1f, 0.1f, 0.1f);
+  defaultLight = CreateDistantLight(white, white, gray, true);
+  defaultLight->rotate(Vector(1, 1, 0), 3.14f / 4);
 }
 
 void World::initializeObjects() {
   Colour green(0.1f, 0.8f, 0.1f);
   Colour blue(0.1f, 0.1f, 0.9f);
-  Reflectivity whiteish(Colour(1, 1, 1, 0.5f));
   Reflectivity bluish(blue);
 
-  iCamera* camera = CreateCamera();
-  camera->translate(-5, 0, -80);
+  Camera* camera = (Camera*)CreateCamera();
+  //camera->useInput = true;
 
   iObject* bg = CreateSprite(CreateGraphic(), '\xFF');
-  bg->attach(CreateTexture(L"stonehenge.bmp"));
-  
-  iGraphic* longPlate = CreateBox(-30, -10, 0, 600, 10, 600);
-  iObject* floor = CreateObject(longPlate, &whiteish);
-  floor->translate(20, -80, 440);
-  iTexture* check = CreateTexture(L"check.bmp");
-  floor->attach(check);
+  bg->attach(CreateTexture(L"blue_nebula.jpg"));
 
-  player = new Player();
-  player->speed.x = 0.1f;
-  player->speed.y = 0.5f;
-  player->speed.z = 1;
-  player->angularSpeed = Vector(0.1f, 0.1f, 0);
+  initializeFloors();
+
+  player = new Player(this);
+  player->setTranslation(0, 10, 0);
+  
   add(player);
+  camera->attachTo(player);
+  camera->translate(0, 40, -100);
+
+}
+
+void World::initializeFloors() {
+  addFloor(Vector(0, -10, 0), Vector(20, 1, 20));
+  addFloor(Vector(500, -10, 0), Vector(5, 5, 5), Vector(100, 100, 100));
+  addFloor(Vector(0, 140, 0), Vector(5, 1, 5));
+  addFloor(Vector(0, -10, 250), Vector(5, 9, 5));
+}
+
+void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
+  if (!tex) tex = CreateTexture(L"metalbare.jpg");
+  Reflectivity white(Colour(1, 1, 1));
+  iGraphic* box = CreateBox(0, 0, 0, tileSize.x, tileSize.y, tileSize.z);
+  iObject* floorModel = CreateObject(box, &white);
+  floorModel->attach(tex);
+  floors.push_back(new Floor(this, floorModel, position, tiles));
 }
 
 void World::update() {
+  physics.update();
   for (int i=0, length=gameObjects.size(); i<length; ++i) {
     gameObjects[i]->update();
 
@@ -95,5 +116,8 @@ void World::remove(GameObject* gameObject) {
 }
 
 World::~World() {
+  for (int i=0, length=floors.size(); i<length; ++i) {
+    delete floors[i];
+  }
   if (player) delete player;
 }

@@ -17,6 +17,7 @@
 #define DIFFUSE 0.9f
 #define SPECULAR 0.8f
 #define POWER 10.0f
+#define EPSILON 0.00000001f
 
 //-------------------------------- Vector -------------------------------------
 //
@@ -197,6 +198,17 @@ struct Reflectivity {
     bool translucent() const { 
         return ambient.a != 1 || diffuse.a != 1 || specular.a != 1; 
     }
+};
+
+struct AABB {
+  Vector minimum;
+  Vector maximum;
+  
+  float width() { return maximum.x - minimum.x; };
+  float height() { return maximum.y - minimum.y; };
+  float depth() { return maximum.z - minimum.z; };
+  Vector size() { return Vector(width(), height(), depth()); };
+  Vector center() { return (minimum + maximum) / 2; };
 };
 
 #endif

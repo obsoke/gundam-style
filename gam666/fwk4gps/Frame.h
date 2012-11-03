@@ -33,10 +33,15 @@ class Frame {
     void   orient(const Matrix& rot)             { T.orient(rot); }
     Vector position() const;
     Matrix rotation() const;
+  Matrix transform() const { return T; }
 	Vector orientation(const Vector& v) const;
 	Vector orientation(char c) const;
     Matrix world() const;
 	void   attachTo(Frame* newParent);
+  virtual void setTranslation(const Vector& v) {
+    T.m41 = v.x; T.m42 = v.y; T.m43 = v.z;
+  }
+  void setMatrix(const Matrix& m) { T = m; }
     virtual ~Frame() {}
 };
 

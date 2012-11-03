@@ -16,6 +16,8 @@
 #include "iAPIGraphic.h" // for the APIGraphic Interface
 #include "MathDecl.h"    // for Vector
 
+struct AABB;
+
 //-------------------------------- APIVertexDeclaration -----------------------
 //
 // APIVertexDeclaration holds the description of a vertex
@@ -91,6 +93,7 @@ class APIVertexList : public APIGraphic {
     APIVertexList(const APIVertexList& src) { vertex = nullptr; vb = nullptr;
                                               vDecl = nullptr; *this = src; } 
     APIVertexList* clone() const            { return new APIVertexList(*this); }
+    AABB calcAABB();
     virtual unsigned add(const T& v);
     Vector  position(unsigned i) const      { return vertex[i].position(); }
     void    draw();
@@ -98,6 +101,25 @@ class APIVertexList : public APIGraphic {
     void    release()                       { suspend(); }
     void    Delete() const                  { delete this; }
 };
+
+template <class T>
+AABB APIVertexList<T>::calcAABB() {
+  AABB aabb;
+  for (int i=0; i<nVertices; ++i) {
+    Vector v = vertex[i].position();
+    if (!i) {
+      aabb.minimum = v;
+      aabb.maximum = v;
+    }
+    aabb.minimum.x = min(aabb.minimum.x, v.x);
+    aabb.minimum.y = min(aabb.minimum.y, v.y);
+    aabb.minimum.z = min(aabb.minimum.z, v.z);
+    aabb.maximum.x = max(aabb.maximum.x, v.x);
+    aabb.maximum.y = max(aabb.maximum.y, v.y);
+    aabb.maximum.z = max(aabb.maximum.z, v.z);
+  }
+  return aabb;
+}
 
 // CreateVertexList creates an API Vertex List object
 //

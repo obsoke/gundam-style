@@ -272,7 +272,7 @@ bool APIDisplay::setup() {
     }
     if (runinwndw) {
         adapter = D3DADAPTER_DEFAULT;
-		d3d->GetAdapterDisplayMode(adapter, &d3ddm);
+        d3d->GetAdapterDisplayMode(adapter, &d3ddm);
         d3dpp.Windowed = TRUE;
         d3dFormat = d3ddm.Format;
     }
@@ -307,6 +307,13 @@ bool APIDisplay::setup() {
     else {
         d3dpp.AutoDepthStencilFormat = D3DFMT_D16;   // depth buffer
         devtype = D3DDEVTYPE_REF;                    // REF Device
+    }
+    DWORD total;
+    if(SUCCEEDED(d3d->CheckDeviceMultiSampleType(
+        D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, d3ddm.Format, true, 
+        D3DMULTISAMPLE_NONMASKABLE, &total))) {
+      d3dpp.MultiSampleType = D3DMULTISAMPLE_NONMASKABLE;
+      d3dpp.MultiSampleQuality = total - 1;
     }
 
     // extract the device capabilities and configure the limits
@@ -345,9 +352,10 @@ bool APIDisplay::setup() {
     }
 
 	// complete the setup
-	if (rc)
+	if (rc) {
+    if (total) d3dd->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
 		setupBlending();
-
+  }
     return rc;
 }
 
