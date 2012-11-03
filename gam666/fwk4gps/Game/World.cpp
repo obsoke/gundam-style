@@ -12,6 +12,7 @@
 #include "..\Model.h"       // for ROLL_SPEED
 #include "..\Translation.h" // for Action enumerations
 #include "..\APIDisplay.h" // for Viewport
+#include "..\iAPIWindow.h"
 
 #include "Game.h"
 #include "GameObject.h"
@@ -22,7 +23,7 @@
 #include "GameObjects\Floor.h"
 
 World::World(Game* game) : Coordinator(game->handle, game->show), 
-    numberOfPlayers(4) {
+    numberOfPlayers(1) {
   farcp = 10000.0f;
   nearcp = 80.0f;
   this->game = game;
@@ -120,6 +121,12 @@ void World::remove(GameObject* gameObject) {
       gameObjects.erase(gameObjects.begin() + i);
     }
   }
+}
+
+void World::createProjection() {
+    const Viewport& viewport = calcViewport(0);
+    projection = ::projection(fov, (float)viewport.width / viewport.height, nearcp, farcp);
+    display->setProjection(&projection);
 }
 
 World::~World() {

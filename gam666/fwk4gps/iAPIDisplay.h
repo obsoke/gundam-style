@@ -57,6 +57,7 @@ class iAPIDisplay {
     virtual void release()                            = 0;
 	virtual void Delete()                             = 0;
     friend class Coordinator;
+    friend class World;
     friend class APIUserInput;
 };
 

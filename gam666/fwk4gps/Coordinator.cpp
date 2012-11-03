@@ -93,8 +93,7 @@ bool Coordinator::setConfiguration() {
             height = window->getClientHeight();
             if (userInput->setup()) {
                 if (display->setup()) {
-                    projection = ::projection(fov, (float) width / height, nearcp, farcp);
-                    display->setProjection(&projection);
+                    createProjection();
                     Light::set(DITHERING, true);
                     Light::set(SPECULARITY, true);
                     Light::alloc();
@@ -413,8 +412,7 @@ void Coordinator::resize() {
 
     if (active && userInput->getWindowMode()) {
         window->resize();
-        projection = ::projection(fov, (float)window->getClientWidth() / window->getClientHeight(), nearcp, farcp);
-        display->setProjection(&projection);
+        createProjection();
     }
 }
 
@@ -455,8 +453,7 @@ void Coordinator::restore() {
     now = window->time();
     userInput->restore();
     display->restore();
-    projection = ::projection(fov, (float)window->getClientWidth() / window->getClientHeight(), nearcp, farcp);
-    display->setProjection(&projection);
+    createProjection();
     Light::set(DITHERING, true);
     Light::set(SPECULARITY, true);
     audio->restore();
@@ -552,3 +549,7 @@ void Coordinator::setViewport(const Viewport& viewport) {
   display->setViewport(viewport);
 }
 
+void Coordinator::createProjection() {
+    projection = ::projection(fov, (float)window->getClientWidth() / window->getClientHeight(), nearcp, farcp);
+    display->setProjection(&projection);
+}

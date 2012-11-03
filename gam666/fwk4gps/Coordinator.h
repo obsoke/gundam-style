@@ -114,6 +114,7 @@ class Coordinator : public iCoordinator {
 	// configuration
     void initialize()                 { }
     void setProjection(float, float, float);
+    virtual void createProjection();
     void setAmbientLight(float, float, float);
     void setTimerText(void* text)     { timerText = (iText*)text; }
  	// execution

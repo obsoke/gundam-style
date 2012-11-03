@@ -37,6 +37,7 @@ public:
   void addFloor(const Vector& position, const Vector& tiles = Vector(1, 1, 1), 
     const Vector& tileSize = Vector(100, 10, 100), iTexture* tex = nullptr);
   Viewport calcViewport(int player);
+  void createProjection();
   unsigned int getNow() { return now; };
   unsigned int getDelta() { return lastUpdate; };
 };
