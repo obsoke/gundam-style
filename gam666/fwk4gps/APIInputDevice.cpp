@@ -912,7 +912,7 @@ bool Controller::pressed() const {
 
 // change returns the current change in a
 //
-int Controller::change(unsigned a) const { 
+int Controller::change(unsigned a) const {
     return motion[a % 12]; 
 }  
 

@@ -35,6 +35,7 @@ public:
   void applyForce(float x, float y, float z) { applyForce(Vector(x,y,z)); };
   void setAngularSpeed(const Vector& v);
   void setAngularSpeed(float x, float y, float z) { setAngularSpeed(Vector(x,y,z)); };
+  void resetRotation();
   virtual AABB getAABB() { return model ? model->getAABB() : AABB(); };
   virtual Vector center() { return position(); };
   virtual void update();

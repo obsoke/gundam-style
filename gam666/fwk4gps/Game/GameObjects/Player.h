@@ -15,8 +15,9 @@ class Player : public GameObject {
 public:
   int thrusterCooldown;
   int thruster;
+  int id;
 
-  Player(World* world);
+  Player(World* world, int id);
   ~Player();
   void update();
   void useThruster(int amount);

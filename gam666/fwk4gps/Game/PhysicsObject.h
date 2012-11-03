@@ -16,12 +16,14 @@ public:
   btCollisionShape* shape;
   btDefaultMotionState* motionState;
   btRigidBody* body;
+  bool stayUpright;
 
   PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body = nullptr, bool isStatic = false);
   ~PhysicsObject();
   void setTranslation(const Vector& v);
   void setSpeed(const Vector& v);
   void setRotation(const Vector& axis, float angle);
+  void resetRotation();
   void setAngularSpeed(const Vector& v);
   void applyForce(const Vector& v);
   void create();

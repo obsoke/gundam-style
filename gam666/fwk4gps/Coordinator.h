@@ -112,13 +112,12 @@ class Coordinator : public iCoordinator {
     unsigned               lastAudioUpdate;  // time - most recent audio update
 
 	// configuration
-    void initialize()                 { }
+    virtual void initialize()                 { }
     void setProjection(float, float, float);
     virtual void createProjection();
     void setAmbientLight(float, float, float);
     void setTimerText(void* text)     { timerText = (iText*)text; }
  	// execution
-    int  change(Action a) const;
     void release(Action);
     const wchar_t* file (ModelSound s) const;
     virtual ~Coordinator();
@@ -151,7 +150,8 @@ class Coordinator : public iCoordinator {
     void  remove(iGraphic* g) { ::remove(graphic, g); }
     void  remove(iText* t)    { ::remove(text, t); }
     void  remove(iHUD* h)     { ::remove(hud, h); }
-    bool pressed(Action a) const;
+    bool pressed(Action a, unsigned deviceNumber = 0) const;
+    int  change(Action a, unsigned deviceNumber = 0) const;
     bool ptrPressed() const;
     bool ctrPressed() const;
     virtual void render();
