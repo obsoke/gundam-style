@@ -22,7 +22,7 @@
 #include "GameObjects\Floor.h"
 
 World::World(Game* game) : Coordinator(game->handle, game->show), 
-    numberOfPlayers(1) {
+    numberOfPlayers(4) {
   farcp = 10000.0f;
   nearcp = 80.0f;
   this->game = game;
@@ -96,7 +96,7 @@ void World::render() {
 }
 
 Viewport World::calcViewport(int player) {
-  int width = 800, height = 600, num = players.size();
+  int num = players.size();
   if (num == 3) ++num;
   if (num < 2) {
     return Viewport(0, 0, width, height);
