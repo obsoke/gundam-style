@@ -85,10 +85,11 @@ class APIUserInput : public iAPIUserInput, public APIBase {
     const wchar_t* file(ModelSound s) const { return sndFile[s]; }
 	// execution
     void update();
-    bool pressed(Action) const;
+    bool pressed(Action a, unsigned deviceNumber = 0) const;
+    bool APIUserInput::pressedAll(Action a) const;
     bool ptrPressed() const;
     bool ctrPressed() const;
-    int  change(Action a) const;
+    int  change(Action a, unsigned deviceNumber) const;
     void release(Action);
 	// termination functions
     void suspend();
@@ -112,6 +113,7 @@ class APIUserInput : public iAPIUserInput, public APIBase {
 	void  updateSoundMapping(void*);
     bool  saveUserChoices(void*);
     void  error(const wchar_t*) const;
+    int getDeviceCount(int deviceType);
 };
 
 #endif

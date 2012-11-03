@@ -23,11 +23,13 @@ public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;
   std::vector<Player*> players;
+  std::vector<iObject*> sprites;
   Game* game;
-  PhysicsWorld physics;
+  PhysicsWorld* physics;
 
   World(Game* game);
   ~World();
+  void initialize();
   void add(GameObject* gameObject);
   void remove(GameObject* gameObject);
   void add(iObject* object) { Coordinator::add(object); };
@@ -39,7 +41,10 @@ public:
   Viewport calcViewport(int player);
   void createProjection();
   unsigned int getNow() { return now; };
-  unsigned int getDelta() { return lastUpdate; };
+  unsigned int getLast() { return lastUpdate; };
+  unsigned int getDelta() { return now - lastUpdate; };
+  iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
+	  unsigned char a = '\xFF');
 };
 
 #endif

@@ -80,3 +80,7 @@ void GameObject::setRotation(const Vector& axis, float angle, bool sendToPhysics
     physics->setRotation(axis, angle);
   }
 }
+
+void GameObject::resetRotation() { 
+  if (physics) physics->resetRotation(); 
+};

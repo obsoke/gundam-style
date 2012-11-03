@@ -28,7 +28,7 @@ btTransform toBtTransform(const Matrix& mat) {
 }
 
 PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body, bool isStatic) :
-    shape(nullptr), motionState(nullptr), body(body), world(world), object(object) {
+    shape(nullptr), motionState(nullptr), body(body), stayUpright(false), world(world), object(object) {
   if (!body) {
     // Create a default cube body
     AABB aabb = object->getAABB();
@@ -66,6 +66,11 @@ void PhysicsObject::remove() {
 }
 
 void PhysicsObject::update() {
+  if (stayUpright) {
+    body->setAngularFactor(btVector3(0,1,0));
+  } else {
+    body->setAngularFactor(btVector3(1,1,1));
+  }
   const btTransform& transform = body->getWorldTransform();
   Matrix mat = toMatrix(transform.getBasis(), transform.getOrigin());
   object->setMatrix(mat);
@@ -92,5 +97,10 @@ void PhysicsObject::applyForce(const Vector& v) {
 
 void PhysicsObject::setRotation(const Vector& axis, float angle) {
   body->getWorldTransform().setRotation(btQuaternion(toBtVector(axis), angle));
+  update();
+}
+
+void PhysicsObject::resetRotation() {
+  body->getWorldTransform().setRotation(btQuaternion(0, 0, 0));
   update();
 }
