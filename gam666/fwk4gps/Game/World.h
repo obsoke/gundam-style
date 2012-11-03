@@ -23,6 +23,7 @@ public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;
   std::vector<Player*> players;
+  std::vector<iObject*> sprites;
   Game* game;
   PhysicsWorld* physics;
 
@@ -42,6 +43,8 @@ public:
   unsigned int getNow() { return now; };
   unsigned int getLast() { return lastUpdate; };
   unsigned int getDelta() { return now - lastUpdate; };
+  iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
+	  unsigned char a = '\xFF');
 };
 
 #endif
