@@ -1,11 +1,20 @@
 #include "Player.h"
 #include "..\World.h"
 #include "..\PhysicsObject.h"
+#include "..\..\Camera.h"
 
 Player::Player(World* world) : GameObject(world), 
-    thruster(300), thrusterCooldown(0) { 
+    thruster(300), thrusterCooldown(0), cameraDistance(Vector(0, 40, -100)) { 
+  createCamera();
   physics = new PhysicsObject(&world->physics, this);
 };
+
+void Player::createCamera() {
+  camera = (Camera*)CreateCamera();
+  camera->attachTo(this);
+  camera->translate(cameraDistance.x, cameraDistance.y, cameraDistance.z);
+  camera->rotate(Vector(1, 0, 0), 3.14f / 32);
+}
 
 void Player::update() {
   recoverThrusters();
@@ -27,4 +36,8 @@ void Player::recoverThrusters() {
     if (thruster < 250) ++thruster;
     --thrusterCooldown;
   }
+}
+
+Player::~Player() {
+  if (camera) delete camera;
 }

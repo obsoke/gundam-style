@@ -57,7 +57,7 @@ Coordinator::Coordinator(void* hinst, int show) {
     fps              = 0;
 
     // current camera and HUD
-    currentCam = 0;
+    currentCam = NULL;
     currentHUD = 0;
     wireFrame  = false;
     wBuffering = false;
@@ -74,6 +74,8 @@ Coordinator::Coordinator(void* hinst, int show) {
     fov    = 0.9f;
     nearcp = 1.0f;
     farcp  = 1000.0f;
+
+    updateOnRender = true;
 }
 
 // setConfiguration retrieves the configuration selection from the user
@@ -91,8 +93,7 @@ bool Coordinator::setConfiguration() {
             height = window->getClientHeight();
             if (userInput->setup()) {
                 if (display->setup()) {
-                    projection = ::projection(fov, (float) width / height, nearcp, farcp);
-                    display->setProjection(&projection);
+                    createProjection();
                     Light::set(DITHERING, true);
                     Light::set(SPECULARITY, true);
                     Light::alloc();
@@ -252,17 +253,9 @@ void Coordinator::adjustFrequency(int factor) {
 //
 void Coordinator::update() {
 
-	// toggle and update the current camera
-	if (camera.size() && userInput->pressed(CAMERA_SELECT) && 
-        now - lastCameraToggle > KEY_LATENCY) {
-        lastCameraToggle = now;
-        currentCam++;
-        if (currentCam == camera.size())
-            currentCam = 0;
-    }
-    if (camera.size() && camera[currentCam]) {
-        camera[currentCam]->update();
-    }
+  if (currentCam) {
+      currentCam->update();
+  }
 	// adjust framecount and fps
     if (now - lastReset <= UNITS_PER_SEC) 
 		framecount++;
@@ -333,23 +326,25 @@ void Coordinator::update() {
 //
 void Coordinator::render() {
 
-    // update the user input devices
-    userInput->update();
-    Coordinator::update();
-    // update the model
-    update();
-	// update the light sources in object space
-    for (unsigned i = 0; i < light.size(); i++)
-		if (light[i])
-			light[i]->update();
-    // update the audio
-    audio->setVolume(volume);
-    audio->setFrequencyRatio(frequency);
-    audio->update(Camera::getView());
-    // update the sound sources
-    for (unsigned i = 0; i < sound.size(); i++)
-		if (sound[i]) 
-			sound[i]->update();
+    if (updateOnRender) {
+      // update the user input devices
+      userInput->update();  
+      Coordinator::update();
+      // update the model
+        update();
+	    // update the light sources in object space
+        for (unsigned i = 0; i < light.size(); i++)
+		    if (light[i])
+			    light[i]->update();
+        // update the audio
+        audio->setVolume(volume);
+        audio->setFrequencyRatio(frequency);
+        audio->update(Camera::getView());
+        // update the sound sources
+        for (unsigned i = 0; i < sound.size(); i++)
+		    if (sound[i]) 
+			    sound[i]->update();
+    }
 
     // draw the frame 
     view = *((Matrix*)Camera::getView());
@@ -417,8 +412,7 @@ void Coordinator::resize() {
 
     if (active && userInput->getWindowMode()) {
         window->resize();
-        projection = ::projection(fov, (float)window->getClientWidth() / window->getClientHeight(), nearcp, farcp);
-        display->setProjection(&projection);
+        createProjection();
     }
 }
 
@@ -459,8 +453,7 @@ void Coordinator::restore() {
     now = window->time();
     userInput->restore();
     display->restore();
-    projection = ::projection(fov, (float)window->getClientWidth() / window->getClientHeight(), nearcp, farcp);
-    display->setProjection(&projection);
+    createProjection();
     Light::set(DITHERING, true);
     Light::set(SPECULARITY, true);
     audio->restore();
@@ -552,3 +545,11 @@ Coordinator::~Coordinator() {
     coordinator = nullptr;
 }
 
+void Coordinator::setViewport(const Viewport& viewport) {
+  display->setViewport(viewport);
+}
+
+void Coordinator::createProjection() {
+    projection = ::projection(fov, (float)window->getClientWidth() / window->getClientHeight(), nearcp, farcp);
+    display->setProjection(&projection);
+}

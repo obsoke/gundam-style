@@ -11,6 +11,8 @@
 #include "..\MathDef.h"     // for Matrix operations
 #include "..\Model.h"       // for ROLL_SPEED
 #include "..\Translation.h" // for Action enumerations
+#include "..\APIDisplay.h" // for Viewport
+#include "..\iAPIWindow.h"
 
 #include "Game.h"
 #include "GameObject.h"
@@ -20,7 +22,8 @@
 #include "GameObjects\Player.h"
 #include "GameObjects\Floor.h"
 
-World::World(Game* game) : Coordinator(game->handle, game->show) {
+World::World(Game* game) : Coordinator(game->handle, game->show), 
+    numberOfPlayers(1) {
   farcp = 10000.0f;
   nearcp = 80.0f;
   this->game = game;
@@ -48,25 +51,17 @@ void World::initializeLighting() {
 }
 
 void World::initializeObjects() {
-  Colour green(0.1f, 0.8f, 0.1f);
-  Colour blue(0.1f, 0.1f, 0.9f);
-  Reflectivity bluish(blue);
-
-  Camera* camera = (Camera*)CreateCamera();
-  //camera->useInput = true;
-
   iObject* bg = CreateSprite(CreateGraphic(), '\xFF');
   bg->attach(CreateTexture(L"blue_nebula.jpg"));
 
   initializeFloors();
 
-  player = new Player(this);
-  player->setTranslation(0, 10, 0);
-  
-  add(player);
-  camera->attachTo(player);
-  camera->translate(0, 40, -100);
-
+  for (int i=0; i<numberOfPlayers; ++i) {
+    Player* player = new Player(this);
+    if (!i) currentCam = player->getCamera();
+    players.push_back(player);
+    add(player);
+  }
 }
 
 void World::initializeFloors() {
@@ -85,10 +80,34 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
   floors.push_back(new Floor(this, floorModel, position, tiles));
 }
 
-void World::update() {
+void World::updateWorld() {
   physics.update();
   for (int i=0, length=gameObjects.size(); i<length; ++i) {
     gameObjects[i]->update();
+  }
+}
+
+void World::render() {
+  updateWorld();
+  for (int i=0; i<players.size(); ++i) {
+    setViewport(calcViewport(i));
+    currentCam = players[i]->getCamera();
+    Coordinator::render();
+  }
+}
+
+Viewport World::calcViewport(int player) {
+  int num = players.size();
+  if (num == 3) ++num;
+  if (num < 2) {
+    return Viewport(0, 0, width, height);
+  } else if (num == 2) {
+    int w = width / 2, h = height, x = player * w;
+    return Viewport(x, 0, w, h);
+  } else {
+    int w = width / 2, h = height / 2;
+    int x = (player % (num / 2)) * w, y = (player / (num / 2)) * h;
+    return Viewport(x, y, w, h);
   }
 }
 
@@ -104,9 +123,17 @@ void World::remove(GameObject* gameObject) {
   }
 }
 
+void World::createProjection() {
+    const Viewport& viewport = calcViewport(0);
+    projection = ::projection(fov, (float)viewport.width / viewport.height, nearcp, farcp);
+    display->setProjection(&projection);
+}
+
 World::~World() {
   for (int i=0, length=floors.size(); i<length; ++i) {
     delete floors[i];
   }
-  if (player) delete player;
+  for (int i=0, length=players.size(); i<length; ++i) {
+    delete players[i];
+  }
 }
