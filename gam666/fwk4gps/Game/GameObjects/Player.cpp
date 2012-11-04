@@ -3,10 +3,12 @@
 #include "..\PhysicsObject.h"
 #include "..\..\Camera.h"
 
-Player::Player(World* world) : GameObject(world), 
-    thruster(300), thrusterCooldown(0), cameraDistance(Vector(0, 40, -100)) { 
+Player::Player(World* world, int id) : GameObject(world), 
+    thruster(300), id(id), thrusterCooldown(0), 
+    cameraDistance(Vector(0, 40, -100)) { 
   createCamera();
-  physics = new PhysicsObject(&world->physics, this);
+  physics = new PhysicsObject(world->physics, this);
+  physics->stayUpright = true;
 };
 
 void Player::createCamera() {

@@ -105,7 +105,7 @@ class APIVertexList : public APIGraphic {
 template <class T>
 AABB APIVertexList<T>::calcAABB() {
   AABB aabb;
-  for (int i=0; i<nVertices; ++i) {
+  for (unsigned i=0; i<nVertices; ++i) {
     Vector v = vertex[i].position();
     if (!i) {
       aabb.minimum = v;

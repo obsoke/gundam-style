@@ -188,7 +188,7 @@ void Coordinator::setProjection(float angle, float n, float f) {
 
 // pressed returns the on/off status of Action a
 //
-bool Coordinator::pressed(Action a) const { return userInput->pressed(a); }
+bool Coordinator::pressed(Action a, unsigned deviceNumber) const { return userInput->pressed(a, deviceNumber); }
 
 // ptrPressed returns the on/off status of Action a
 //
@@ -200,7 +200,7 @@ bool Coordinator::ctrPressed() const { return userInput->ctrPressed(); }
 
 // change returns the change caused by Action a 
 //
-int Coordinator::change(Action a) const { return userInput->change(a); }
+int Coordinator::change(Action a, unsigned deviceNumber) const { return userInput->change(a, deviceNumber); }
 
 // release turns off Action a
 //

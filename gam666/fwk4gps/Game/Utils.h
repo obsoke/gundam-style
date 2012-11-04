@@ -8,6 +8,8 @@
 void debug(const char* output);
 void debug(std::string output);
 void debug(Vector& v);
+void debug(float f);
 std::string toString(Vector& v);
+std::string toString(float f);
 
 #endif

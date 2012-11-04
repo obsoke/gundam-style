@@ -265,9 +265,7 @@ void APIUserInput::update() {
             controller[i]->update();
 }
 
-// pressed returns the on/off status of Action a
-//
-bool APIUserInput::pressed(Action a) const {
+bool APIUserInput::pressedAll(Action a) const {
 
     bool rc = false;
 
@@ -286,6 +284,22 @@ bool APIUserInput::pressed(Action a) const {
             if (action[a][CONTROLLER])
                 rc = controller[i]->pressed(action[a][CONTROLLER] - 1);
         }
+
+    return rc;
+}
+
+// pressed returns the on/off status of Action a
+//
+bool APIUserInput::pressed(Action a, unsigned deviceNumber) const {
+
+    bool rc = false;
+
+    if (keyboard && deviceNumber < nKeyboards) 
+      rc = keyboard[deviceNumber]->pressed(action[a][KEYBOARD] - 1);
+    if (!rc && pointer && deviceNumber < nPointers) 
+      rc = pointer[deviceNumber]->pressed(action[a][POINTER] - 1);
+    if (!rc && controller && deviceNumber < nControllers) 
+      rc = controller[deviceNumber]->pressed(action[a][CONTROLLER] - 1);
 
     return rc;
 }
@@ -318,21 +332,12 @@ bool APIUserInput::ctrPressed() const {
 
 // change returns the change in Action a 
 //
-int APIUserInput::change(Action a) const {
-
+int APIUserInput::change(Action a, unsigned deviceNumber) const {
     int rc = 0;
-    
-    if (pointer)
-        for (unsigned i = 0; !rc && i < nPointers; i++) {
-            if (action[a][POINTER])
-                rc = pointer[i]->change(action[a][POINTER] - 1);
-        }
-    if (controller)
-        for (unsigned i = 0; !rc && i < nControllers; i++) {
-            if (action[a][CONTROLLER])
-                rc = controller[i]->change(action[a][CONTROLLER] - 1);
-        }
-
+    if (pointer && action[a][POINTER])
+      rc = pointer[deviceNumber]->change(action[a][POINTER] - 1);
+    if (controller && action[a][CONTROLLER] && !rc)
+      rc = controller[deviceNumber]->change(action[a][CONTROLLER] - 1);
     return rc;
 }
 
@@ -342,8 +347,9 @@ void APIUserInput::release(Action a) {
 
     if (keyboard)
         for (unsigned i = 0; i < nKeyboards; i++) {
-            if (action[a][KEYBOARD])
+            if (action[a][KEYBOARD]) {
                 /*keyboard[i]->pressed(action[a][KEYBOARD] - 1, false)*/;
+            }
         }
 }
 
@@ -1183,3 +1189,15 @@ BOOL CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     return rc;
 }
 
+int APIUserInput::getDeviceCount(int deviceType) {
+  int rc = 0;
+  switch (deviceType) {
+    case KEYBOARD:
+      rc = nKeyboards;
+    case POINTER:
+      rc = nPointers;
+    case CONTROLLER:
+      rc = nControllers;
+  }
+  return rc;
+}

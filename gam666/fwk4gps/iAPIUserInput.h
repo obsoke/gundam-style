@@ -29,10 +29,10 @@ class iAPIUserInput {
     virtual bool setup()                            = 0;
 	// execution
     virtual void update()                           = 0;
-    virtual bool pressed(Action) const              = 0;
+    virtual bool pressed(Action a, unsigned deviceNumber = 0) const = 0;
     virtual bool ptrPressed() const                 = 0;
     virtual bool ctrPressed() const                 = 0;
-    virtual int  change(Action) const               = 0;
+    virtual int  change(Action a, unsigned deviceNumber = 0) const = 0;
     virtual void release(Action)                    = 0;
 	// termination
     virtual void suspend()                          = 0;
@@ -52,6 +52,7 @@ class iAPIUserInput {
 	virtual void updateSoundMapping(void*)          = 0;
     virtual bool saveUserChoices(void*)             = 0;
     virtual const wchar_t* file(ModelSound s) const = 0;
+    virtual int getDeviceCount(int deviceType) = 0;
 };
 
 iAPIUserInput* CreateAPIUserInput(const wchar_t*);

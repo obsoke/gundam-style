@@ -28,7 +28,7 @@ struct Vector {
     float y;
     float z;
     Vector() : x(0), y(0), z(0) {}
-    Vector(float xx, float yy, float zz) : x(xx), y(yy), z(zz) {}
+    Vector(float xx, float yy, float zz=0) : x(xx), y(yy), z(zz) {}
     Vector  operator+();
     Vector  operator-();
     Vector& operator+=(const Vector& a);

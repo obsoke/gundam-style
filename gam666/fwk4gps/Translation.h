@@ -337,11 +337,16 @@ typedef enum Action {
 // initial mappings of controller objects to actions
 //
 #define CTR_OBJ_ACTION_MAP { \
-    CAM_PITCH_UP, CAM_PITCH_DOWN, CAM_YAW_LEFT, CAM_YAW_RIGHT, \
+    THRUSTER, CAM_PITCH_DOWN, CAM_YAW_LEFT, CAM_YAW_RIGHT, \
     CAM_ADVANCE, CAM_RETREAT, CAM_ROLL_LEFT, CAM_ROLL_RIGHT, \
     CAM_PAN_LEFT, CAM_PAN_RIGHT, CAM_PAN_LEFT_ALT, \
-    CAM_PAN_RIGHT_ALT, CAM_FLY_UP, CAM_FLY_DOWN, AUD_BKGRD, \
+    CAM_PAN_LEFT, GF_CT_POSX, GF_CT_POSY, GF_CT_DSPZ, \
 }
+
+/* { A, B, X, Y,
+     L1, R1, Back, Start,
+     L3, R3, ?,
+     ?, LeftStickX, LeftStickY ? } */
 
 // Model Sounds
 //
