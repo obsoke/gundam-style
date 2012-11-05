@@ -31,7 +31,6 @@ iGraphic* CreateGraphic(int w, int h) {
 // constructor adds the Graphic to the coordinator
 //
 Graphic::Graphic(int w, int h) : width_(w), height_(h), radius(sqrtf((float)(w * w + h * h))) {
-
     coordinator->add(this);
     apiGraphic = CreateAPIGraphic();
 }

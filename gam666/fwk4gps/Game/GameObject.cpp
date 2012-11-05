@@ -27,6 +27,10 @@ GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) :
 
 GameObject::~GameObject() {
   delete physics;
+  if (model) {
+    world->remove(model);
+    delete model;
+  }
 }
 
 void GameObject::update() {
@@ -83,4 +87,19 @@ void GameObject::setRotation(const Vector& axis, float angle, bool sendToPhysics
 
 void GameObject::resetRotation() { 
   if (physics) physics->resetRotation(); 
+};
+
+AABB GameObject::getAABB() {
+  AABB aabb = model ? model->getAABB() : AABB();
+  aabb.minimum = aabb.minimum + position();
+  aabb.maximum = aabb.maximum + position();
+  return aabb;
+};
+
+bool GameObject::collides(GameObject* other) {
+  return getAABB().intersects(other->getAABB());
+};
+
+bool GameObject::collides(const AABB& other) {
+  return getAABB().intersects(other);
 };
