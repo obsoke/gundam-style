@@ -36,7 +36,9 @@ public:
   void setAngularSpeed(const Vector& v);
   void setAngularSpeed(float x, float y, float z) { setAngularSpeed(Vector(x,y,z)); };
   void resetRotation();
-  virtual AABB getAABB() { return model ? model->getAABB() : AABB(); };
+  virtual AABB getAABB();
+  virtual bool collides(GameObject* other);
+  virtual bool collides(const AABB& other);
   virtual Vector center() { return position(); };
   virtual void update();
 };

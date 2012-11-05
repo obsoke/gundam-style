@@ -9,6 +9,7 @@
 
 #include "Frame.h"   // for the Frame class definition
 #include "MathDef.h" // for position, rotation
+#include "MathDecl.h"
 
 //-------------------------------- Frame --------------------------------------
 //
@@ -138,9 +139,6 @@ void Shape::setAxisAligned(Vector min, Vector max) {
     minimum     = min;
     maximum     = max;
 }
-
-bool collision(const Vector& an, const Vector& ax, const Vector& bne,
- const Vector& bxe, Vector& d);
 
 // collision receives the addresses of two shapes and the translation that
 // brought them to their current states, determines if a collision occurred
