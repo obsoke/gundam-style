@@ -58,7 +58,11 @@ void World::initializeLighting() {
 }
 
 void World::initializeObjects() {
-  iObject* bg = CreateSprite(L"blue_nebula.jpg");
+  Reflectivity white(Colour(1, 1, 1));
+  iGraphic* box = CreateBox(0, 0, 0, 1000, 1000, 1000, true);
+  iObject* bg = CreateObject(box, &white);
+  bg->attach(CreateTexture(L"blue_nebula.jpg"));
+
   initializeFloors();
   for (int i=0; i<numberOfPlayers; ++i) {
     Player* player = new Player(this, i);

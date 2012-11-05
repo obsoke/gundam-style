@@ -116,7 +116,7 @@ void add(VertexList<LitVertex>*, const Vector&, const Vector&, const Vector&,
 // extreme points one face at a time with all faces having the same attributes
 //
 iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
- float maxy, float maxz) {
+ float maxy, float maxz, bool flip) {
     
     VertexList<Vertex>* vertexList = 
      (VertexList<Vertex>*)CreateVertexList<Vertex>(TRIANGLE_LIST, 12);
@@ -144,12 +144,21 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
            p6 = Vector(minx, maxy, maxz),
            p7 = Vector(maxx, maxy, maxz),
            p8 = Vector(maxx, miny, maxz);
-    add(vertexList, p1, p2, p3, p4, Vector(0, 0, -1)); // front
-    add(vertexList, p4, p3, p7, p8, Vector(1, 0,  0)); // right
-    add(vertexList, p8, p7, p6, p5, Vector(0, 0,  1)); // back
-    add(vertexList, p6, p2, p1, p5, Vector(-1, 0, 0)); // left
-    add(vertexList, p1, p4, p8, p5, Vector(0, -1, 0)); // bottom
-    add(vertexList, p2, p6, p7, p3, Vector(0, 1,  0)); // top
+    if (flip) {
+      add(vertexList, p4, p3, p2, p1, Vector(0, 0, 1)); // front
+      add(vertexList, p8, p7, p3, p4, Vector(-1, 0,  0)); // right
+      add(vertexList, p5, p6, p7, p8, Vector(0, 0,  -1)); // back
+      add(vertexList, p5, p1, p2, p6, Vector(1, 0, 0)); // left
+      add(vertexList, p5, p8, p4, p1, Vector(0, 1, 0)); // bottom
+      add(vertexList, p3, p7, p6, p2, Vector(0, -1,  0)); // top
+    } else {
+      add(vertexList, p1, p2, p3, p4, Vector(0, 0, -1)); // front
+      add(vertexList, p4, p3, p7, p8, Vector(1, 0,  0)); // right
+      add(vertexList, p8, p7, p6, p5, Vector(0, 0,  1)); // back
+      add(vertexList, p6, p2, p1, p5, Vector(-1, 0, 0)); // left
+      add(vertexList, p1, p4, p8, p5, Vector(0, -1, 0)); // bottom
+      add(vertexList, p2, p6, p7, p3, Vector(0, 1,  0)); // top
+    }
     vertexList->calcAABB();
 
     return vertexList;

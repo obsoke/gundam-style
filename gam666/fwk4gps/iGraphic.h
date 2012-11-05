@@ -47,7 +47,7 @@ iGraphic* CreateGraphic(int = 0, int = 0);
 iGraphic* CreateBox(float, float, float, float, float, float, const Colour&);
 iGraphic* CreateGrid(float, float, int, const Colour&);
 iGraphic* TriangleList(const wchar_t*, const Colour&);
-iGraphic* CreateBox(float, float, float, float, float, float);
+iGraphic* CreateBox(float, float, float, float, float, float, bool f = false);
 iGraphic* CreateGrid(float, float, int);
 iGraphic* TriangleList(const wchar_t* file);
 iGraphic* CreateRectangleList(float, float, float, float);
