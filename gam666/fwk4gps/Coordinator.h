@@ -14,6 +14,7 @@
 #include <vector>
 #include "iCoordinator.h" // for the Coordinator Interface
 #include "MathDecl.h"     // for Matrix
+#include "Frame.h"
 
 //-------------------------------- Templates for add and remove ---------------
 //
@@ -35,11 +36,11 @@ void add(std::vector<T>& v, T o) {
 
 // remove removes the pointer to *o from vector v
 //
-template <class T>
+/*template <class T>
 bool remove(std::vector<T>& v, T o) {
     bool rc = false;
 
-    for (unsigned i = 0; i < v.size(); i++)
+    for (unsigned i = 0; i < v.size(); i++) {
         if (v[i] == o) {
             v[i] = 0;
             rc = true;
@@ -47,6 +48,18 @@ bool remove(std::vector<T>& v, T o) {
     while (v.size() && !v[v.size() - 1])
         v.pop_back();
 
+    return rc;
+}*/
+
+template <class T>
+bool remove(std::vector<T>& v, T o) {
+    bool rc = false;
+    for (int i = ((int)v.size()) - 1; i >= 0 && !rc; --i) {
+        if (v[i] == o) {
+            v.erase(v.begin() + i);
+            rc = true;
+        }
+    }
     return rc;
 }
 
@@ -142,7 +155,7 @@ class Coordinator : public iCoordinator {
     void  suspend();
 	void  restore();
     void  release();
-    void  remove(iObject* o)  { ::remove(object, o); }
+    void  remove(iObject* o);
     void  remove(iTexture* t) { ::remove(texture, t); }
     void  remove(iLight* l)   { ::remove(light, l); }
     void  remove(iCamera* c)  { ::remove(camera, c); }

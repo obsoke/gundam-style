@@ -47,6 +47,7 @@ class Object : public iObject  {
     bool belongsTo(Category c) const       { return c == category; }
     void render();
     void Delete() const { delete this; }
+    const std::vector<Frame*>& getChildren() { return children; }
 };
 
 #endif

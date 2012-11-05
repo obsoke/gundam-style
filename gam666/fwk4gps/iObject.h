@@ -27,7 +27,6 @@ struct AABB;
 
 class iObject : public Frame, public Base {
 	// initialization
-	virtual void attach(iTexture* t)                 = 0;
 	// execution
     virtual int  width() const                       = 0;
     virtual int  height() const                      = 0;
@@ -41,8 +40,10 @@ class iObject : public Frame, public Base {
     friend class Design;
     friend class World;
   public:
+	  virtual void attach(iTexture* t)                 = 0;
     virtual AABB getAABB() const                     = 0;
     virtual iObject* clone() const                   = 0;
+    virtual const std::vector<Frame*>& getChildren() = 0;
 };
 
 iObject* CreateObject(iGraphic*, const Reflectivity*); 

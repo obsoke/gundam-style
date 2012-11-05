@@ -115,6 +115,7 @@
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Game\Map.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="iTexture.h" />
     <ClInclude Include="iUtilities.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Game\Map.h" />
     <ClInclude Include="MathDecl.h" />
     <ClInclude Include="MathDef.h" />
     <ClInclude Include="Model.h" />
