@@ -5,6 +5,7 @@
 #include "..\Coordinator.h"
 #include "GameObject.h"
 #include "PhysicsWorld.h"
+#include "Map.h"
 
 class Game;
 class Player;
@@ -14,11 +15,11 @@ struct Viewport;
 class World : public Coordinator {
   iLight* defaultLight;
   int numberOfPlayers;
+  Map& map;
 
   void initializeLighting();
   void initializeObjects();
   void initializeHUD();
-  void initializeFloors();
 public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;
@@ -27,7 +28,7 @@ public:
   Game* game;
   PhysicsWorld* physics;
 
-  World(Game* game);
+  World(Game* game, Map& map);
   ~World();
   void initialize();
   void add(GameObject* gameObject);

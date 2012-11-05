@@ -553,3 +553,11 @@ void Coordinator::createProjection() {
     projection = ::projection(fov, (float)window->getClientWidth() / window->getClientHeight(), nearcp, farcp);
     display->setProjection(&projection);
 }
+
+void Coordinator::remove(iObject* o)  { 
+  ::remove(object, o);
+  const std::vector<Frame*>& children = o->getChildren();
+  for (int i = ((int)children.size()) - 1; i >= 0; --i) {
+    remove((iObject*)children[i]);
+  }
+}

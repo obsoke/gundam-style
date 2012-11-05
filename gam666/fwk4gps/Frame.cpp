@@ -94,18 +94,23 @@ void Frame::attachTo(Frame* newParent) {
         T = world();
     parent = 0;
     // attach to newParent
-	parent = newParent;
+	  parent = newParent;
     if (parent) {
         // convert rotation to a relative rotation wrt parent frame
-		Matrix m = parent->rotation();
-		m = m.transpose();
-		T.rotate(m);
+		    Matrix m = parent->rotation();
+		    m = m.transpose();
+		    T.rotate(m);
         // express offset in local coordinates wrt to parent frame
         Vector p = (::position(T) - parent->position()) * m;
         T.m41 = p.x;
         T.m42 = p.y;
         T.m43 = p.z;
+        parent->children.push_back(this);
     }
+}
+
+void Frame::attach(Frame* child) {
+  child->attachTo(this);
 }
 
 //-------------------------------- Shape ----------------------------
