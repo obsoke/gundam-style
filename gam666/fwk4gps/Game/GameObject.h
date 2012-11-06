@@ -38,6 +38,7 @@ public:
   virtual AABB getAABB() { return model ? model->getAABB() : AABB(); };
   virtual Vector center() { return position(); };
   virtual void update();
+  virtual void hitBoundary();
 };
 
 #endif

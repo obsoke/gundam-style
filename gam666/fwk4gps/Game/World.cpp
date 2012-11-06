@@ -36,6 +36,8 @@ void World::initializeHUD() {
 
   CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
     Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
+  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
+    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
 }
 
 void World::initializeLighting() {
@@ -95,8 +97,6 @@ void World::update() {
 
 	//check all 6 sides
 	if (tmp.x > WORLDX2 || tmp.x < WORLDX1 || tmp.y > WORLDY2 || tmp.y < WORLDY1 || tmp.z > WORLDZ2 || tmp.z < WORLDZ1) {
-		//determine what kind of GameObject it is
-		//gameObjects[i]->translate(gameObjects[i]->speed.x * -1,gameObjects[i]->speed.y * -1,gameObjects[i]->speed.z * -1);
 		gameObjects[i]->hitBoundary();
 	}
 

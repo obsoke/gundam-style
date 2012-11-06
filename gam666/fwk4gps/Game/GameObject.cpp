@@ -76,3 +76,7 @@ void GameObject::setRotation(const Vector& axis, float angle, bool sendToPhysics
     physics->setRotation(axis, angle);
   }
 }
+
+void GameObject::hitBoundary()
+{
+}

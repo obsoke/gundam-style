@@ -28,3 +28,7 @@ void Player::recoverThrusters() {
     --thrusterCooldown;
   }
 }
+
+void Player::hitBoundary() {
+	setSpeed(0, 0, 0);	
+}

@@ -17,6 +17,7 @@ public:
   void update();
   void useThruster(int amount);
   void recoverThrusters();
+  void hitBoundary();
 };
 
 #endif

@@ -11,13 +11,12 @@ class Player;
 class Floor;
 
 //random values to create the boundaries of the environment in a cube
-#define WORLDX1 -290
-#define WORLDY1 -300
+#define WORLDX1 -100
+#define WORLDY1 -500
 #define WORLDZ1 -200
-#define WORLDX2 320
-#define WORLDY2 300
-#define WORLDZ2 600
-
+#define WORLDX2 200
+#define WORLDY2 5000
+#define WORLDZ2 2500
 
 class World : public Coordinator {
   iLight* defaultLight;
