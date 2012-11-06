@@ -35,7 +35,10 @@ public:
   void applyForce(float x, float y, float z) { applyForce(Vector(x,y,z)); };
   void setAngularSpeed(const Vector& v);
   void setAngularSpeed(float x, float y, float z) { setAngularSpeed(Vector(x,y,z)); };
-  virtual AABB getAABB() { return model ? model->getAABB() : AABB(); };
+  void resetRotation();
+  virtual AABB getAABB();
+  virtual bool collides(GameObject* other);
+  virtual bool collides(const AABB& other);
   virtual Vector center() { return position(); };
   virtual void update();
   virtual void hitBoundary();

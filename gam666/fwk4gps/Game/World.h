@@ -9,6 +9,7 @@
 class Game;
 class Player;
 class Floor;
+struct Viewport;
 
 //random values to create the boundaries of the environment in a cube
 #define WORLDX1 -100
@@ -20,6 +21,7 @@ class Floor;
 
 class World : public Coordinator {
   iLight* defaultLight;
+  int numberOfPlayers;
 
   void initializeLighting();
   void initializeObjects();
@@ -28,21 +30,29 @@ class World : public Coordinator {
 public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;
+  std::vector<Player*> players;
+  std::vector<iObject*> sprites;
   Game* game;
-  Player* player;
-  PhysicsWorld physics;
+  PhysicsWorld* physics;
 
   World(Game* game);
   ~World();
+  void initialize();
   void add(GameObject* gameObject);
   void remove(GameObject* gameObject);
   void add(iObject* object) { Coordinator::add(object); };
   void remove(iObject* object) { Coordinator::remove(object); };
-  void update();
+  virtual void updateWorld();
+  void render();
   void addFloor(const Vector& position, const Vector& tiles = Vector(1, 1, 1), 
     const Vector& tileSize = Vector(100, 10, 100), iTexture* tex = nullptr);
+  Viewport calcViewport(int player);
+  void createProjection();
   unsigned int getNow() { return now; };
-  unsigned int getDelta() { return lastUpdate; };
+  unsigned int getLast() { return lastUpdate; };
+  unsigned int getDelta() { return now - lastUpdate; };
+  iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
+	  unsigned char a = '\xFF');
 };
 
 #endif

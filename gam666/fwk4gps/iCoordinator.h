@@ -43,10 +43,10 @@ class iCoordinator : public Base {
     virtual void reset()                 = 0;
 	// execution
     virtual void update()                = 0;
-    virtual bool pressed(Action a) const = 0;
+    virtual bool pressed(Action a, unsigned deviceNumber = 0) const = 0;
     virtual bool ptrPressed() const      = 0;
     virtual bool ctrPressed() const      = 0;
-    virtual int  change(Action a) const  = 0;
+    virtual int  change(Action a, unsigned deviceNumber = 0) const  = 0;
     virtual void release(Action)         = 0;
     virtual void resize()                = 0;
 	virtual int  run()                   = 0;

@@ -3,7 +3,10 @@
 
 #include <btBulletDynamicsCommon.h>
 
+class World;
+
 class PhysicsWorld {
+  World* parent;
   btBroadphaseInterface* broadphase;
   btDefaultCollisionConfiguration* collisionConfiguration;
   btCollisionDispatcher* dispatcher;
@@ -11,7 +14,7 @@ class PhysicsWorld {
 public:
   btDiscreteDynamicsWorld* world;
 
-  PhysicsWorld();
+  PhysicsWorld(World* world);
   ~PhysicsWorld();
   void update();
 };

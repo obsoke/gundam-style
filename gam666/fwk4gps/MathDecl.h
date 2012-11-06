@@ -28,7 +28,7 @@ struct Vector {
     float y;
     float z;
     Vector() : x(0), y(0), z(0) {}
-    Vector(float xx, float yy, float zz) : x(xx), y(yy), z(zz) {}
+    Vector(float xx, float yy, float zz=0) : x(xx), y(yy), z(zz) {}
     Vector  operator+();
     Vector  operator-();
     Vector& operator+=(const Vector& a);
@@ -200,6 +200,13 @@ struct Reflectivity {
     }
 };
 
+// collision determines if a collision occurs between shapes bounded by
+// [an,ax] and [bne,bxe] where d is the relative translation and returns
+// in d the corrective translation in the event that collison has occurred 
+//
+bool collision(const Vector& an, const Vector& ax, const Vector& bne,
+ const Vector& bxe, Vector& d);
+
 struct AABB {
   Vector minimum;
   Vector maximum;
@@ -209,6 +216,10 @@ struct AABB {
   float depth() { return maximum.z - minimum.z; };
   Vector size() { return Vector(width(), height(), depth()); };
   Vector center() { return (minimum + maximum) / 2; };
+  bool intersects(const AABB& other) {
+    return collision(minimum, maximum, 
+      other.minimum, other.maximum, Vector(0,0,0));
+  };
 };
 
 #endif

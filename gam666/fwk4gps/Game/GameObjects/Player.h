@@ -6,18 +6,25 @@
 #include "InputComponent.h"
 
 class World;
+class iCamera;
 
 class Player : public GameObject {
   InputComponent input;
+  iCamera* camera;
+  Vector cameraDistance;
 public:
   int thrusterCooldown;
   int thruster;
+  int id;
 
-  Player(World* world);
+  Player(World* world, int id);
+  ~Player();
   void update();
   void useThruster(int amount);
   void recoverThrusters();
   void hitBoundary();
+  void createCamera();
+  iCamera* getCamera() { return camera; };
 };
 
 #endif

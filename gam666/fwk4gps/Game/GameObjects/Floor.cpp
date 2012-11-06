@@ -26,18 +26,18 @@ Floor::Floor(World* world, iObject* object,
   }
   translate(pos.x, pos.y, pos.z);
   calcAABB();
-  physics = new PhysicsObject(&(world->physics), this, nullptr, true);
+  physics = new PhysicsObject(world->physics, this, nullptr, true);
 }
 
 Floor::~Floor() {
-  for (int i=0; i<tiles.size(); ++i) {
+  for (unsigned i=0; i<tiles.size(); ++i) {
     if (tiles[i]) delete tiles[i];
   }
 }
 
 AABB Floor::calcAABB() {
   AABB aabb;
-  for (int i=0; i<tiles.size(); ++i) {
+  for (unsigned i=0; i<tiles.size(); ++i) {
     AABB child = tiles[i]->getAABB();
     const Vector& position = tiles[i]->position();
     Vector minimum = child.minimum + position;
