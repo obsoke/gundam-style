@@ -40,6 +40,7 @@ class iObject : public Frame, public Base {
     friend class Design;
     friend class World;
   public:
+    virtual void setTextureAddressing(unsigned)      = 0;
 	  virtual void attach(iTexture* t)                 = 0;
     virtual AABB getAABB() const                     = 0;
     virtual iObject* clone() const                   = 0;
@@ -48,6 +49,8 @@ class iObject : public Frame, public Base {
 
 iObject* CreateObject(iGraphic*, const Reflectivity*); 
 iObject* CreateObject(iGraphic*, unsigned char a = 0); 
+Frame* CreateSkybox(const wchar_t** file, float width = 10000, 
+  float height = 10000, float depth = 10000); 
 iObject* CreateSprite(iGraphic*, unsigned char a = 0);
 iObject* Clone(const iObject*);
 

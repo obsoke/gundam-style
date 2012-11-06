@@ -83,16 +83,19 @@ Texture& Texture::operator=(const Texture& src) {
 // setAnisotropy sets the degree of anisotropic filtering
 //
 void Texture::setAnisotropy(int d) {
-
     APITexture::setAnisotropy(d);
 }
 
 // setFilter sets the sampling filter on the pipeline
 //
 void Texture::setFilter(unsigned flags) const {
-
     if (apiTexture)
         apiTexture->setFilter(flags);
+}
+
+void Texture::setAddressing(unsigned flags) const {
+    if (apiTexture)
+        apiTexture->setAddressing(flags);
 }
 
 // attach attach the texture to the pipeline

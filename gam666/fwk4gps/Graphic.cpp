@@ -107,7 +107,7 @@ Graphic::~Graphic() {
 //
 // prototypes for add() function used by the Create...() functions
 void add(VertexList<Vertex>*, const Vector&, const Vector&, const Vector&,  
- const Vector&, const Vector&);
+ const Vector&, const Vector&, float uScale = 1.0f, float vScale = 1.0f);
 void add(VertexList<LitVertex>*, const Vector&, const Vector&, const Vector&,  
  const Vector&, const Colour&);
 
@@ -115,7 +115,7 @@ void add(VertexList<LitVertex>*, const Vector&, const Vector&, const Vector&,
 // extreme points one face at a time with all faces having the same attributes
 //
 iGraphic* CreateBox(float minx, float miny, float minz, float maxx, 
- float maxy, float maxz, bool flip) {
+ float maxy, float maxz, float uScale, float vScale, bool flip) {
     
     VertexList<Vertex>* vertexList = 
      (VertexList<Vertex>*)CreateVertexList<Vertex>(TRIANGLE_LIST, 12);
@@ -144,22 +144,61 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
            p7 = Vector(maxx, maxy, maxz),
            p8 = Vector(maxx, miny, maxz);
     if (flip) {
-      add(vertexList, p4, p3, p2, p1, Vector(0, 0, 1)); // front
-      add(vertexList, p8, p7, p3, p4, Vector(-1, 0,  0)); // right
-      add(vertexList, p5, p6, p7, p8, Vector(0, 0,  -1)); // back
-      add(vertexList, p5, p1, p2, p6, Vector(1, 0, 0)); // left
-      add(vertexList, p5, p8, p4, p1, Vector(0, 1, 0)); // bottom
-      add(vertexList, p3, p7, p6, p2, Vector(0, -1,  0)); // top
+      add(vertexList, p4, p3, p2, p1, Vector(0, 0, 1), uScale, vScale); // front
+      add(vertexList, p8, p7, p3, p4, Vector(-1, 0, 0), uScale, vScale); // right
+      add(vertexList, p5, p6, p7, p8, Vector(0, 0, -1), uScale, vScale); // back
+      add(vertexList, p5, p1, p2, p6, Vector(1, 0, 0), uScale, vScale); // left
+      add(vertexList, p5, p8, p4, p1, Vector(0, 1, 0), uScale, vScale); // bottom
+      add(vertexList, p3, p7, p6, p2, Vector(0, -1,  0), uScale, vScale); // top
     } else {
-      add(vertexList, p1, p2, p3, p4, Vector(0, 0, -1)); // front
-      add(vertexList, p4, p3, p7, p8, Vector(1, 0,  0)); // right
-      add(vertexList, p8, p7, p6, p5, Vector(0, 0,  1)); // back
-      add(vertexList, p6, p2, p1, p5, Vector(-1, 0, 0)); // left
-      add(vertexList, p1, p4, p8, p5, Vector(0, -1, 0)); // bottom
-      add(vertexList, p2, p6, p7, p3, Vector(0, 1,  0)); // top
+      add(vertexList, p1, p2, p3, p4, Vector(0, 0, -1), uScale, vScale); // front
+      add(vertexList, p4, p3, p7, p8, Vector(1, 0,  0), uScale, vScale); // right
+      add(vertexList, p8, p7, p6, p5, Vector(0, 0,  1), uScale, vScale); // back
+      add(vertexList, p6, p2, p1, p5, Vector(-1, 0, 0), uScale, vScale); // left
+      add(vertexList, p1, p4, p8, p5, Vector(0, -1, 0), uScale, vScale); // bottom
+      add(vertexList, p2, p6, p7, p3, Vector(0, 1,  0), uScale, vScale); // top
     }
     vertexList->calcAABB();
 
+    return vertexList;
+}
+
+iGraphic* CreateSkyboxPlane(float width, float height, float depth, int face) {
+    VertexList<Vertex>* vertexList = 
+     (VertexList<Vertex>*)CreateVertexList<Vertex>(TRIANGLE_LIST, 6);
+
+    float x = width / 2, y = height / 2, z = depth / 2; 
+    float minx = 0, miny = 0, minz = 0, maxx = width, maxy = height, maxz = depth;
+    minx -= x;
+    miny -= y;
+    minz -= z;
+    maxx -= x;
+    maxy -= y;
+    maxz -= z;
+    // bounding sphere
+    float max;
+    max = maxx > maxy ? maxx : maxy;
+    max = maxz > max  ? maxz : max;
+    vertexList->setRadius(1.73205f * max);
+    // locate centroid at origin
+    Vector p1 = Vector(minx, miny, minz),
+           p2 = Vector(minx, maxy, minz),
+           p3 = Vector(maxx, maxy, minz),
+           p4 = Vector(maxx, miny, minz),
+           p5 = Vector(minx, miny, maxz),
+           p6 = Vector(minx, maxy, maxz),
+           p7 = Vector(maxx, maxy, maxz),
+           p8 = Vector(maxx, miny, maxz);
+
+    switch(face) {
+      case 0: add(vertexList, p4, p3, p2, p1, Vector(0, 0, 1)); break; // front
+      case 1: add(vertexList, p8, p7, p3, p4, Vector(-1, 0, 0)); break; // right
+      case 2: add(vertexList, p5, p6, p7, p8, Vector(0, 0, -1)); break; // back
+      case 3: add(vertexList, p5, p1, p2, p6, Vector(1, 0, 0)); break; // left
+      case 4: add(vertexList, p5, p8, p4, p1, Vector(0, 1, 0)); break; // bottom
+      case 5: add(vertexList, p3, p7, p6, p2, Vector(0, -1,  0)); break; // top
+    }
+    vertexList->calcAABB();
     return vertexList;
 }
 
@@ -388,14 +427,14 @@ iGraphic* TriangleList(const wchar_t* file, const Colour& colour) {
 }
 
 void add(VertexList<Vertex>* vertexList, const Vector& p1, const Vector& p2, 
- const Vector& p3, const Vector& p4, const Vector& n) {
+ const Vector& p3, const Vector& p4, const Vector& n, float uScale, float vScale) {
 
-    vertexList->add(Vertex(p1, n, 0, 1));
+    vertexList->add(Vertex(p1, n, 0, 1 * vScale));
     vertexList->add(Vertex(p2, n, 0, 0));
-    vertexList->add(Vertex(p3, n, 1, 0));
-    vertexList->add(Vertex(p1, n, 0, 1));
-    vertexList->add(Vertex(p3, n, 1, 0));
-    vertexList->add(Vertex(p4, n, 1, 1));
+    vertexList->add(Vertex(p3, n, 1 * uScale, 0));
+    vertexList->add(Vertex(p1, n, 0, 1 * vScale));
+    vertexList->add(Vertex(p3, n, 1 * uScale, 0));
+    vertexList->add(Vertex(p4, n, 1 * uScale, 1 * vScale));
 }
 
 void add(VertexList<LitVertex>* vertexList, const Vector& p1, const Vector& p2, 
