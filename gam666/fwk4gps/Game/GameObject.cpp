@@ -27,6 +27,10 @@ GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) :
 
 GameObject::~GameObject() {
   delete physics;
+  if (model) {
+    world->remove(model);
+    delete model;
+  }
 }
 
 void GameObject::update() {

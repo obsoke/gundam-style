@@ -12,6 +12,7 @@
  */
 
 #include "MathDecl.h" // for Matrix
+#include <vector>
 
 //-------------------------------- Frame --------------------------------------
 //
@@ -23,6 +24,8 @@ class Frame {
     Frame* parent; // points to parent frame, if any
 
   public:
+    std::vector<Frame*> children;
+
     Frame();
 	void   scale(float sx, float sy, float sz)   { T.scale(sx, sy, sz); }
 	void   rotatex(float rad)                    { T.rotatex(rad); }
@@ -38,6 +41,7 @@ class Frame {
 	Vector orientation(char c) const;
     Matrix world() const;
 	void   attachTo(Frame* newParent);
+  void   attach(Frame* child);
   virtual void setTranslation(const Vector& v) {
     T.m41 = v.x; T.m42 = v.y; T.m43 = v.z;
   }
