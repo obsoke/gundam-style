@@ -29,6 +29,7 @@ class iTexture : public Base {
     friend class Object;
     friend class HUD;
   public:
+    virtual void setAddressing(unsigned) const = 0;
     virtual iTexture* clone() const        = 0;
 };
 

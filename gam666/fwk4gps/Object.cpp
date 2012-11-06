@@ -20,13 +20,24 @@
 // The Object class defines the structure of a single object in the model
 //
 iObject* CreateObject(iGraphic* v, unsigned char a) {
-
     return new Object(LIT_OBJECT, v, a);
 }
 
 iObject* CreateSprite(iGraphic* v, unsigned char a) {
-
     return new Object(SPRITE, v, a);
+}
+
+Frame* CreateSkybox(const wchar_t** file, float width, float height, float depth) {
+  Frame* skybox = new Frame();
+  for (int i=0; i<6; ++i) {
+    iGraphic* planeGraphic = CreateSkyboxPlane(width, height, depth, i);
+    iObject* plane = CreateObject(planeGraphic);
+    iTexture* tex = CreateTexture(file[i], 0xFF00FF00);
+    plane->setTextureAddressing(3);
+    plane->attach(tex);
+    plane->attachTo(skybox);
+  }
+  return skybox;
 }
 
 iObject* CreateObject(iGraphic* v, const Reflectivity* r)
@@ -47,7 +58,7 @@ iObject* Clone(const iObject* src) {
 // constructor initializes a lit object
 //
 Object::Object(Category c, iGraphic* v, unsigned char a) : 
- category(c), graphic(v), texture(nullptr), alpha(a ? a : TEX_ALPHA) {
+ category(c), graphic(v), texture(nullptr), texAddr(0), alpha(a ? a : TEX_ALPHA) {
     
     coordinator->add(this);
     reflectivity = Reflectivity();
@@ -56,7 +67,7 @@ Object::Object(Category c, iGraphic* v, unsigned char a) :
 // constructor initializes a reflective object
 //
 Object::Object(Category c, iGraphic* v, const Reflectivity* r) : 
- category(c), graphic(v), flags(TEX_DEFAULT) {
+ category(c), graphic(v), flags(TEX_DEFAULT), texAddr(0) {
     
     coordinator->add(this);
 
@@ -107,17 +118,15 @@ void Object::render() {
             texture->detach();
             graphic->endDraw();
         }
-        else if (category == LIT_OBJECT) {
-            graphic->setWorld(&world());
-            graphic->render();
-        }
         else {
             graphic->setWorld(&world());
             if (texture) {
+                if (texAddr) texture->setAddressing(texAddr);
                 if (flags) texture->setFilter(flags);
                 texture->attach();
             }
-            graphic->set(&reflectivity);
+            if (category != LIT_OBJECT)
+              graphic->set(&reflectivity);
             graphic->render();
             if (texture) texture->detach();
         }

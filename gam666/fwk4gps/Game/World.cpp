@@ -59,7 +59,12 @@ void World::initializeLighting() {
 }
 
 void World::initializeObjects() {
-  iObject* bg = CreateSprite(L"blue_nebula.jpg");
+  const wchar_t* files[] = {
+    L"space_sky_front.png", L"space_sky_left.png",
+    L"space_sky_back.png", L"space_sky_right.png",
+    L"space_sky_down.png", L"space_sky_up.png",
+  };
+  skybox = CreateSkybox(files);
   map.create(this);
   for (int i=0; i<numberOfPlayers; ++i) {
     Player* player = new Player(this, i);

@@ -26,6 +26,7 @@ class APITexture : public iAPITexture, public APIBase {
     unsigned           key;    // color key
     IDirect3DTexture9* tex;    // interface to the texture COM object
     unsigned           filter; // sampling filter
+    unsigned           addressing;
 
     void setSamplerState(unsigned flags) const;
 	void setup(int, int);
@@ -40,6 +41,8 @@ class APITexture : public iAPITexture, public APIBase {
 	// execution
     static void setAnisotropy(int);
     void setFilter(unsigned f) { filter = f; }
+    void setAddressing(unsigned flags) { addressing = flags; }
+    void setAddressingState(unsigned flags);
     void attach(int ,int);
     void detach();
     // suspension

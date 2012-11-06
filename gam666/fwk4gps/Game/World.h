@@ -25,6 +25,7 @@ public:
   std::vector<Floor*> floors;
   std::vector<Player*> players;
   std::vector<iObject*> sprites;
+  Frame* skybox;
   Game* game;
   PhysicsWorld* physics;
 
