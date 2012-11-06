@@ -103,7 +103,7 @@ void APITexture::attach(int w, int h) {
         texture = tex;
         d3dd->SetTexture(0, tex);
         setSamplerState(filter);
-        setAddressingState(addressing);
+        setAddressingState(addressing ? addressing : 1);
     }
 }
 

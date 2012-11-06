@@ -30,8 +30,8 @@ iObject* CreateSprite(iGraphic* v, unsigned char a) {
 Frame* CreateSkybox(const wchar_t** file, float width, float height, float depth) {
   Frame* skybox = new Frame();
   for (int i=0; i<6; ++i) {
-    iGraphic* box = CreateSkyboxPlane(width, height, depth, i);
-    iObject* plane = CreateObject(box);
+    iGraphic* planeGraphic = CreateSkyboxPlane(width, height, depth, i);
+    iObject* plane = CreateObject(planeGraphic);
     iTexture* tex = CreateTexture(file[i], 0xFF00FF00);
     plane->setTextureAddressing(3);
     plane->attach(tex);
@@ -118,16 +118,6 @@ void Object::render() {
             texture->detach();
             graphic->endDraw();
         }
-        else if (category == LIT_OBJECT) {
-            graphic->setWorld(&world());
-            if (texture) {
-                if (texAddr) texture->setAddressing(texAddr);
-                if (flags) texture->setFilter(flags);
-                texture->attach();
-            }
-            graphic->render();
-            if (texture) texture->detach();
-        }
         else {
             graphic->setWorld(&world());
             if (texture) {
@@ -135,7 +125,8 @@ void Object::render() {
                 if (flags) texture->setFilter(flags);
                 texture->attach();
             }
-            graphic->set(&reflectivity);
+            if (category != LIT_OBJECT)
+              graphic->set(&reflectivity);
             graphic->render();
             if (texture) texture->detach();
         }

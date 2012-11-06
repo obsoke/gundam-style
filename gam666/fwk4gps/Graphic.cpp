@@ -165,7 +165,7 @@ iGraphic* CreateBox(float minx, float miny, float minz, float maxx,
 
 iGraphic* CreateSkyboxPlane(float width, float height, float depth, int face) {
     VertexList<Vertex>* vertexList = 
-     (VertexList<Vertex>*)CreateVertexList<Vertex>(TRIANGLE_LIST, 6);
+     (VertexList<Vertex>*)CreateVertexList<Vertex>(TRIANGLE_LIST, 2);
 
     float x = width / 2, y = height / 2, z = depth / 2; 
     float minx = 0, miny = 0, minz = 0, maxx = width, maxy = height, maxz = depth;
