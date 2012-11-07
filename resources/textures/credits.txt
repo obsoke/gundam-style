@@ -1,1 +1,2 @@
 blue_nebula.jpg: http://scifistock.deviantart.com/gallery/?set=24361287&offset=120#/d2lho3n
+space_skybox_(dir).png: http://forum.unity3d.com/threads/99258-Space-Skybox

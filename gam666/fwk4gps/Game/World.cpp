@@ -23,7 +23,8 @@
 #include "GameObjects\Player.h"
 #include "GameObjects\Floor.h"
 
-World::World(Game* game) : Coordinator(game->handle, game->show), numberOfPlayers(1) {
+World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
+    numberOfPlayers(1), map(map) {
   this->game = game;
   physics = new PhysicsWorld(this);
 }
@@ -64,21 +65,19 @@ void World::initializeLighting() {
 }
 
 void World::initializeObjects() {
-  iObject* bg = CreateSprite(L"blue_nebula.jpg");
-  initializeFloors();
+  const wchar_t* files[] = {
+    L"space_sky_front.png", L"space_sky_left.png",
+    L"space_sky_back.png", L"space_sky_right.png",
+    L"space_sky_down.png", L"space_sky_up.png",
+  };
+  skybox = CreateSkybox(files);
+  map.create(this);
   for (int i=0; i<numberOfPlayers; ++i) {
     Player* player = new Player(this, i);
     if (!i) currentCam = player->getCamera();
     players.push_back(player);
     add(player);
   }
-}
-
-void World::initializeFloors() {
-  addFloor(Vector(0, -10, 0), Vector(20, 1, 20));
-  addFloor(Vector(500, -10, 0), Vector(5, 5, 5), Vector(100, 100, 100));
-  addFloor(Vector(0, 140, 0), Vector(5, 1, 5));
-  addFloor(Vector(0, -10, 250), Vector(5, 9, 5));
 }
 
 void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
@@ -137,9 +136,10 @@ void World::add(GameObject* gameObject) {
 }
 
 void World::remove(GameObject* gameObject) {
-  for (int i=0, length=gameObjects.size(); i<length; ++i) {
+  for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i) {
     if (gameObjects[i] == gameObject) {
       gameObjects.erase(gameObjects.begin() + i);
+      Coordinator::remove(gameObject->model);
     }
   }
 }

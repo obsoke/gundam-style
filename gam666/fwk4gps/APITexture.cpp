@@ -24,7 +24,7 @@ iAPITexture* CreateAPITexture(const wchar_t* file, unsigned key) {
 
 // constructor initializes the texture identifier
 //
-APITexture::APITexture(const wchar_t* file, unsigned k) : key(k) {
+APITexture::APITexture(const wchar_t* file, unsigned k) : key(k), addressing(1) {
 
 	if (file) {
         int len = strlen(file);
@@ -103,6 +103,7 @@ void APITexture::attach(int w, int h) {
         texture = tex;
         d3dd->SetTexture(0, tex);
         setSamplerState(filter);
+        setAddressingState(addressing ? addressing : 1);
     }
 }
 
@@ -155,6 +156,15 @@ void APITexture::setSamplerState(unsigned flags) const {
     else if (flags & TEX_MAG_LINEAR)
         d3dd->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
     else if (flags & TEX_MAG_ANISOTROPIC)
-        d3dd->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_ANISOTROPIC); 
+        d3dd->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_ANISOTROPIC);
 }
 
+void APITexture::setAddressingState(unsigned flags) {
+  if (flags & D3DTADDRESS_CLAMP) {
+    d3dd->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);   
+    d3dd->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP); 
+  } else if (flags & D3DTADDRESS_WRAP) {
+    d3dd->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);   
+    d3dd->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+  }
+}

@@ -34,6 +34,7 @@ class Texture : public iTexture {
 	// execution
     static void setAnisotropy(int);
     void setFilter(unsigned) const;
+    void setAddressing(unsigned) const;
     void attach(int, int);
     void detach();
 	// termination
