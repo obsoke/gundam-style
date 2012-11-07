@@ -19,6 +19,7 @@ class iAPITexture {
     virtual iAPITexture* clone() const = 0;
 	// execution
     virtual void setFilter(unsigned)   = 0;
+    virtual void setAddressing(unsigned flags) = 0;
     virtual void attach(int, int)      = 0;
     virtual void detach()              = 0;
 	// termination

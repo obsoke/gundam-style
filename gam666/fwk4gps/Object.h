@@ -27,6 +27,7 @@ class Object : public iObject  {
     Reflectivity  reflectivity;  // material reflectivity
 	iTexture*     texture;       // points to attached texture
 	unsigned      flags;         // texture sampling flags
+	unsigned      texAddr;         // texture sampling flags
 
   protected:
     virtual       ~Object();
@@ -44,6 +45,7 @@ class Object : public iObject  {
     float radius() const;
     AABB getAABB() const;
     void setTextureFilter(unsigned f)      { flags = f; }
+    void setTextureAddressing(unsigned f) { texAddr = f; }
     bool belongsTo(Category c) const       { return c == category; }
     void render();
     void Delete() const { delete this; }
