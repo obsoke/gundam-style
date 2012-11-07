@@ -37,6 +37,10 @@ void World::initialize() {
   initializeObjects();
   initializeHUD();
   createProjection();
+  
+  //maybe these can be defined depending on the map?
+  boundary.minimum = Vector(WORLDX1, WORLDY1, WORLDZ1);
+  boundary.maximum = Vector(WORLDX2, WORLDY2, WORLDZ2);  
 }
 
 void World::initializeHUD() {
@@ -91,14 +95,11 @@ void World::updateWorld() {
   for (int i=0, length=gameObjects.size(); i<length; ++i) {
     gameObjects[i]->update();
 
-	//check if the game object leaves the boundary, reverse speed if it does
-	Vector tmp = gameObjects[i]->position();
-
-	//check all 6 sides
-	if (tmp.x > WORLDX2 || tmp.x < WORLDX1 || tmp.y > WORLDY2 || tmp.y < WORLDY1 || tmp.z > WORLDZ2 || tmp.z < WORLDZ1) {
-		gameObjects[i]->hitBoundary();
+	//check if the game object leaves the boundary
+	if (!gameObjects[i]->collides(boundary)) {
+		if (!gameObjects[i]->hitBoundary()) //if it returns 0, destroy the object
+			remove(gameObjects[i]);
 	}
-
   }
 }
 

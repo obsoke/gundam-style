@@ -40,9 +40,26 @@ void Player::recoverThrusters() {
   }
 }
 
-void Player::hitBoundary() {
-	setSpeed(0, 0, 0);	
+int Player::hitBoundary() {
+	Vector tmpPlr = position();	
+	AABB tmpWrd = world->getBoundary();
 
-	Player::~Player() {
+	//which plane did we hit?
+	if (tmpPlr.x < tmpWrd.minimum.x)
+		setTranslation(tmpWrd.minimum.x, tmpPlr.y, tmpPlr.z);
+	if (tmpPlr.x > tmpWrd.maximum.x)
+		setTranslation(tmpWrd.maximum.x, tmpPlr.y, tmpPlr.z);
+	if (tmpPlr.y < tmpWrd.minimum.y)
+		setTranslation(tmpPlr.x, tmpWrd.minimum.y, tmpPlr.z);
+	if (tmpPlr.y > tmpWrd.maximum.y)
+		setTranslation(tmpPlr.x, tmpWrd.maximum.y, tmpPlr.z);
+	if (tmpPlr.z < tmpWrd.minimum.z)
+		setTranslation(tmpPlr.x, tmpPlr.y, tmpWrd.minimum.z);
+	if (tmpPlr.z > tmpWrd.maximum.z)
+		setTranslation(tmpPlr.x, tmpPlr.y, tmpWrd.maximum.z);
+	return 1;
+}
+
+Player::~Player() {
   if (camera) delete camera;
 }

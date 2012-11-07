@@ -81,8 +81,9 @@ void GameObject::setRotation(const Vector& axis, float angle, bool sendToPhysics
   }
 }
 
-void GameObject::hitBoundary()
+int GameObject::hitBoundary()
 {
+	return 0;
 }
 
 void GameObject::resetRotation() { 

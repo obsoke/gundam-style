@@ -41,7 +41,7 @@ public:
   virtual bool collides(const AABB& other);
   virtual Vector center() { return position(); };
   virtual void update();
-  virtual void hitBoundary();
+  virtual int hitBoundary();
 };
 
 #endif
