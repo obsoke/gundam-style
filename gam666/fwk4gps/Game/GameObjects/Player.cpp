@@ -41,12 +41,16 @@ void Player::recoverThrusters() {
 }
 
 int Player::hitBoundary() {
-	Vector tmpPlr = position();	
+	Vector tmpPlr = position();
+	Vector tmpSpd = speed;
 	AABB tmpWrd = world->getBoundary();
 
 	//which plane did we hit?
-	if (tmpPlr.x < tmpWrd.minimum.x)
+	if (tmpPlr.x < tmpWrd.minimum.x) {
 		setTranslation(tmpWrd.minimum.x, tmpPlr.y, tmpPlr.z);
+		//setSpeed(speed.x, speed.y, speed.z);
+		//setSpeed(tmpSpd);
+	}
 	if (tmpPlr.x > tmpWrd.maximum.x)
 		setTranslation(tmpWrd.maximum.x, tmpPlr.y, tmpPlr.z);
 	if (tmpPlr.y < tmpWrd.minimum.y)
