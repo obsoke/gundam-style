@@ -48,7 +48,7 @@ public:
   iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
 	  unsigned char a = '\xFF');
   void setBoundary(AABB b) { boundary = b; }
-  AABB getBoundary() { return boundary; }
+  const AABB& getBoundary() { return boundary; }
 };
 
 #endif
