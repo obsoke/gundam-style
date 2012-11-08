@@ -2,14 +2,14 @@
 #define _MODEL_H_
 
 /* Internal Settings local to the Modelling Layer
- *
- * Model.h
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* Model.h
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 // File Directories
 #define AUDIO_DIRECTORY   L"..\\..\\resources\\audio"
@@ -95,12 +95,12 @@
 // Object categories
 //
 typedef enum Category {
-    LIT_OBJECT,
-    SPRITE,
-    OPAQUE_OBJECT,
-    TRANSLUCENT_OBJECT,
-    ALL_HUDS,
-    ALL_SOUNDS,
+  LIT_OBJECT,
+  SPRITE,
+  OPAQUE_OBJECT,
+  TRANSLUCENT_OBJECT,
+  ALL_HUDS,
+  ALL_SOUNDS,
 } Category;
 
 #endif
