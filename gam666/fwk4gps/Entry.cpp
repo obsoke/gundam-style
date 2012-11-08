@@ -1,12 +1,12 @@
 /* An Open Instructional Framework for Game Programming Students
- *
- * Entry.cpp
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* Entry.cpp
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> // for WinMain and Windows Types
@@ -17,6 +17,6 @@
 //
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cp, int show) {
 
-    Game game(hinst, show);
+  Game game(hinst, show);
 
 }

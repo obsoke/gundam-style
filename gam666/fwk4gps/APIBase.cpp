@@ -1,12 +1,12 @@
 /* API Base Implementation - Translation Layer
- *
- * APIBase.cpp
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* APIBase.cpp
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -48,28 +48,28 @@ bool                APIBase::runinwndw   = true;
 //
 void APIBase::logError(const wchar_t* msg) {
 
-    std::wofstream fp("error.log", std::ios::app);
-    if (fp) {
-         fp << msg << std::endl;
-         fp.close();
-    }
+  std::wofstream fp("error.log", std::ios::app);
+  if (fp) {
+    fp << msg << std::endl;
+    fp.close();
+  }
 }
 
 // error pops up a Message Box displaying msg and adds the message to log file
 //
 void APIBase::error(const wchar_t* msg, const wchar_t* more) {
 
-    int len = strlen(msg);
-    if (more) len += strlen(more);
-    wchar_t* str = new wchar_t[len + 1];
-	strcpy(str, msg, len);
-	if (more) strcat(str, more, len);
+  int len = strlen(msg);
+  if (more) len += strlen(more);
+  wchar_t* str = new wchar_t[len + 1];
+  strcpy(str, msg, len);
+  if (more) strcat(str, more, len);
 
-    if (hwnd)
-        MessageBox((HWND)hwnd, str, L"Error", MB_OK);
+  if (hwnd)
+    MessageBox((HWND)hwnd, str, L"Error", MB_OK);
 
-    logError(str);
+  logError(str);
 
-    delete [] str;
+  delete [] str;
 }
 
