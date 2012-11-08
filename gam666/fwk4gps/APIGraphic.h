@@ -2,14 +2,14 @@
 #define _API_GRAPHIC_H_
 
 /* APIGraphic Definition - Translation Layer
- *
- * APIGraphic.h
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* APIGraphic.h
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 #include "APIPlatform.h" // for API headers
 #include "APIBase.h"     // for the APIBase class definition
@@ -25,14 +25,14 @@ struct AABB;
 template <class T = Vertex>
 class APIVertexDeclaration {
 
-    static D3DVERTEXELEMENT9 fmt[MAXD3DDECLLENGTH + 1];
-    static unsigned vertexSize;
-    static bool     isLit;
+  static D3DVERTEXELEMENT9 fmt[MAXD3DDECLLENGTH + 1];
+  static unsigned vertexSize;
+  static bool     isLit;
 
 public:
-    static D3DVERTEXELEMENT9* format() { return fmt; }
-    static unsigned size()             { return vertexSize; }
-    static bool     lit()              { return isLit; }
+  static D3DVERTEXELEMENT9* format() { return fmt; }
+  static unsigned size()             { return vertexSize; }
+  static bool     lit()              { return isLit; }
 };
 
 //-------------------------------- APIGraphic ---------------------------------
@@ -41,27 +41,27 @@ public:
 //
 class APIGraphic : public iAPIGraphic, public APIBase {
 
-    ID3DXSprite* sprite;  // points to the interface to sprite COM object
-    bool         ready;   // sprite is ready to display graphics?
+  ID3DXSprite* sprite;  // points to the interface to sprite COM object
+  bool         ready;   // sprite is ready to display graphics?
 
-  protected:
-    virtual ~APIGraphic();
-    void    setup();
+protected:
+  virtual ~APIGraphic();
+  void    setup();
 
-  public:
-    APIGraphic();
-    APIGraphic(const APIGraphic&);
-    APIGraphic& operator=(const APIGraphic&);
-    iAPIGraphic* clone() const { return new APIGraphic(*this); }
-    void setWorld(const void*);
-    void setReflectivity(const void*);
-    void beginDraw();
-    void render(int, int, unsigned char);
-    void draw() {}
-    void endDraw();
-    void suspend();
-    void release();
-    void Delete() const { delete this; }
+public:
+  APIGraphic();
+  APIGraphic(const APIGraphic&);
+  APIGraphic& operator=(const APIGraphic&);
+  iAPIGraphic* clone() const { return new APIGraphic(*this); }
+  void setWorld(const void*);
+  void setReflectivity(const void*);
+  void beginDraw();
+  void render(int, int, unsigned char);
+  void draw() {}
+  void endDraw();
+  void suspend();
+  void release();
+  void Delete() const { delete this; }
 };
 
 //-------------------------------- APIVertexList ------------------------------
@@ -73,33 +73,33 @@ struct IDirect3DVertexBuffer9;
 template <class T = Vertex>
 class APIVertexList : public APIGraphic {
 
-    D3DPRIMITIVETYPE        type;        // primitive type
-    IDirect3DVertexBuffer9* vb;          // points to the vertex buffer
-    IDirect3DVertexDeclaration9* vDecl;  // vertex declaration 
-    unsigned                nPrimitives; // number of primitives
-    unsigned                maxNo;       // maximum number of vertices
-    T*                      vertex;      // points to the array of vertices
-    unsigned                nVertices;   // number of vertices
+  D3DPRIMITIVETYPE        type;        // primitive type
+  IDirect3DVertexBuffer9* vb;          // points to the vertex buffer
+  IDirect3DVertexDeclaration9* vDecl;  // vertex declaration 
+  unsigned                nPrimitives; // number of primitives
+  unsigned                maxNo;       // maximum number of vertices
+  T*                      vertex;      // points to the array of vertices
+  unsigned                nVertices;   // number of vertices
 
-  protected:
-    virtual ~APIVertexList()                { release(); delete [] vertex; }
-    void     setup();
-    unsigned attach();
+protected:
+  virtual ~APIVertexList()                { release(); delete [] vertex; }
+  void     setup();
+  unsigned attach();
 
-  public:
-    APIVertexList() : vertex(nullptr), vb(nullptr) {}
-    APIVertexList(PrimitiveType, unsigned);
-    APIVertexList& operator=(const APIVertexList&);
-    APIVertexList(const APIVertexList& src) { vertex = nullptr; vb = nullptr;
-                                              vDecl = nullptr; *this = src; } 
-    APIVertexList* clone() const            { return new APIVertexList(*this); }
-    AABB calcAABB();
-    virtual unsigned add(const T& v);
-    Vector  position(unsigned i) const      { return vertex[i].position(); }
-    void    draw();
-    void    suspend();
-    void    release()                       { suspend(); }
-    void    Delete() const                  { delete this; }
+public:
+  APIVertexList() : vertex(nullptr), vb(nullptr) {}
+  APIVertexList(PrimitiveType, unsigned);
+  APIVertexList& operator=(const APIVertexList&);
+  APIVertexList(const APIVertexList& src) { vertex = nullptr; vb = nullptr;
+  vDecl = nullptr; *this = src; } 
+  APIVertexList* clone() const            { return new APIVertexList(*this); }
+  AABB calcAABB();
+  virtual unsigned add(const T& v);
+  Vector  position(unsigned i) const      { return vertex[i].position(); }
+  void    draw();
+  void    suspend();
+  void    release()                       { suspend(); }
+  void    Delete() const                  { delete this; }
 };
 
 template <class T>
@@ -126,53 +126,53 @@ AABB APIVertexList<T>::calcAABB() {
 template <class T>
 APIVertexList<T>* CreateAPIVertexList(PrimitiveType t, int np) {
 
-    return new APIVertexList<T>(t, np);
+  return new APIVertexList<T>(t, np);
 }
 
 // constructor allocates memory for the list
 //
 template <class T>
 APIVertexList<T>::APIVertexList(PrimitiveType t, unsigned np) : 
- nPrimitives(np), nVertices(0), vb(nullptr) {
+nPrimitives(np), nVertices(0), vb(nullptr) {
 
-    if (np <= 0) {
-        maxNo  = 0;
-        vertex = nullptr;
+  if (np <= 0) {
+    maxNo  = 0;
+    vertex = nullptr;
+  }
+  else {
+    // Determine the number of vertices for the Primitive Type
+    switch (t) {
+    case POINT_LIST:     
+      maxNo = np;     
+      type = D3DPT_POINTLIST;     
+      break;
+    case LINE_LIST:      
+      maxNo = 2 * np; 
+      type = D3DPT_LINELIST;      
+      break;
+    case LINE_STRIP:     
+      maxNo = np + 1; 
+      type = D3DPT_LINESTRIP;     
+      break;
+    case TRIANGLE_LIST:  
+      maxNo = 3 * np; 
+      type = D3DPT_TRIANGLELIST;  
+      break;
+    case TRIANGLE_STRIP: 
+      maxNo = np + 2; 
+      type = D3DPT_TRIANGLESTRIP; 
+      break;
+    case TRIANGLE_FAN:   
+      maxNo = np + 1; 
+      type = D3DPT_TRIANGLEFAN;   
+      break;
+    default:             
+      maxNo = np;     
+      type = D3DPT_POINTLIST;
     }
-    else {
-        // Determine the number of vertices for the Primitive Type
-        switch (t) {
-            case POINT_LIST:     
-                maxNo = np;     
-                type = D3DPT_POINTLIST;     
-                break;
-            case LINE_LIST:      
-                maxNo = 2 * np; 
-                type = D3DPT_LINELIST;      
-                break;
-            case LINE_STRIP:     
-                maxNo = np + 1; 
-                type = D3DPT_LINESTRIP;     
-                break;
-            case TRIANGLE_LIST:  
-                maxNo = 3 * np; 
-                type = D3DPT_TRIANGLELIST;  
-                break;
-            case TRIANGLE_STRIP: 
-                maxNo = np + 2; 
-                type = D3DPT_TRIANGLESTRIP; 
-                break;
-            case TRIANGLE_FAN:   
-                maxNo = np + 1; 
-                type = D3DPT_TRIANGLEFAN;   
-                break;
-            default:             
-                maxNo = np;     
-                type = D3DPT_POINTLIST;
-        }
-        vertex = new T[maxNo];
-    }
-    vDecl = nullptr;
+    vertex = new T[maxNo];
+  }
+  vDecl = nullptr;
 }
 
 // assignment operator copies the vertex list
@@ -180,42 +180,42 @@ APIVertexList<T>::APIVertexList(PrimitiveType t, unsigned np) :
 template <class T>
 APIVertexList<T>& APIVertexList<T>::operator=(const APIVertexList<T>& src) {
 
-    if (this != &src) {
-        maxNo       = src.maxNo;
-        nPrimitives = src.nPrimitives;
-        nVertices   = src.nVertices;
-        type        = src.type;
-        (APIGraphic&)(*this) = src;
-        if (vertex) {
-            delete [] vertex;
-            vertex = nullptr;
-        }
-        vertex = new T[nVertices];
-        for (unsigned i = 0; i < nVertices; i++)
-            vertex[i] = src.vertex[i];
-        if (vb) {
-            vb->Release();
-            vb = nullptr;
-        }
-        if (vDecl) {
-            vDecl->Release();
-            vDecl = nullptr;
-        }
+  if (this != &src) {
+    maxNo       = src.maxNo;
+    nPrimitives = src.nPrimitives;
+    nVertices   = src.nVertices;
+    type        = src.type;
+    (APIGraphic&)(*this) = src;
+    if (vertex) {
+      delete [] vertex;
+      vertex = nullptr;
     }
+    vertex = new T[nVertices];
+    for (unsigned i = 0; i < nVertices; i++)
+      vertex[i] = src.vertex[i];
+    if (vb) {
+      vb->Release();
+      vb = nullptr;
+    }
+    if (vDecl) {
+      vDecl->Release();
+      vDecl = nullptr;
+    }
+  }
 
-    return *this;
+  return *this;
 }
 
 // add adds vertex v to the vertex list if there is room
 //
 template <class T>
 unsigned APIVertexList<T>::add(const T& v) { 
-    unsigned n = nVertices;
+  unsigned n = nVertices;
 
-    if (nVertices < maxNo) 
-        vertex[nVertices++] = v;
-    
-    return n;
+  if (nVertices < maxNo) 
+    vertex[nVertices++] = v;
+
+  return n;
 }
 
 // setup creates the vertex buffer and populates it
@@ -223,29 +223,29 @@ unsigned APIVertexList<T>::add(const T& v) {
 template <class T>
 void APIVertexList<T>::setup() {
 
-    unsigned vBufSize = APIVertexDeclaration<T>::size() * nVertices;
+  unsigned vBufSize = APIVertexDeclaration<T>::size() * nVertices;
 
-    if (FAILED(d3dd->CreateVertexDeclaration(APIVertexDeclaration<T>::format(),
-     &vDecl)))
-        error(L"APIVertexList::07 Unable to create vertex declaration");
-	// create the vertex buffer
-    else if (!nVertices) {
-        error(L"APIVertexList::09 No vertices have been stored");
-        vb = nullptr;
-    }
-    else if (FAILED(d3dd->CreateVertexBuffer(vBufSize, 0, 0, D3DPOOL_DEFAULT,
-     &vb, nullptr))) {
-        error(L"APIVertexList::11 Couldn\'t create the vertex buffer");
-        vb = nullptr;
-    }
-    // populate the newly created vertex buffer
-    else {
-        void* pv;
-        if (SUCCEEDED(vb->Lock(0, vBufSize, &pv, 0)))
-            for (unsigned i = 0; i < nVertices; i++)
-                vertex[i].populate(&pv);
-        vb->Unlock();
-    }
+  if (FAILED(d3dd->CreateVertexDeclaration(APIVertexDeclaration<T>::format(),
+    &vDecl)))
+    error(L"APIVertexList::07 Unable to create vertex declaration");
+  // create the vertex buffer
+  else if (!nVertices) {
+    error(L"APIVertexList::09 No vertices have been stored");
+    vb = nullptr;
+  }
+  else if (FAILED(d3dd->CreateVertexBuffer(vBufSize, 0, 0, D3DPOOL_DEFAULT,
+    &vb, nullptr))) {
+      error(L"APIVertexList::11 Couldn\'t create the vertex buffer");
+      vb = nullptr;
+  }
+  // populate the newly created vertex buffer
+  else {
+    void* pv;
+    if (SUCCEEDED(vb->Lock(0, vBufSize, &pv, 0)))
+      for (unsigned i = 0; i < nVertices; i++)
+        vertex[i].populate(&pv);
+    vb->Unlock();
+  }
 }
 
 // attach attaches the stream of vertices to the pipeline and returns the
@@ -254,14 +254,14 @@ void APIVertexList<T>::setup() {
 template <class T>
 unsigned APIVertexList<T>::attach() {
 
-    if (!vb) setup();
+  if (!vb) setup();
 
-    if (vb) {
-        d3dd->SetVertexDeclaration(vDecl);
-        d3dd->SetStreamSource(0, vb, 0, APIVertexDeclaration<T>::size());
-    }
+  if (vb) {
+    d3dd->SetVertexDeclaration(vDecl);
+    d3dd->SetStreamSource(0, vb, 0, APIVertexDeclaration<T>::size());
+  }
 
-    return nVertices;
+  return nVertices;
 }
 
 // draw attaches and draws the stream of vertices
@@ -269,10 +269,10 @@ unsigned APIVertexList<T>::attach() {
 template <class T>
 void APIVertexList<T>::draw() {
 
-    attach();
+  attach();
 
-    if (vb)
-        d3dd->DrawPrimitive(type, 0, nPrimitives);
+  if (vb)
+    d3dd->DrawPrimitive(type, 0, nPrimitives);
 }
 
 // suspend releases the interface to the vertex buffer
@@ -280,14 +280,14 @@ void APIVertexList<T>::draw() {
 template <class T>
 void APIVertexList<T>::suspend() {
 
-    if (vb) {
-        vb->Release();
-        vb = nullptr;
-    }
-    if (vDecl) {
-        vDecl->Release();
-        vDecl = nullptr;
-    }
+  if (vb) {
+    vb->Release();
+    vb = nullptr;
+  }
+  if (vDecl) {
+    vDecl->Release();
+    vDecl = nullptr;
+  }
 }
 
 #endif

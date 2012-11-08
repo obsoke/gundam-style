@@ -2,14 +2,14 @@
 #define _I_COORDINATOR_H_
 
 /* Coordinator Interface - Modelling Layer
- *
- * iCoordinator.h
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* iCoordinator.h
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 #include "Base.h" // for the Base class definition
 
@@ -29,39 +29,39 @@ enum  Action;
 enum  ModelSound;
 
 class iCoordinator : public Base {
-  public:
-	// initialization
-    virtual void initialize()            = 0;
-    virtual void add(iObject* o)         = 0;
-    virtual void add(iTexture* t)        = 0;
-    virtual void add(iLight* l)          = 0;
-    virtual void add(iCamera* c)         = 0;
-    virtual void add(iSound* s)          = 0;
-    virtual void add(iGraphic* v)        = 0;
-    virtual void add(iText* t)           = 0;
-    virtual void add(iHUD* h)            = 0;
-    virtual void reset()                 = 0;
-	// execution
-    virtual void update()                = 0;
-    virtual bool pressed(Action a, unsigned deviceNumber = 0) const = 0;
-    virtual bool ptrPressed() const      = 0;
-    virtual bool ctrPressed() const      = 0;
-    virtual int  change(Action a, unsigned deviceNumber = 0) const  = 0;
-    virtual void release(Action)         = 0;
-    virtual void resize()                = 0;
-	virtual int  run()                   = 0;
-	// termination
-	virtual void remove(iObject* o)      = 0;
-	virtual void remove(iTexture* t)     = 0;
-	virtual void remove(iLight* l)       = 0;
-    virtual void remove(iCamera* c)      = 0;
-    virtual void remove(iSound* s)       = 0;
-    virtual void remove(iGraphic* v)     = 0;
-    virtual void remove(iText* t)        = 0;
-    virtual void remove(iHUD* h)         = 0;
-    virtual void suspend()               = 0;
-    virtual void restore()               = 0;
-    virtual void release()               = 0;
+public:
+  // initialization
+  virtual void initialize()            = 0;
+  virtual void add(iObject* o)         = 0;
+  virtual void add(iTexture* t)        = 0;
+  virtual void add(iLight* l)          = 0;
+  virtual void add(iCamera* c)         = 0;
+  virtual void add(iSound* s)          = 0;
+  virtual void add(iGraphic* v)        = 0;
+  virtual void add(iText* t)           = 0;
+  virtual void add(iHUD* h)            = 0;
+  virtual void reset()                 = 0;
+  // execution
+  virtual void update()                = 0;
+  virtual bool pressed(Action a, unsigned deviceNumber = 0) const = 0;
+  virtual bool ptrPressed() const      = 0;
+  virtual bool ctrPressed() const      = 0;
+  virtual int  change(Action a, unsigned deviceNumber = 0) const  = 0;
+  virtual void release(Action)         = 0;
+  virtual void resize()                = 0;
+  virtual int  run()                   = 0;
+  // termination
+  virtual void remove(iObject* o)      = 0;
+  virtual void remove(iTexture* t)     = 0;
+  virtual void remove(iLight* l)       = 0;
+  virtual void remove(iCamera* c)      = 0;
+  virtual void remove(iSound* s)       = 0;
+  virtual void remove(iGraphic* v)     = 0;
+  virtual void remove(iText* t)        = 0;
+  virtual void remove(iHUD* h)         = 0;
+  virtual void suspend()               = 0;
+  virtual void restore()               = 0;
+  virtual void release()               = 0;
 };
 
 iCoordinator* CoordinatorAddress();

@@ -2,14 +2,14 @@
 #define _I_UTILITIES_H_
 
 /* Interface for the Utilities
- *
- * iUtilities.h
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* iUtilities.h
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 // general utilities
 void logError(const wchar_t*);

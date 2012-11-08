@@ -4,11 +4,11 @@
 #include "..\..\Camera.h"
 
 Player::Player(World* world, int id) : GameObject(world), 
-    thruster(300), id(id), thrusterCooldown(0), 
-    cameraDistance(Vector(0, 40, -100)) { 
-  createCamera();
-  physics = new PhysicsObject(world->physics, this);
-  physics->stayUpright = true;
+  thruster(300), id(id), thrusterCooldown(0), 
+  cameraDistance(Vector(0, 40, -100)) { 
+    createCamera();
+    physics = new PhysicsObject(world->physics, this);
+    physics->stayUpright = true;
 };
 
 void Player::createCamera() {
@@ -25,11 +25,11 @@ void Player::update() {
 }
 
 void Player::useThruster(int amount) {
-    thruster -= amount;
-    if (thruster <= 0) {
-      thruster = 0;
-      thrusterCooldown = 200;
-    }
+  thruster -= amount;
+  if (thruster <= 0) {
+    thruster = 0;
+    thrusterCooldown = 200;
+  }
 }
 
 void Player::recoverThrusters() {
