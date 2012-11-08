@@ -22,7 +22,7 @@ public:
   void update();
   void useThruster(int amount);
   void recoverThrusters();
-  int hitBoundary();
+  int hitBoundary() { return stayInBounds(); };
   void createCamera();
   iCamera* getCamera() { return camera; };
 };
