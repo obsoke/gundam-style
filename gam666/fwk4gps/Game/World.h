@@ -12,14 +12,6 @@ class Player;
 class Floor;
 struct Viewport;
 
-//random values to create the boundaries of the environment in a cube
-#define WORLDX1 -20
-#define WORLDY1 -500
-#define WORLDZ1 -50
-#define WORLDX2 1900
-#define WORLDY2 5000
-#define WORLDZ2 1900
-
 class World : public Coordinator {
   iLight* defaultLight;
   int numberOfPlayers;
@@ -55,6 +47,7 @@ public:
   unsigned int getDelta() { return now - lastUpdate; };
   iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
 	  unsigned char a = '\xFF');
+  void setBoundary(AABB b) { boundary = b; }
   AABB getBoundary() { return boundary; }
 };
 

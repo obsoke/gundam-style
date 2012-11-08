@@ -40,27 +40,37 @@ void Player::recoverThrusters() {
   }
 }
 
-int Player::hitBoundary() {
-	Vector tmpPlr = position();
-	Vector tmpSpd = speed;
+int Player::hitBoundary() {   //Player is completely outside boundary, move back inside
 	AABB tmpWrd = world->getBoundary();
-
-	//which plane did we hit?
-	if (tmpPlr.x < tmpWrd.minimum.x) {
-		setTranslation(tmpWrd.minimum.x, tmpPlr.y, tmpPlr.z);
-		//setSpeed(speed.x, speed.y, speed.z);
-		//setSpeed(tmpSpd);
+	AABB tmpPlr = getAABB();
+	
+	if (tmpPlr.maximum.x < tmpWrd.minimum.x) {  //outside the minimum xy plane
+		tmpPlr.minimum.x -= (tmpPlr.maximum.x - tmpWrd.minimum.x);
+		tmpPlr.maximum.x = tmpWrd.minimum.x;
 	}
-	if (tmpPlr.x > tmpWrd.maximum.x)
-		setTranslation(tmpWrd.maximum.x, tmpPlr.y, tmpPlr.z);
-	if (tmpPlr.y < tmpWrd.minimum.y)
-		setTranslation(tmpPlr.x, tmpWrd.minimum.y, tmpPlr.z);
-	if (tmpPlr.y > tmpWrd.maximum.y)
-		setTranslation(tmpPlr.x, tmpWrd.maximum.y, tmpPlr.z);
-	if (tmpPlr.z < tmpWrd.minimum.z)
-		setTranslation(tmpPlr.x, tmpPlr.y, tmpWrd.minimum.z);
-	if (tmpPlr.z > tmpWrd.maximum.z)
-		setTranslation(tmpPlr.x, tmpPlr.y, tmpWrd.maximum.z);
+	if (tmpPlr.minimum.x > tmpWrd.maximum.x) {  //outside the maximum xy plane
+		tmpPlr.maximum.x -= (tmpPlr.minimum.x - tmpWrd.maximum.x);
+		tmpPlr.minimum.x = tmpWrd.maximum.x;
+	}
+	if (tmpPlr.maximum.z < tmpWrd.minimum.z) {  //outside the minimum zy plane
+		tmpPlr.minimum.z -= (tmpPlr.maximum.z - tmpWrd.minimum.z);
+		tmpPlr.maximum.z = tmpWrd.minimum.z;
+	}
+	if (tmpPlr.minimum.z > tmpWrd.maximum.z) {  //outside the maximum zy plane
+		tmpPlr.maximum.z -= (tmpPlr.minimum.z - tmpWrd.maximum.z);
+		tmpPlr.minimum.z = tmpWrd.maximum.z;
+	}
+	if (tmpPlr.maximum.y < tmpWrd.minimum.y) {  //outside the minimum xy plane
+		tmpPlr.minimum.y -= (tmpPlr.maximum.y - tmpWrd.minimum.y);
+		tmpPlr.maximum.y = tmpWrd.minimum.y;
+	}
+	if (tmpPlr.minimum.y > tmpWrd.maximum.y) {  //outside the maximum xy plane
+		tmpPlr.maximum.y -= (tmpPlr.minimum.y - tmpWrd.maximum.y);
+		tmpPlr.minimum.y = tmpWrd.maximum.y;
+	}
+
+	setTranslation(tmpPlr.center());
+
 	return 1;
 }
 

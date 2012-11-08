@@ -38,10 +38,6 @@ void World::initialize() {
   initializeObjects();
   initializeHUD();
   createProjection();
-  
-  //maybe these can be defined depending on the map?
-  boundary.minimum = Vector(WORLDX1, WORLDY1, WORLDZ1);
-  boundary.maximum = Vector(WORLDX2, WORLDY2, WORLDZ2);  
 }
 
 void World::initializeHUD() {
