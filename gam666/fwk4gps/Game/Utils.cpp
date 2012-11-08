@@ -9,7 +9,7 @@ void debug(std::string output) {
   OutputDebugStringA(output.c_str());
 }
 
-void debug(Vector& v) {
+void debug(const Vector& v) {
   debug(toString(v));
 }
 
@@ -17,7 +17,7 @@ void debug(float f) {
   debug(toString(f));
 }
 
-std::string toString(Vector& v) {
+std::string toString(const Vector& v) {
   std::stringstream ss;
   ss << "{ " << v.x << ", " << v.y << ", " << v.z << " }" << "\n";
   return ss.str();

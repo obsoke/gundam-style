@@ -103,3 +103,41 @@ bool GameObject::collides(GameObject* other) {
 bool GameObject::collides(const AABB& other) {
   return getAABB().intersects(other);
 };
+
+// Keep the game object within an AABB boundary
+int GameObject::stayInBounds(const AABB& boundary) {
+	AABB currentAABB = getAABB();
+	
+	if (currentAABB.maximum.x < boundary.minimum.x) {  //outside the minimum xy plane
+		currentAABB.minimum.x -= (currentAABB.maximum.x - boundary.minimum.x);
+		currentAABB.maximum.x = boundary.minimum.x;
+	}
+	if (currentAABB.minimum.x > boundary.maximum.x) {  //outside the maximum xy plane
+		currentAABB.maximum.x -= (currentAABB.minimum.x - boundary.maximum.x);
+		currentAABB.minimum.x = boundary.maximum.x;
+	}
+	if (currentAABB.maximum.z < boundary.minimum.z) {  //outside the minimum zy plane
+		currentAABB.minimum.z -= (currentAABB.maximum.z - boundary.minimum.z);
+		currentAABB.maximum.z = boundary.minimum.z;
+	}
+	if (currentAABB.minimum.z > boundary.maximum.z) {  //outside the maximum zy plane
+		currentAABB.maximum.z -= (currentAABB.minimum.z - boundary.maximum.z);
+		currentAABB.minimum.z = boundary.maximum.z;
+	}
+	if (currentAABB.maximum.y < boundary.minimum.y) {  //outside the minimum xy plane
+		currentAABB.minimum.y -= (currentAABB.maximum.y - boundary.minimum.y);
+		currentAABB.maximum.y = boundary.minimum.y;
+	}
+	if (currentAABB.minimum.y > boundary.maximum.y) {  //outside the maximum xy plane
+		currentAABB.maximum.y -= (currentAABB.minimum.y - boundary.maximum.y);
+		currentAABB.minimum.y = boundary.maximum.y;
+	}
+
+	setTranslation(currentAABB.center());
+
+	return 1;
+}
+
+int GameObject::stayInBounds() {
+  return stayInBounds(world->getBoundary());
+}

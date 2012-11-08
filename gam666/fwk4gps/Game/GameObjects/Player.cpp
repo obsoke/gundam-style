@@ -40,40 +40,6 @@ void Player::recoverThrusters() {
   }
 }
 
-int Player::hitBoundary() {   //Player is completely outside boundary, move back inside
-	AABB tmpWrd = world->getBoundary();
-	AABB tmpPlr = getAABB();
-	
-	if (tmpPlr.maximum.x < tmpWrd.minimum.x) {  //outside the minimum xy plane
-		tmpPlr.minimum.x -= (tmpPlr.maximum.x - tmpWrd.minimum.x);
-		tmpPlr.maximum.x = tmpWrd.minimum.x;
-	}
-	if (tmpPlr.minimum.x > tmpWrd.maximum.x) {  //outside the maximum xy plane
-		tmpPlr.maximum.x -= (tmpPlr.minimum.x - tmpWrd.maximum.x);
-		tmpPlr.minimum.x = tmpWrd.maximum.x;
-	}
-	if (tmpPlr.maximum.z < tmpWrd.minimum.z) {  //outside the minimum zy plane
-		tmpPlr.minimum.z -= (tmpPlr.maximum.z - tmpWrd.minimum.z);
-		tmpPlr.maximum.z = tmpWrd.minimum.z;
-	}
-	if (tmpPlr.minimum.z > tmpWrd.maximum.z) {  //outside the maximum zy plane
-		tmpPlr.maximum.z -= (tmpPlr.minimum.z - tmpWrd.maximum.z);
-		tmpPlr.minimum.z = tmpWrd.maximum.z;
-	}
-	if (tmpPlr.maximum.y < tmpWrd.minimum.y) {  //outside the minimum xy plane
-		tmpPlr.minimum.y -= (tmpPlr.maximum.y - tmpWrd.minimum.y);
-		tmpPlr.maximum.y = tmpWrd.minimum.y;
-	}
-	if (tmpPlr.minimum.y > tmpWrd.maximum.y) {  //outside the maximum xy plane
-		tmpPlr.maximum.y -= (tmpPlr.minimum.y - tmpWrd.maximum.y);
-		tmpPlr.minimum.y = tmpWrd.maximum.y;
-	}
-
-	setTranslation(tmpPlr.center());
-
-	return 1;
-}
-
 Player::~Player() {
   if (camera) delete camera;
 }
