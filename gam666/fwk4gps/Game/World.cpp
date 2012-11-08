@@ -47,6 +47,8 @@ void World::initializeHUD() {
 
   CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
     Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
+  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
+    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
 }
 
 void World::initializeLighting() {
@@ -84,9 +86,17 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
 }
 
 void World::updateWorld() {
-  physics->update();
+  physics->update();  
   for (int i=0, length=gameObjects.size(); i<length; ++i) {
     gameObjects[i]->update();
+
+	//check if the game object leaves the boundary	
+	if (!gameObjects[i]->collides(boundary)) {
+		if (!gameObjects[i]->hitBoundary()) { //if it returns 0, destroy the object
+			remove (gameObjects[i]);
+			i--; length--;
+		}
+	}
   }
 }
 

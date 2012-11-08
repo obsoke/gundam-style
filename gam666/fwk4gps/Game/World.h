@@ -15,8 +15,8 @@ struct Viewport;
 class World : public Coordinator {
   iLight* defaultLight;
   int numberOfPlayers;
+  AABB boundary;
   Map& map;
-
   void initializeLighting();
   void initializeObjects();
   void initializeHUD();
@@ -47,6 +47,8 @@ public:
   unsigned int getDelta() { return now - lastUpdate; };
   iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
 	  unsigned char a = '\xFF');
+  void setBoundary(AABB b) { boundary = b; }
+  AABB getBoundary() { return boundary; }
 };
 
 #endif
