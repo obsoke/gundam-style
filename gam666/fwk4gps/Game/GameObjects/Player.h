@@ -4,9 +4,13 @@
 #include "..\GameObject.h"
 #include "..\PhysicsObject.h"
 #include "InputComponent.h"
+#include "Weapon.h"
+#include "Projectile.h"
 
 class World;
 class iCamera;
+class Projectile;
+class Weapon;
 
 class Player : public GameObject {
   InputComponent input;
@@ -16,6 +20,9 @@ public:
   int thrusterCooldown;
   int thruster;
   int id;
+  //
+  int health;
+  Weapon* weaponSet[3];
 
   Player(World* world, int id);
   ~Player();
@@ -23,6 +30,11 @@ public:
   void useThruster(int amount);
   void recoverThrusters();
   void createCamera();
+  //
+  void onHit(Projectile* projectile);
+  bool isAlive();
+  void setWeapons();
+  
   iCamera* getCamera() { return camera; };
 };
 

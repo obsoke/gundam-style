@@ -81,6 +81,11 @@ inline Vector normal(const Vector& a) {
     return a / a.length();
 }
 
+inline Vector direction(const Vector& a, const Vector&b)
+{
+	return normal(a - b);
+}
+
 //------------------------------- Matrix --------------------------------------
 //
 struct Matrix {

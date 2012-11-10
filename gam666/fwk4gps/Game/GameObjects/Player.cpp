@@ -2,13 +2,20 @@
 #include "..\World.h"
 #include "..\PhysicsObject.h"
 #include "..\..\Camera.h"
+#include "Weapon.h"
+#include "Projectile.h"
 
 Player::Player(World* world, int id) : GameObject(world), 
-    thruster(300), id(id), thrusterCooldown(0), 
+    thruster(300), id(id), thrusterCooldown(0), health(300),
     cameraDistance(Vector(0, 40, -100)) { 
   createCamera();
   physics = new PhysicsObject(world->physics, this);
   physics->stayUpright = true;
+
+  int cooldownDuration = 10;
+  int maxHeat = 10;
+  int heatPerShot = 10;
+  weaponSet[0] = new Weapon(cooldownDuration, maxHeat, heatPerShot);
 };
 
 void Player::createCamera() {
@@ -19,9 +26,15 @@ void Player::createCamera() {
 }
 
 void Player::update() {
-  recoverThrusters();
-  input.update(world, this);
-  GameObject::update();
+	if(isAlive()){
+		recoverThrusters();
+		input.update(world, this);
+	}
+	else
+	{
+		physics->stayUpright = false;
+	}
+	GameObject::update();
 }
 
 void Player::useThruster(int amount) {
@@ -38,6 +51,16 @@ void Player::recoverThrusters() {
     if (thruster < 250) ++thruster;
     --thrusterCooldown;
   }
+}
+
+void Player::onHit(Projectile* projectile)
+{
+	health -= projectile->owner->projectileDamage;
+	applyForce(projectile->owner->projectileForce * direction(getAABB().center(), projectile->getAABB().center()));
+}
+
+bool Player::isAlive(){
+	return health > 0;
 }
 
 Player::~Player() {

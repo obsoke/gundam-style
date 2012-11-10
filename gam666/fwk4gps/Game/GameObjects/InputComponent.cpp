@@ -23,6 +23,10 @@ void InputComponent::update(World* world, Player* object) {
         dy += delta;
         object->useThruster(10);
     }
+	if (world->pressed(FIRE_WEAPON_1, id))
+	{
+        object->weaponSet[0]->FireProjectile();
+	}
     
     Vector displacement = 
       (float) dx * 300 * object->orientation('x') +

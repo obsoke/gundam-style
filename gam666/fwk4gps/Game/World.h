@@ -9,6 +9,7 @@
 
 class Game;
 class Player;
+class Projectile;
 class Floor;
 struct Viewport;
 
@@ -24,7 +25,9 @@ public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;
   std::vector<Player*> players;
+  std::vector<Projectile*> projectiles;
   std::vector<iObject*> sprites;
+  
   Frame* skybox;
   Game* game;
   PhysicsWorld* physics;

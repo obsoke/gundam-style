@@ -242,7 +242,10 @@ typedef enum Action {
     GF_CT_POSY,
     GF_CT_DSPZ,
     GF_CT_ROTZ,
-    THRUSTER
+    THRUSTER,
+	FIRE_WEAPON_1,
+	FIRE_WEAPON_2,
+	FIRE_WEAPON_3
 } Action;
 
 // user friendly descriptions of actions - used in the dialog box
@@ -308,6 +311,9 @@ typedef enum Action {
     L"Controller Displacement Z", \
     L"Controller Displacement X", \
     L"Thruster", \
+	L"Weapon 1", \
+	L"Weapon 2", \
+	L"Weapon 3" \
 }
 
 // initial mappings of actions to keys
@@ -325,7 +331,8 @@ typedef enum Action {
     KEY_0, KEY_1, KEY_2, \
 	KEY_1, KEY_F3, KEY_F4, KEY_F6, KEY_F7, KEY_W, KEY_S, KEY_F8, KEY_F9, KEY_0, \
     KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, \
-    KEY_SPACE \
+    KEY_SPACE, \
+	KEY_Q, KEY_E, KEY_R \
 }
 
 // initial mappings of pointer objects to actions
