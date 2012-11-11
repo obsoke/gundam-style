@@ -17,7 +17,7 @@ public:
   float projectileForce;
   float projectileLife;
 
-  Projectile::Projectile(World* world, Player* o, float pSpeed);
+  Projectile(World* world, Player* o, float pSpeed);
   void ShootProjectile();
   void OnHit();
   void update();
