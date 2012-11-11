@@ -3,10 +3,10 @@
 #include <sstream>  //for std::istringstream
 #include <iterator> //for std::istream_iterator
 #include <vector>   //for std::vector
-#include "..\..\APIVertex.h"    // for ...Vertex class definitions
-#include "..\Utils.h"
-#include "..\Face.h"
-#include "ObjImporter.h"
+#include "..\APIVertex.h"    // for ...Vertex class definitions
+#include "Utils.h"
+#include "Face.h"
+#include "Utilities\ObjImporter.h"
 using namespace std;
 iGraphic* ObjImporter::ImportObjModel(const char* fileName, std::vector<Vector>* vl, 
 	std::vector<Vector>* vnl, std::vector<Vector>* vtl, std::vector<Face>* fl)
