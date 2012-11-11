@@ -36,6 +36,8 @@ public:
   void setAngularSpeed(const Vector& v);
   void setAngularSpeed(float x, float y, float z) { setAngularSpeed(Vector(x,y,z)); };
   void resetRotation();
+  const Matrix& getMatrix() { return Frame::T; };
+  World* getWorld();
   virtual AABB getAABB();
   virtual bool collides(GameObject* other);
   virtual bool collides(const AABB& other);

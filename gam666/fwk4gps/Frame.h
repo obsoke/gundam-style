@@ -20,8 +20,9 @@
 //
 class Frame {
 
-    Matrix T;       // relative transformation wrt parent frame or world space
-    Frame* parent; // points to parent frame, if any
+    protected: 
+	Matrix T;       // relative transformation wrt parent frame or world space
+	Frame* parent; // points to parent frame, if any
 
   public:
     std::vector<Frame*> children;

@@ -89,6 +89,11 @@ void GameObject::resetRotation() {
   if (physics) physics->resetRotation(); 
 };
 
+World* GameObject::getWorld()
+{
+	return world;
+}
+
 AABB GameObject::getAABB() {
   AABB aabb = model ? model->getAABB() : AABB();
   aabb.minimum = aabb.minimum + position();

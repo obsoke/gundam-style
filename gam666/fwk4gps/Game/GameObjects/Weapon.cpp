@@ -2,35 +2,33 @@
 #include "../GameObject.h"
 #include "../World.h"
 #include "Projectile.h"
+#include "../Utils.h"
 
-Weapon::Weapon(int cdDuration, int mHeat, int hPerShot)
+Weapon::Weapon(Player* o, int cdDuration, int mHeat, int hPerShot)
 {
+  owner = o;
   cooldownDuration = cdDuration;
   maxHeat = mHeat;
   heatPerShot = hPerShot;
   cooldownLeft = 0;
   currentHeat = 0;
-	
-  projectileDamage = 10;
-  projectileForce = 10;
-  projectileSpeed = 10;
-  projectileLife = 30;
 }
 
 void Weapon::FireProjectile()
 {
-	if(currentHeat < maxHeat && cooldownLeft <= 0){
-		Projectile newProjectile(this);
-
-		projectiles.push_back(newProjectile);
-		newProjectile.ShootProjectile();
+	//if(currentHeat < maxHeat && cooldownLeft <= 0){
+		Projectile* proj = new Projectile(owner->getWorld(), owner, 10);
+		projectiles.push_back(proj);
+		proj->setTranslation(owner->position());
+		//proj->setMatrix(owner->getMatrix());
+		proj->ShootProjectile();
 		currentHeat += maxHeat;
 
 		if(!CheckHeat())
 		{
 			cooldownTimer = clock();
 		}
-	}
+	//}
 }
 
 bool Weapon::CheckCoolDown()

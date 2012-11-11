@@ -15,7 +15,7 @@ Player::Player(World* world, int id) : GameObject(world),
   int cooldownDuration = 10;
   int maxHeat = 10;
   int heatPerShot = 10;
-  weaponSet[0] = new Weapon(cooldownDuration, maxHeat, heatPerShot);
+  weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
 };
 
 void Player::createCamera() {
@@ -55,8 +55,8 @@ void Player::recoverThrusters() {
 
 void Player::onHit(Projectile* projectile)
 {
-	health -= projectile->owner->projectileDamage;
-	applyForce(projectile->owner->projectileForce * direction(getAABB().center(), projectile->getAABB().center()));
+	health -= projectile->projectileDamage;
+	applyForce(projectile->projectileForce * direction(getAABB().center(), projectile->getAABB().center()));
 }
 
 bool Player::isAlive(){

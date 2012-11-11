@@ -21,13 +21,9 @@ public:
   Player* owner;
 
   //Projectile Attributes
-  int projectileDamage;
-  float projectileForce;
-  float projectileSpeed;
-  float projectileLife;
-  std::vector<Projectile> projectiles;
+  std::vector<Projectile*> projectiles;
 
-  Weapon(int cdDuration, int mHeat, int hPerShot);
+  Weapon(Player* o, int cdDuration, int mHeat, int hPerShot);
   void FireProjectile();
   bool CheckHeat();
   bool CheckCoolDown();

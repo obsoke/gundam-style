@@ -86,7 +86,7 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
 void World::updateWorld() {
   for (int i=0; i<projectiles.size(); i++) {
     for(int j=0; j<players.size(); j++) {
-	  if(projectiles[i]->owner->owner != players[j] && projectiles[i]->collides(players[i])) {
+	  if(projectiles[i]->owner != players[j] && projectiles[i]->collides(players[i])) {
         
 	  }
 	}
