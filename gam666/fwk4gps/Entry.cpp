@@ -10,15 +10,22 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <iostream>
+#include <vector> 
 #include <windows.h> // for WinMain and Windows Types
 #include "Game\Utilities\ObjImporter.h"
+#include "APIVertex.h"    // for ...Vertex class definitions
+#include "Game\Utils.h"
 
 #include "Game\Game.h"  // for the Design class definition
 
 // Entry point for the Application
 //
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cp, int show) {
-	ObjImporter::ImportObjModel("..\\..\\resources\\assets\\gundam.obj");
+	std::vector<Vector> VertexList;
+	std::vector<Vector> VertexNormalsList;
+	std::vector<Vector> VertexTextureList;
+	std::vector<Vector> FaceList;
+	ObjImporter::ImportObjModel("..\\..\\resources\\assets\\gundam.obj", &VertexList, &VertexNormalsList, &VertexTextureList, &FaceList);
   //Game game(hinst, show);
   return 0;
 }
