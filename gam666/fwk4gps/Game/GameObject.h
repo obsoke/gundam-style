@@ -3,6 +3,7 @@
 
 #include "..\Object.h"
 #include "..\Frame.h"
+#include "Utils.h"
 
 class World;
 class PhysicsObject;
@@ -36,9 +37,11 @@ public:
   void setAngularSpeed(const Vector& v);
   void setAngularSpeed(float x, float y, float z) { setAngularSpeed(Vector(x,y,z)); };
   void resetRotation();
+  World* getWorld();
   virtual AABB getAABB();
   virtual bool collides(GameObject* other);
   virtual bool collides(const AABB& other);
+  virtual void onCollision(GameObject* other) { };
   virtual Vector center() { return position(); };
   virtual void update();
   virtual int hitBoundary() { return 0; };
