@@ -18,8 +18,8 @@ public:
     float projectileLife;
 
 	Projectile::Projectile(World* world, Player* o, float pSpeed);
-	void ShootProjectile();
-	void OnHit();
+	void shootProjectile();
+	void onHit();
 	void update();
 	~Projectile();
 };

@@ -12,8 +12,8 @@ Player::Player(World* world, int id) : GameObject(world),
   physics = new PhysicsObject(world->physics, this);
   physics->stayUpright = true;
 
-  int cooldownDuration = 10;
-  int maxHeat = 10;
+  int cooldownDuration = 1;
+  int maxHeat = 100;
   int heatPerShot = 10;
   weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
 };
@@ -29,6 +29,7 @@ void Player::update() {
 	if(isAlive()){
 		recoverThrusters();
 		input.update(world, this);
+		weaponSet[0]->CheckCoolDown();
 	}
 	else
 	{
@@ -53,8 +54,7 @@ void Player::recoverThrusters() {
   }
 }
 
-void Player::onHit(Projectile* projectile)
-{
+void Player::onHit(Projectile* projectile) {
 	health -= projectile->projectileDamage;
 	applyForce(projectile->projectileForce * direction(getAABB().center(), projectile->getAABB().center()));
 }

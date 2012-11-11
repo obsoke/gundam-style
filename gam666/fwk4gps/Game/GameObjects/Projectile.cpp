@@ -3,40 +3,35 @@
 #include "../../MathDef.h"
 #include "../Utils.h"
 
-Projectile::Projectile(World* world, Player* o, float pSpeed) : GameObject(world)
-{
+Projectile::Projectile(World* world, Player* o, float pSpeed) : GameObject(world) {
 	owner = o;
 	
 	projectileDirection = o->orientation('z');
 	projectileSpeed = pSpeed;
 }
 
-void Projectile::ShootProjectile()
-{
+void Projectile::shootProjectile() {
 	world->projectiles.push_back(this);
 	world->add(this);
 }
 
-void Projectile::OnHit()
-{
+void Projectile::onHit() {
 	//override for special hit effects here
 	world->remove(this);
 }
 
 void Projectile::update() {
-  Matrix matrix;
+  //Matrix matrix(1);
   speed = projectileSpeed * projectileDirection;
-  //const Vector& pos = position();
-  //matrix.translate(pos.x, pos.y, pos.z);
+  /*const Vector& pos = position();
+  matrix.translate(pos.x, pos.y, pos.z);
   matrix.rotatex(projectileDirection.x);
   matrix.rotatey(projectileDirection.y);
   matrix.rotatez(projectileDirection.z);
-  setMatrix(matrix);
+  setMatrix(matrix);*/
   GameObject::update();
-  debug(position());
 }
 
-Projectile::~Projectile()
-{
+Projectile::~Projectile() {
 
 }

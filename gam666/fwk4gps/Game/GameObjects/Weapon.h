@@ -8,25 +8,31 @@
 class Player;
 
 class Weapon {
-  //Projectile* projectile;
 public:
   //Weapon Attributes
-  int cooldownDuration;
   int maxHeat;
   int heatPerShot;
-  int cooldownLeft;
   int currentHeat;
-  float refireRate;
-  clock_t cooldownTimer;
   Player* owner;
+  
+  double cooldownLeft;
+  double cooldownDuration;
+  bool coolingDown;
+  clock_t cooldownTimer;
+  
+  double refireLeft;
+  double refireDelay;
+  bool pausingForRefire;
+  clock_t refireTimer;
 
   //Projectile Attributes
   std::vector<Projectile*> projectiles;
 
   Weapon(Player* o, int cdDuration, int mHeat, int hPerShot);
-  void FireProjectile();
-  bool CheckHeat();
-  bool CheckCoolDown();
+  void fireProjectile();
+  bool checkOverHeat();
+  void checkRefireTime();
+  void checkCoolDown();
   ~Weapon();
 };
 
