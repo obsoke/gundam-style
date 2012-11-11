@@ -314,6 +314,9 @@
     <ClInclude Include="Game\Utilities\ObjImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Face.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dialog.rc">

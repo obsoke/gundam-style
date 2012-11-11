@@ -7,13 +7,14 @@ Rocket Jump and Dale
 Gundam Style
 **/
 class iGraphic;
+class Face;
 struct Vector;
 class ObjImporter {
     ObjImporter(const ObjImporter& s);            // prevents copying
     ObjImporter& operator=(const ObjImporter& s); // prevents assignment
   public:
 	static iGraphic* ImportObjModel(const char* fileName, std::vector<Vector>* vl, 
-	std::vector<Vector>* vnl, std::vector<Vector>* vtl, std::vector<Vector>* fl);
+	std::vector<Vector>* vnl, std::vector<Vector>* vtl, std::vector<Face>* fl);
 };
 
 #endif
