@@ -31,8 +31,7 @@ public:
   void recoverThrusters();
   int hitBoundary() { return stayInBounds(); };
   void createCamera();
-  //
-  void onHit(Projectile* projectile);
+  virtual void onCollision(Projectile* projectile);
   bool isAlive();
   void setWeapons();
   

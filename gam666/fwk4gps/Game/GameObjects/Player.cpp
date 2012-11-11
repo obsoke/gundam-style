@@ -54,9 +54,9 @@ void Player::recoverThrusters() {
   }
 }
 
-void Player::onHit(Projectile* projectile) {
-	health -= projectile->projectileDamage;
-	applyForce(projectile->projectileForce * direction(getAABB().center(), projectile->getAABB().center()));
+void Player::onCollision(Projectile* projectile) {
+	health -= projectile->damage;
+	applyForce(projectile->force * direction(getAABB().center(), projectile->getAABB().center()));
 }
 
 bool Player::isAlive(){

@@ -3,6 +3,7 @@
 #include "../World.h"
 #include "Projectile.h"
 #include "../Utils.h"
+
 #define CPS (float)CLOCKS_PER_SEC
 
 Weapon::Weapon(Player* o, int cdDuration, int mHeat, int hPerShot) {
@@ -25,9 +26,8 @@ void Weapon::fireProjectile() {
 
 	if(!coolingDown && !pausingForRefire) {
 		Projectile* proj = new Projectile(owner->getWorld(), owner, 10);
-		proj->setMatrix(owner->transform());
 		proj->scale(0.5f, 0.5f, 0.5f);
-		proj->shootProjectile();
+		proj->shoot();
 		currentHeat += heatPerShot;
 
 		//Refire

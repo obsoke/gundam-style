@@ -24,8 +24,7 @@
 #include "GameObjects\Floor.h"
 
 World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
-  numberOfPlayers(1), map(map) {
-    this->game = game;
+  game(game), numberOfPlayers(1), map(map) {
     physics = new PhysicsWorld(this);
 }
 
@@ -89,7 +88,7 @@ void World::updateWorld() {
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
   physics->update();
-  for (int i=0, length=gameObjects.size(); i<length; ++i)
+  for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
     gameObjects[i]->update();
   checkBoundaryCollision();
 }

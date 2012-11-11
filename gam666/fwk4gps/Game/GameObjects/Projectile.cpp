@@ -2,15 +2,13 @@
 #include "..\World.h"
 #include "../../MathDef.h"
 
-Projectile::Projectile(World* world, Player* o, float pSpeed) : GameObject(world)
-{
-	owner = o;
-	
-	projectileDirection = o->orientation('z');
-	projectileSpeed = pSpeed;
+Projectile::Projectile(World* world, Player* owner, float pSpeed) : 
+    GameObject(world), owner(owner), pSpeed(pSpeed),
+    time(0), force(1000), life(5000) {
+	if (owner) initializeFromOwner();
 }
 
-void Projectile::shootProjectile()
+void Projectile::shoot()
 {
 	world->projectiles.push_back(this);
 	world->add(this);
@@ -18,7 +16,7 @@ void Projectile::shootProjectile()
 
 void Projectile::onCollision(Player* other)
 {
-  debug("PLAYER HIT");
+  debug("PLAYER HIT\n");
 	//override for special hit effects here
 	world->remove(this);
 }
@@ -30,11 +28,21 @@ void Projectile::onCollision(GameObject* other)
 }
 
 void Projectile::update() {
-  speed = projectileSpeed * projectileDirection;
-  GameObject::update();
+  ++time;
+  if (time >= life) {
+    world->remove(this);
+  } else {
+    speed = pSpeed * direction;
+    GameObject::update();
+  }
 }
 
-Projectile::~Projectile()
-{
+void Projectile::initializeFromOwner() {
+	direction = owner->orientation('z');
+	setMatrix(owner->rotation());
+  setTranslation(owner->position());
+}
+
+Projectile::~Projectile() {
 
 }

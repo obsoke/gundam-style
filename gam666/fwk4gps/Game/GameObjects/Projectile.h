@@ -10,20 +10,23 @@ class Weapon;
 class Projectile : public GameObject {
 public:
   Player* owner;
-  Vector projectileDirection;
-  float projectileSpeed;
-  int projectileDamage;
-  float projectileForce;
-  float projectileLife;
+  Vector direction;
+  float pSpeed;
+  int damage;
+  float force;
+  float life;
+  unsigned time;
 
-  Projectile(World* world, Player* o, float pSpeed);
-  void shootProjectile();
+  Projectile(World* world, Player* owner = nullptr, float speed = 0);
+  ~Projectile();
+  void shoot();
   void update();
   bool isOwner(GameObject* owner) { return false; };
   bool isOwner(Player* player) { return player == owner; };
+  void initializeFromOwner();
   void onCollision(GameObject* other);
   virtual void onCollision(Player* other);
-  ~Projectile();
+  int hitBoundary() { life /= 1.1f; return 1; };
 };
 
 #endif
