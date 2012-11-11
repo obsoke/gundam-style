@@ -104,6 +104,8 @@
     <ClCompile Include="Game\GameObjects\Player.cpp" />
     <ClCompile Include="Game\GameObjects\Projectile.cpp" />
     <ClCompile Include="Game\GameObjects\InputComponent.cpp" />
+    <ClCompile Include="Game\Mesh.cpp" />
+    <ClCompile Include="Game\ObjImporter.cpp" />
     <ClCompile Include="Game\PhysicsObject.cpp" />
     <ClCompile Include="Game\PhysicsWorld.cpp" />
     <ClCompile Include="Entry.cpp" />
@@ -142,14 +144,17 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Coordinator.h" />
     <ClInclude Include="Frame.h" />
+    <ClInclude Include="Game\Face.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameObject.h" />
     <ClInclude Include="Game\GameObjects\Floor.h" />
     <ClInclude Include="Game\GameObjects\Player.h" />
     <ClInclude Include="Game\GameObjects\Projectile.h" />
     <ClInclude Include="Game\GameObjects\InputComponent.h" />
+    <ClInclude Include="Game\Mesh.h" />
     <ClInclude Include="Game\PhysicsObject.h" />
     <ClInclude Include="Game\PhysicsWorld.h" />
+    <ClInclude Include="Game\Utilities\ObjImporter.h" />
     <ClInclude Include="Game\Utils.h" />
     <ClInclude Include="Game\World.h" />
     <ClInclude Include="Graphic.h" />
