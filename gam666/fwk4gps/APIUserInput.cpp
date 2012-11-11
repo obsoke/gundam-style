@@ -334,9 +334,9 @@ bool APIUserInput::ctrPressed() const {
 //
 int APIUserInput::change(Action a, unsigned deviceNumber) const {
   int rc = 0;
-  if (pointer && action[a][POINTER])
+  if (pointer && deviceNumber < nPointers && action[a][POINTER])
     rc = pointer[deviceNumber]->change(action[a][POINTER] - 1);
-  if (controller && action[a][CONTROLLER] && !rc)
+  if (controller && deviceNumber < nControllers && action[a][CONTROLLER] && !rc)
     rc = controller[deviceNumber]->change(action[a][CONTROLLER] - 1);
   return rc;
 }

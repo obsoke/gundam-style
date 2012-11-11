@@ -9,6 +9,7 @@
 
 class Game;
 class Player;
+class Projectile;
 class Floor;
 struct Viewport;
 
@@ -24,7 +25,9 @@ public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;
   std::vector<Player*> players;
+  std::vector<Projectile*> projectiles;
   std::vector<iObject*> sprites;
+
   Frame* skybox;
   Game* game;
   PhysicsWorld* physics;
@@ -36,6 +39,7 @@ public:
   void remove(GameObject* gameObject);
   void add(iObject* object) { Coordinator::add(object); };
   void remove(iObject* object) { Coordinator::remove(object); };
+  void remove(Projectile* projectile);
   virtual void updateWorld();
   void render();
   void addFloor(const Vector& position, const Vector& tiles = Vector(1, 1, 1), 
@@ -47,6 +51,9 @@ public:
   unsigned int getDelta() { return now - lastUpdate; };
   iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
     unsigned char a = '\xFF');
+  template<class T> 
+  void checkProjectileCollision(const std::vector<T*>& objects);
+  void checkBoundaryCollision();
   void setBoundary(AABB b) { boundary = b; }
   const AABB& getBoundary() { return boundary; }
 };

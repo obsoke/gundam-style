@@ -126,6 +126,9 @@
     <ClCompile Include="Game\Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameObjects\Weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Game\ObjImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -312,6 +315,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\gameobjects\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Utilities\ObjImporter.h">

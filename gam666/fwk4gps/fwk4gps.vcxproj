@@ -123,6 +123,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="Game\GameObjects\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIAudio.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Translation.h" />
+    <ClInclude Include="Game\GameObjects\Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dialog.rc" />

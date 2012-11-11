@@ -24,8 +24,7 @@
 #include "GameObjects\Floor.h"
 
 World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
-  numberOfPlayers(1), map(map) {
-    this->game = game;
+  game(game), numberOfPlayers(1), map(map) {
     physics = new PhysicsWorld(this);
 }
 
@@ -86,18 +85,12 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
 }
 
 void World::updateWorld() {
-  physics->update();  
-  for (int i=0, length=gameObjects.size(); i<length; ++i) {
+  checkProjectileCollision<Player>(players);
+  checkProjectileCollision<Floor>(floors);
+  physics->update();
+  for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
     gameObjects[i]->update();
-
-    //check if the game object leaves the boundary	
-    if (!gameObjects[i]->collides(boundary)) {
-      if (!gameObjects[i]->hitBoundary()) { //if it returns 0, destroy the object
-        remove (gameObjects[i]);
-        i--; length--;
-      }
-    }
-  }
+  checkBoundaryCollision();
 }
 
 void World::render() {
@@ -142,6 +135,12 @@ void World::remove(GameObject* gameObject) {
   }
 }
 
+void World::remove(Projectile* projectile) {
+  remove((GameObject*)projectile);
+  ::remove(projectiles, projectile);
+  delete projectile;
+}
+
 void World::createProjection() {
   const Viewport& viewport = calcViewport(0);
   projection = ::projection(fov, (float)viewport.width / viewport.height, nearcp, farcp);
@@ -154,6 +153,30 @@ iObject* World::CreateSprite(const wchar_t* file, const Vector& position, unsign
   sprite->translate(position.x, position.y, 0);
   sprites.push_back(sprite);
   return sprite;
+}
+
+template<class T>
+void World::checkProjectileCollision(const std::vector<T*>& objects) {
+  for (int i = ((int)objects.size()) - 1; i >= 0; --i) {
+    T* object = objects[i];
+    for (int j = ((int)projectiles.size()) - 1; j >= 0; --j) {
+      Projectile* projectile = projectiles[j];
+      if (!projectile->isOwner(object) && object->collides(projectile)) {
+        object->onCollision(projectile);
+        projectile->onCollision(object);
+      }
+    }
+  }
+}
+
+void World::checkBoundaryCollision() {
+  for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i) {
+    if (!gameObjects[i]->collides(boundary)) {
+      if (!gameObjects[i]->hitBoundary()) {
+        remove(gameObjects[i]);
+      }
+    }
+  }
 }
 
 World::~World() {

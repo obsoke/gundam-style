@@ -4,6 +4,7 @@
 #include "..\iObject.h"
 #include "..\iGraphic.h"
 #include "PhysicsObject.h"
+#include "Utils.h"
 
 GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) : 
     world(world), physics(nullptr), isAlive(true) {
@@ -89,10 +90,16 @@ void GameObject::resetRotation() {
   if (physics) physics->resetRotation(); 
 };
 
+World* GameObject::getWorld()
+{
+	return world;
+}
+
 AABB GameObject::getAABB() {
   AABB aabb = model ? model->getAABB() : AABB();
-  aabb.minimum = aabb.minimum + position();
-  aabb.maximum = aabb.maximum + position();
+  const Vector& p = position(), s = scale();
+  aabb.minimum = (aabb.minimum * s) + p;
+  aabb.maximum = (aabb.maximum * s) + p;
   return aabb;
 };
 
