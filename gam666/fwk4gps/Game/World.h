@@ -39,6 +39,7 @@ public:
   void remove(GameObject* gameObject);
   void add(iObject* object) { Coordinator::add(object); };
   void remove(iObject* object) { Coordinator::remove(object); };
+  void remove(Projectile* projectile);
   virtual void updateWorld();
   void render();
   void addFloor(const Vector& position, const Vector& tiles = Vector(1, 1, 1), 

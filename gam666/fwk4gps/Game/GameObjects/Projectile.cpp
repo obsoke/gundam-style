@@ -10,7 +10,7 @@ Projectile::Projectile(World* world, Player* o, float pSpeed) : GameObject(world
 	projectileSpeed = pSpeed;
 }
 
-void Projectile::ShootProjectile()
+void Projectile::shootProjectile()
 {
 	world->projectiles.push_back(this);
 	world->add(this);

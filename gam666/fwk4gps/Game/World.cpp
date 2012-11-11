@@ -134,6 +134,12 @@ void World::remove(GameObject* gameObject) {
   }
 }
 
+void World::remove(Projectile* projectile) {
+  remove((GameObject*)projectile);
+  ::remove(projectiles, projectile);
+  delete projectile;
+}
+
 void World::createProjection() {
   const Viewport& viewport = calcViewport(0);
   projection = ::projection(fov, (float)viewport.width / viewport.height, nearcp, farcp);
@@ -150,10 +156,10 @@ iObject* World::CreateSprite(const wchar_t* file, const Vector& position, unsign
 
 template<class T>
 void World::checkProjectileCollision(const std::vector<T*>& objects) {
-  for (unsigned i=0, length=projectiles.size(); i<length; ++i) {
-    Projectile* projectile = projectiles[i];
-    for (unsigned j=0, length=objects.size(); j<length; ++j) {
-      T* object = objects[j];
+  for (int i = ((int)objects.size()) - 1; i >= 0; --i) {
+    T* object = objects[i];
+    for (int j = ((int)projectiles.size()) - 1; j >= 0; --j) {
+      Projectile* projectile = projectiles[j];
       if (!projectile->isOwner(object) && object->collides(projectile)) {
         object->onCollision(projectile);
         projectile->onCollision(object);

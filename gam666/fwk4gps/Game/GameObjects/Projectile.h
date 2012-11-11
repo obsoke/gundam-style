@@ -10,7 +10,6 @@ class Weapon;
 class Projectile : public GameObject {
 public:
   Player* owner;
-  Weapon* weapon;
   Vector projectileDirection;
   float projectileSpeed;
   int projectileDamage;
@@ -18,8 +17,7 @@ public:
   float projectileLife;
 
   Projectile(World* world, Player* o, float pSpeed);
-  void ShootProjectile();
-  void OnHit();
+  void shootProjectile();
   void update();
   bool isOwner(GameObject* owner) { return false; };
   bool isOwner(Player* player) { return player == owner; };
