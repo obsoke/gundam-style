@@ -24,9 +24,9 @@
 #include "GameObjects\Floor.h"
 
 World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
-    numberOfPlayers(1), map(map) {
-  this->game = game;
-  physics = new PhysicsWorld(this);
+  numberOfPlayers(1), map(map) {
+    this->game = game;
+    physics = new PhysicsWorld(this);
 }
 
 void World::initialize() {
@@ -84,14 +84,8 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
 }
 
 void World::updateWorld() {
-  for (int i=0; i<projectiles.size(); i++) {
-    for(int j=0; j<players.size(); j++) {
-	  if(projectiles[i]->owner != players[j] && projectiles[i]->collides(players[i])) {
-        
-	  }
-	}
-  }
-
+  checkProjectileCollision<Player>(players);
+  checkProjectileCollision<Floor>(floors);
   physics->update();
   for (int i=0, length=gameObjects.size(); i<length; ++i) {
     gameObjects[i]->update();
@@ -101,14 +95,14 @@ void World::updateWorld() {
 void World::render() {
   updateWorld();
   for (unsigned i=0; i<players.size(); ++i) {
-	const Viewport& viewport = calcViewport(i);
+    const Viewport& viewport = calcViewport(i);
     setViewport(viewport);
-	for (unsigned j=0; j<sprites.size(); ++j)
-		sprites[j]->translate((float)viewport.x, (float)viewport.y, 0);
+    for (unsigned j=0; j<sprites.size(); ++j)
+      sprites[j]->translate((float)viewport.x, (float)viewport.y, 0);
     currentCam = players[i]->getCamera();
     Coordinator::render();
-	for (unsigned j=0; j<sprites.size(); ++j)
-		sprites[j]->translate((float)-viewport.x, (float)-viewport.y, 0);
+    for (unsigned j=0; j<sprites.size(); ++j)
+      sprites[j]->translate((float)-viewport.x, (float)-viewport.y, 0);
   }
 }
 
@@ -141,17 +135,31 @@ void World::remove(GameObject* gameObject) {
 }
 
 void World::createProjection() {
-    const Viewport& viewport = calcViewport(0);
-    projection = ::projection(fov, (float)viewport.width / viewport.height, nearcp, farcp);
-    display->setProjection(&projection);
+  const Viewport& viewport = calcViewport(0);
+  projection = ::projection(fov, (float)viewport.width / viewport.height, nearcp, farcp);
+  display->setProjection(&projection);
 }
 
 iObject* World::CreateSprite(const wchar_t* file, const Vector& position, unsigned char a) {
-	iObject* sprite = ::CreateSprite(CreateGraphic(), a);
-	sprite->attach(CreateTexture(file));
-	sprite->translate(position.x, position.y, 0);
-	sprites.push_back(sprite);
-	return sprite;
+  iObject* sprite = ::CreateSprite(CreateGraphic(), a);
+  sprite->attach(CreateTexture(file));
+  sprite->translate(position.x, position.y, 0);
+  sprites.push_back(sprite);
+  return sprite;
+}
+
+template<class T>
+void World::checkProjectileCollision(const std::vector<T*>& objects) {
+  for (unsigned i=0, length=projectiles.size(); i<length; ++i) {
+    Projectile* projectile = projectiles[i];
+    for (unsigned j=0, length=objects.size(); j<length; ++j) {
+      T* object = objects[j];
+      if (!projectile->isOwner(object) && object->collides(projectile)) {
+        object->onCollision(projectile);
+        projectile->onCollision(object);
+      }
+    }
+  }
 }
 
 World::~World() {

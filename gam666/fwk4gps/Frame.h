@@ -46,6 +46,12 @@ class Frame {
   virtual void setTranslation(const Vector& v) {
     T.m41 = v.x; T.m42 = v.y; T.m43 = v.z;
   }
+  Vector scale() {
+    float x = Vector(T.m11, T.m12, T.m13).length();
+    float y = Vector(T.m21, T.m22, T.m23).length();
+    float z = Vector(T.m31, T.m32, T.m33).length();
+    return Vector(x, y, z);
+  };
   void setMatrix(const Matrix& m) { T = m; }
     virtual ~Frame() {}
 };

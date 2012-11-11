@@ -50,6 +50,8 @@ public:
   unsigned int getDelta() { return now - lastUpdate; };
   iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
 	  unsigned char a = '\xFF');
+  template<class T> 
+  void checkProjectileCollision(const std::vector<T*>& objects);
 };
 
 #endif

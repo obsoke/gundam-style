@@ -3,6 +3,7 @@
 
 #include "..\Object.h"
 #include "..\Frame.h"
+#include "..\Utils.h"
 
 class World;
 class PhysicsObject;
@@ -41,6 +42,7 @@ public:
   virtual AABB getAABB();
   virtual bool collides(GameObject* other);
   virtual bool collides(const AABB& other);
+  virtual void onCollision(GameObject* other) { };
   virtual Vector center() { return position(); };
   virtual void update();
 };

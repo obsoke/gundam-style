@@ -16,34 +16,34 @@ Weapon::Weapon(Player* o, int cdDuration, int mHeat, int hPerShot)
 
 void Weapon::FireProjectile()
 {
-	//if(currentHeat < maxHeat && cooldownLeft <= 0){
-		Projectile* proj = new Projectile(owner->getWorld(), owner, 10);
-		projectiles.push_back(proj);
-		proj->setTranslation(owner->position());
-		//proj->setMatrix(owner->getMatrix());
-		proj->ShootProjectile();
-		currentHeat += maxHeat;
+  //if(currentHeat < maxHeat && cooldownLeft <= 0){
+  Projectile* proj = new Projectile(owner->getWorld(), owner, 10);
+  projectiles.push_back(proj);
+  proj->setMatrix(owner->getMatrix());
+  proj->scale(0.5f, 0.5f, 0.5f);
+  proj->ShootProjectile();
+  currentHeat += maxHeat;
 
-		if(!CheckHeat())
-		{
-			cooldownTimer = clock();
-		}
-	//}
+  if(!CheckHeat())
+  {
+    cooldownTimer = clock();
+  }
+  //}
 }
 
 bool Weapon::CheckCoolDown()
 {
-	if(cooldownDuration - cooldownTimer <= 0)
-	{
-		cooldownTimer = NULL;
-	}
+  if(cooldownDuration - cooldownTimer <= 0)
+  {
+    cooldownTimer = NULL;
+  }
 
-	return (cooldownDuration - cooldownTimer) <= 0;
+  return (cooldownDuration - cooldownTimer) <= 0;
 }
 
 bool Weapon::CheckHeat()
 {
-	return currentHeat <= maxHeat;
+  return currentHeat <= maxHeat;
 }
 
 Weapon::~Weapon()

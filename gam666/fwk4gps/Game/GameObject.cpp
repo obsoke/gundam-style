@@ -96,8 +96,9 @@ World* GameObject::getWorld()
 
 AABB GameObject::getAABB() {
   AABB aabb = model ? model->getAABB() : AABB();
-  aabb.minimum = aabb.minimum + position();
-  aabb.maximum = aabb.maximum + position();
+  const Vector& p = position(), s = scale();
+  aabb.minimum = (aabb.minimum * s) + p;
+  aabb.maximum = (aabb.maximum * s) + p;
   return aabb;
 };
 

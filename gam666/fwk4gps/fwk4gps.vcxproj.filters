@@ -311,7 +311,7 @@
     <ClInclude Include="Game\Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameObjects\Weapon.h">
+    <ClInclude Include="game\gameobjects\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
