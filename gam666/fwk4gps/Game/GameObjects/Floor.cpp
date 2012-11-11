@@ -4,8 +4,8 @@
 #include "..\Utils.h"
 
 Floor::Floor(World* world, iObject* object, 
-    const Vector& pos, const Vector& tiles) : 
-      GameObject(world, nullptr, false) {
+  const Vector& pos, const Vector& tiles) : 
+GameObject(world, nullptr, false) {
   AABB aabb = object->getAABB();
   Matrix transform = Matrix(object->transform());
   for (int x=0; x<tiles.x; ++x) {
@@ -16,9 +16,9 @@ Floor::Floor(World* world, iObject* object,
           object->setMatrix(Matrix(transform));
         }
         object->translate(
-            x * aabb.width(), 
-            y * aabb.height(), 
-            z * aabb.depth());
+          x * aabb.width(), 
+          y * aabb.height(), 
+          z * aabb.depth());
         object->attachTo(this);
         this->tiles.push_back(object);
       }

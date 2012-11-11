@@ -47,6 +47,8 @@ void World::initializeHUD() {
 
   CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
     Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
+  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
+    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
 }
 
 void World::initializeLighting() {
@@ -87,9 +89,9 @@ void World::updateWorld() {
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
   physics->update();
-  for (int i=0, length=gameObjects.size(); i<length; ++i) {
+  for (int i=0, length=gameObjects.size(); i<length; ++i)
     gameObjects[i]->update();
-  }
+  checkBoundaryCollision();
 }
 
 void World::render() {
@@ -163,6 +165,16 @@ void World::checkProjectileCollision(const std::vector<T*>& objects) {
       if (!projectile->isOwner(object) && object->collides(projectile)) {
         object->onCollision(projectile);
         projectile->onCollision(object);
+      }
+    }
+  }
+}
+
+void World::checkBoundaryCollision() {
+  for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i) {
+    if (!gameObjects[i]->collides(boundary)) {
+      if (!gameObjects[i]->hitBoundary()) {
+        remove(gameObjects[i]);
       }
     }
   }

@@ -1,12 +1,12 @@
 /* Text Implementation - Modelling Layer
- *
- * Text.cpp
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* Text.cpp
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 #include "Text.h"         // for the Text class definition
 #include "iCoordinator.h" // for the Coordinator Interface
@@ -23,39 +23,39 @@
 // CreateText creates a simple Text object
 //
 iText* CreateText(Rectf r, void* h, const wchar_t* s, int j, const wchar_t* u,
- unsigned f, unsigned c) {
+  unsigned f, unsigned c) {
 
-	return new Text(r, h, s, j, u, f, c);
+    return new Text(r, h, s, j, u, f, c);
 }
 
 // CreateText creates a compound Text object
 //
 iText* CreateText(Rectf r, void* h, const wchar_t* s, 
- const wchar_t* (*v)(wchar_t*, const Frame*, char, unsigned), 
- Frame* q, char a, unsigned x, int j, const wchar_t* u, unsigned f, 
- unsigned c) {
+  const wchar_t* (*v)(wchar_t*, const Frame*, char, unsigned), 
+  Frame* q, char a, unsigned x, int j, const wchar_t* u, unsigned f, 
+  unsigned c) {
 
-	return new Text(r, h, s, v, q, a, x, j, u, f, c);
+    return new Text(r, h, s, v, q, a, x, j, u, f, c);
 }
 
 iText* CreateText(Rectf r, void* h, const wchar_t* s, 
- const wchar_t* (*v)(wchar_t*, const Frame*, char, unsigned), 
- Frame** q, char a, unsigned x, int j, const wchar_t* u, unsigned f, 
- unsigned c) {
+  const wchar_t* (*v)(wchar_t*, const Frame*, char, unsigned), 
+  Frame** q, char a, unsigned x, int j, const wchar_t* u, unsigned f, 
+  unsigned c) {
 
-	return new Text(r, h, s, v, q, a, x, j, u, f, c);
+    return new Text(r, h, s, v, q, a, x, j, u, f, c);
 }
 
 iText* CreateText(Rectf r, void* h, const wchar_t* t, 
- const wchar_t* (*v)(wchar_t*, const iSwitch*), iSwitch* s, int j, 
- const wchar_t* u, unsigned f, unsigned c) {
+  const wchar_t* (*v)(wchar_t*, const iSwitch*), iSwitch* s, int j, 
+  const wchar_t* u, unsigned f, unsigned c) {
 
-     return new Text(r, h, t, v, s, j, u, f, c);
+    return new Text(r, h, t, v, s, j, u, f, c);
 }
 
 iText* Clone(const iText* src) {
 
-    return (iText*)src->clone();
+  return (iText*)src->clone();
 }
 
 // init adds the address of the current object to the coordinator, creates
@@ -63,7 +63,7 @@ iText* Clone(const iText* src) {
 // the text string
 // 
 void Text::init(Rectf& r, const wchar_t* text, const wchar_t* face, int height,
- unsigned flags, unsigned colour) {
+  unsigned flags, unsigned colour) {
 
     coordinator->add(this);
 
@@ -87,34 +87,34 @@ void Text::init(Rectf& r, const wchar_t* text, const wchar_t* face, int height,
 // the object's address, the rectangle, and the text string
 //
 Text::Text(Rectf r, void* h, const wchar_t* text, int j, const wchar_t* type,
- unsigned flags, unsigned colour) :  intToWCStr(nullptr), boolToWCStr(nullptr), 
- swtch(nullptr), pFrame(nullptr), frame(nullptr), hud((iHUD*)h) {
+  unsigned flags, unsigned colour) :  intToWCStr(nullptr), boolToWCStr(nullptr), 
+  swtch(nullptr), pFrame(nullptr), frame(nullptr), hud((iHUD*)h) {
 
     init(r, text, type, j, flags, colour);
 }
 
 Text::Text(Rectf r, void* h, const wchar_t* text, 
- const wchar_t* (*fn)(wchar_t*, const Frame*, char, unsigned), Frame* q, 
- char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
- unsigned colour) : frame(q), axis(c), factor(x), intToWCStr(fn),
- boolToWCStr(nullptr), swtch(nullptr), pFrame(nullptr), hud((iHUD*)h) {
+  const wchar_t* (*fn)(wchar_t*, const Frame*, char, unsigned), Frame* q, 
+  char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
+  unsigned colour) : frame(q), axis(c), factor(x), intToWCStr(fn),
+  boolToWCStr(nullptr), swtch(nullptr), pFrame(nullptr), hud((iHUD*)h) {
 
     init(r, text, type, j, flags, colour);
 }
 
 Text::Text(Rectf r, void* h, const wchar_t* text, 
- const wchar_t* (*fn)(wchar_t*, const Frame*, char, unsigned), Frame** q, 
- char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
- unsigned colour) : frame(nullptr), axis(c), factor(x), intToWCStr(fn), 
- boolToWCStr(nullptr), swtch(nullptr), pFrame(q), hud((iHUD*)h) {
+  const wchar_t* (*fn)(wchar_t*, const Frame*, char, unsigned), Frame** q, 
+  char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
+  unsigned colour) : frame(nullptr), axis(c), factor(x), intToWCStr(fn), 
+  boolToWCStr(nullptr), swtch(nullptr), pFrame(q), hud((iHUD*)h) {
 
     init(r, text, type, j, flags, colour);
 }
 
 Text::Text(Rectf r, void* h, const wchar_t* text, 
- const wchar_t* (*fn)(wchar_t*, const iSwitch*), iSwitch* s, int j, 
- const wchar_t* type, unsigned flags, unsigned colour) : swtch(s), axis(' '),
- factor(0), boolToWCStr(fn), frame(nullptr), intToWCStr(nullptr), hud((iHUD*)h) {
+  const wchar_t* (*fn)(wchar_t*, const iSwitch*), iSwitch* s, int j, 
+  const wchar_t* type, unsigned flags, unsigned colour) : swtch(s), axis(' '),
+  factor(0), boolToWCStr(fn), frame(nullptr), intToWCStr(nullptr), hud((iHUD*)h) {
 
     init(r, text, type, j, flags, colour);
 }
@@ -124,9 +124,9 @@ Text::Text(Rectf r, void* h, const wchar_t* text,
 //
 Text::Text(const Text& src) {
 
-    coordinator->add(this);
-    font  = nullptr;
-	*this = src;
+  coordinator->add(this);
+  font  = nullptr;
+  *this = src;
 }
 
 // assignment operator discards old data and copies over data from src
@@ -134,103 +134,103 @@ Text::Text(const Text& src) {
 //
 Text& Text::operator=(const Text& src) {
 
-	if (this != &src) {
-		if (font)
-			font->Delete();
-        if (src.font)
-            font = src.font->clone();
-        else
-            font = nullptr;
-        if (rect)
-            delete rect;
-        rect = new Rectf;
+  if (this != &src) {
+    if (font)
+      font->Delete();
+    if (src.font)
+      font = src.font->clone();
+    else
+      font = nullptr;
+    if (rect)
+      delete rect;
+    rect = new Rectf;
 
-        hud         = src.hud;
-        intToWCStr  = src.intToWCStr;
-        boolToWCStr = src.boolToWCStr;
-        frame       = src.frame;
-        swtch       = src.swtch;
-        factor      = src.factor;
-        axis        = src.axis;
-        *rect       = *src.rect;
-		strcpy(label, src.label, MAX_DESC);
-	}
+    hud         = src.hud;
+    intToWCStr  = src.intToWCStr;
+    boolToWCStr = src.boolToWCStr;
+    frame       = src.frame;
+    swtch       = src.swtch;
+    factor      = src.factor;
+    axis        = src.axis;
+    *rect       = *src.rect;
+    strcpy(label, src.label, MAX_DESC);
+  }
 
-	return *this;
+  return *this;
 }
 
 // set copies the string text into the Text object
 //
 void Text::set(const wchar_t* text) {
 
-    strcpy(label, text, MAX_DESC);
+  strcpy(label, text, MAX_DESC);
 }
 
 // render draws the text string using the APIText object
 //
 void Text::render() {
 
-    wchar_t text[MAX_DESC + 1];
+  wchar_t text[MAX_DESC + 1];
 
-    // value follows label
-    if (intToWCStr && frame) {
-        wchar_t value[MAX_DESC + 1];
-        intToWCStr(value, frame, axis, factor);
-        strcpy(text, label, MAX_DESC);
-        strcat(text, value, MAX_DESC);
-    }
-    else if (intToWCStr && pFrame) {
-        wchar_t value[MAX_DESC + 1];
-        intToWCStr(value, *pFrame, axis, factor);
-        strcpy(text, label, MAX_DESC);
-        strcat(text, value, MAX_DESC);
-    }
-    // value precedes label
-    else if (boolToWCStr && swtch) {
-        boolToWCStr(text, swtch);
-        strcat(text, label, MAX_DESC);
-    }
-    else
-        strcpy(text, label, MAX_DESC);
+  // value follows label
+  if (intToWCStr && frame) {
+    wchar_t value[MAX_DESC + 1];
+    intToWCStr(value, frame, axis, factor);
+    strcpy(text, label, MAX_DESC);
+    strcat(text, value, MAX_DESC);
+  }
+  else if (intToWCStr && pFrame) {
+    wchar_t value[MAX_DESC + 1];
+    intToWCStr(value, *pFrame, axis, factor);
+    strcpy(text, label, MAX_DESC);
+    strcat(text, value, MAX_DESC);
+  }
+  // value precedes label
+  else if (boolToWCStr && swtch) {
+    boolToWCStr(text, swtch);
+    strcat(text, label, MAX_DESC);
+  }
+  else
+    strcpy(text, label, MAX_DESC);
 
-    // retrieves the current hud coordinates, if any
-    Rectf hudRect = Rectf(0, 0, 1, 1);
-    if (hud) 
-        hudRect = hud->getRect();
-    float width  = hudRect.bottomRightX - hudRect.topLeftX;
-    float height = hudRect.bottomRightY - hudRect.topLeftY;
-    Rectf textRect(
-     hudRect.topLeftX + width * rect->topLeftX, 
-     hudRect.topLeftY + height * rect->topLeftY, 
-     hudRect.topLeftX + width * rect->bottomRightX, 
-     hudRect.topLeftY + height * rect->bottomRightY);
+  // retrieves the current hud coordinates, if any
+  Rectf hudRect = Rectf(0, 0, 1, 1);
+  if (hud) 
+    hudRect = hud->getRect();
+  float width  = hudRect.bottomRightX - hudRect.topLeftX;
+  float height = hudRect.bottomRightY - hudRect.topLeftY;
+  Rectf textRect(
+    hudRect.topLeftX + width * rect->topLeftX, 
+    hudRect.topLeftY + height * rect->topLeftY, 
+    hudRect.topLeftX + width * rect->bottomRightX, 
+    hudRect.topLeftY + height * rect->bottomRightY);
 
-    if (font)
-		font->draw(textRect, text);
+  if (font)
+    font->draw(textRect, text);
 }
 
 // suspends suspends the font associated with the text object
 //
 void Text::suspend() {
 
-	if (font)
-		font->suspend();
+  if (font)
+    font->suspend();
 }
 
 // restore restores the font associated with the text object
 //
 void Text::restore() {
 
-	if (font)
-		font->restore();
+  if (font)
+    font->restore();
 }
 
 // release releases the font associated with the text object
 //
 void Text::release() {
 
-	if (font)
-		font->release();
+  if (font)
+    font->release();
 }
 
 // destructor destroys the font associated with this text object
@@ -238,11 +238,11 @@ void Text::release() {
 //
 Text::~Text() {
 
-    if (font)
-        font->Delete();
-    if (rect)
-        delete rect;
-    coordinator->remove(this);
+  if (font)
+    font->Delete();
+  if (rect)
+    delete rect;
+  coordinator->remove(this);
 }
 
 
@@ -253,12 +253,12 @@ Text::~Text() {
 //
 const wchar_t* orient(wchar_t* str, const Frame* frame, char c, unsigned f) {
 
-	if (frame) {
-        Vector v = frame->orientation(c);
-		sprintf(str, (int)(f*v.x), (int)(f*v.y), (int)(f*v.z));
-	}
+  if (frame) {
+    Vector v = frame->orientation(c);
+    sprintf(str, (int)(f*v.x), (int)(f*v.y), (int)(f*v.z));
+  }
 
-	return str;
+  return str;
 }
 
 // position returns a text string with the world position of *frame
@@ -266,20 +266,20 @@ const wchar_t* orient(wchar_t* str, const Frame* frame, char c, unsigned f) {
 const wchar_t* position(wchar_t* str, const Frame* frame, char c, unsigned f) 
 {
 
-	if (frame) {
-        Vector v = frame->position();
-		sprintf(str, (int)(f*v.x), (int)(f*v.y), (int)(f*v.z));
-	}
+  if (frame) {
+    Vector v = frame->position();
+    sprintf(str, (int)(f*v.x), (int)(f*v.y), (int)(f*v.z));
+  }
 
-	return str;
+  return str;
 }
 
 // onOff returns a text string with the on off state of *iSwitch
 //
 const wchar_t* onOff(wchar_t* str, const iSwitch* item) {
 
-	if (item)
-        strcpy(str, item->isOn() ? TEXT_ON : TEXT_OFF, MAX_DESC);
+  if (item)
+    strcpy(str, item->isOn() ? TEXT_ON : TEXT_OFF, MAX_DESC);
 
-	return str;
+  return str;
 }

@@ -16,9 +16,9 @@ Matrix toMatrix(const btMatrix3x3& mat, const btVector3& m4) {
   const btVector3& m2 = mat[1];
   const btVector3& m3 = mat[2];
   return Matrix(m1[0], m1[1], m1[2], 0,
-                m2[0], m2[1], m2[2], 0,
-                m3[0], m3[1], m3[2], 0,
-                m4.x(), m4.y(), m4.z(), 1);
+    m2[0], m2[1], m2[2], 0,
+    m3[0], m3[1], m3[2], 0,
+    m4.x(), m4.y(), m4.z(), 1);
 }
 
 btTransform toBtTransform(const Matrix& mat) {
@@ -28,7 +28,7 @@ btTransform toBtTransform(const Matrix& mat) {
 }
 
 PhysicsObject::PhysicsObject(PhysicsWorld* world, GameObject* object, btRigidBody* body, bool isStatic) :
-    shape(nullptr), motionState(nullptr), body(body), stayUpright(false), world(world), object(object) {
+shape(nullptr), motionState(nullptr), body(body), stayUpright(false), world(world), object(object) {
   if (!body) {
     // Create a default cube body
     AABB aabb = object->getAABB();

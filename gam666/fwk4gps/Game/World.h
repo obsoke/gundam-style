@@ -16,8 +16,8 @@ struct Viewport;
 class World : public Coordinator {
   iLight* defaultLight;
   int numberOfPlayers;
+  AABB boundary;
   Map& map;
-
   void initializeLighting();
   void initializeObjects();
   void initializeHUD();
@@ -27,7 +27,7 @@ public:
   std::vector<Player*> players;
   std::vector<Projectile*> projectiles;
   std::vector<iObject*> sprites;
-  
+
   Frame* skybox;
   Game* game;
   PhysicsWorld* physics;
@@ -50,9 +50,12 @@ public:
   unsigned int getLast() { return lastUpdate; };
   unsigned int getDelta() { return now - lastUpdate; };
   iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
-	  unsigned char a = '\xFF');
+    unsigned char a = '\xFF');
   template<class T> 
   void checkProjectileCollision(const std::vector<T*>& objects);
+  void checkBoundaryCollision();
+  void setBoundary(AABB b) { boundary = b; }
+  const AABB& getBoundary() { return boundary; }
 };
 
 #endif

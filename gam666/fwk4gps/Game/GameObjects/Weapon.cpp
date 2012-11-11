@@ -25,7 +25,7 @@ void Weapon::fireProjectile() {
 
 	if(!coolingDown && !pausingForRefire) {
 		Projectile* proj = new Projectile(owner->getWorld(), owner, 10);
-		proj->setMatrix(owner->getMatrix());
+		proj->setMatrix(owner->transform());
 		proj->scale(0.5f, 0.5f, 0.5f);
 		proj->shootProjectile();
 		currentHeat += heatPerShot;

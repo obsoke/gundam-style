@@ -5,10 +5,8 @@ class Player;
 class World;
 
 class InputComponent {
-  bool left;
-  bool down;
 public:
-  InputComponent() : left(false), down(true) { };
+  InputComponent() { };
   void update(World* world, Player* object);
 };
 

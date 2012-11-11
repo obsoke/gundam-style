@@ -2,14 +2,14 @@
 #define _API_BASE_H_
 
 /* API Base Definition - Translation Layer
- *
- * APIBase.h
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* APIBase.h
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 #include "APIPlatform.h" // for the Pipeline setting
 
@@ -30,31 +30,31 @@ class APIBase {
 
 protected:
 
-    static iAPIDisplaySet*         displaySet;     // the attached displays
-    static iAPIInputDeviceSet*     keyboardSet;    // the attached keyboards
-    static iAPIInputDeviceSet*     pointerSet;     // the attached pointers
-    static iAPIInputDeviceSet*     controllerSet;  // the attached controllers
+  static iAPIDisplaySet*         displaySet;     // the attached displays
+  static iAPIInputDeviceSet*     keyboardSet;    // the attached keyboards
+  static iAPIInputDeviceSet*     pointerSet;     // the attached pointers
+  static iAPIInputDeviceSet*     controllerSet;  // the attached controllers
 
-    static iAPIDisplay*            display;      // the graphics card object
-    static iAPIWindow*             window;       // the application window
+  static iAPIDisplay*            display;      // the graphics card object
+  static iAPIWindow*             window;       // the application window
 
-    static void*                   application;  // points to the application
-    static void*                   hwnd;         // handle to application window
+  static void*                   application;  // points to the application
+  static void*                   hwnd;         // handle to application window
 
-    static IDirect3D9*             d3d;          // points to Direct3D object
-    static IDirect3DDevice9*       d3dd;         // points to Direct3D display
-    static IDirect3DTexture9*      texture;      // points to the current texture
-    static ID3DXSprite*            manager;      // sprite manager for text objects
+  static IDirect3D9*             d3d;          // points to Direct3D object
+  static IDirect3DDevice9*       d3dd;         // points to Direct3D display
+  static IDirect3DTexture9*      texture;      // points to the current texture
+  static ID3DXSprite*            manager;      // sprite manager for text objects
 
-    static int                     width;        // width of the client area
-    static int                     height;       // height of the client area
-    static bool                    runinwndw;    // running in a window?
+  static int                     width;        // width of the client area
+  static int                     height;       // height of the client area
+  static bool                    runinwndw;    // running in a window?
 
-    virtual ~APIBase()             { }
+  virtual ~APIBase()             { }
 
 public:
-    static void error(const wchar_t*, const wchar_t* = 0);
-    static void logError(const wchar_t*);
+  static void error(const wchar_t*, const wchar_t* = 0);
+  static void logError(const wchar_t*);
 };
 
 #endif

@@ -29,6 +29,7 @@ public:
   void update();
   void useThruster(int amount);
   void recoverThrusters();
+  int hitBoundary() { return stayInBounds(); };
   void createCamera();
   //
   void onHit(Projectile* projectile);

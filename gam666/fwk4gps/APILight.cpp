@@ -1,12 +1,12 @@
 /* APILight Implementation  - Translation Layer
- *
- * APILight.cpp
- * fwk4gps version 4.0
- * gam666/dps901/gam670/dps905
- * June 25 2012
- * copyright (c) 2012 Chris Szalwinski 
- * distributed under TPL - see ../Licenses.txt
- */
+*
+* APILight.cpp
+* fwk4gps version 4.0
+* gam666/dps901/gam670/dps905
+* June 25 2012
+* copyright (c) 2012 Chris Szalwinski 
+* distributed under TPL - see ../Licenses.txt
+*/
 
 #include "APIPlatform.h" // for API headers
 #include "APILight.h"    // for the APILight class definition
@@ -25,91 +25,91 @@ int   APILight::maxLights  = 0;
 // CreateAPILight creates an APILight object
 //
 iAPILight* CreateAPILight(LightType t, Colour d, Colour a, Colour s,
- float r, bool o, float a0, float a1, float a2, float p, float th, float f) {
+  float r, bool o, float a0, float a1, float a2, float p, float th, float f) {
 
-	return new APILight(t, d, a, s, r, o, a0, a1, a2, p, th, f);
+    return new APILight(t, d, a, s, r, o, a0, a1, a2, p, th, f);
 }
 
 // constructor initializes the api light as needing to be setup
 //
 APILight::APILight(LightType t, Colour d, Colour a, Colour s,
- float r, bool o, float a0, float a1, float a2, float p, float th, float f) : 
- type(t), diffuse(d), ambient(a), specular(s), range(r), attenuation0(a0), 
- attenuation1(a1), attenuation2(a2), phi(p), theta(th), falloff(f), 
- isSetup(false), index(0) {}
+  float r, bool o, float a0, float a1, float a2, float p, float th, float f) : 
+type(t), diffuse(d), ambient(a), specular(s), range(r), attenuation0(a0), 
+  attenuation1(a1), attenuation2(a2), phi(p), theta(th), falloff(f), 
+  isSetup(false), index(0) {}
 
 // copy constructor
 
 APILight::APILight(const APILight& src) {
 
-    *this = src;
+  *this = src;
 }
 
 APILight& APILight::operator=(const APILight& src) {
 
-    if (this != &src) {
-		type          = src.type;   
-		diffuse       = src.diffuse ;  
-		ambient       = src.ambient ;  
-		specular      = src.specular ;  
-		range         = src.range;       
-		attenuation0  = src.attenuation0; 
-		attenuation1  = src.attenuation1;
-		attenuation2  = src.attenuation2;
-        phi           = src.phi;
-        theta         = src.theta;
-        falloff       = src.falloff;
-        isSetup       = false;
-        index         = 0;
-    }
+  if (this != &src) {
+    type          = src.type;   
+    diffuse       = src.diffuse ;  
+    ambient       = src.ambient ;  
+    specular      = src.specular ;  
+    range         = src.range;       
+    attenuation0  = src.attenuation0; 
+    attenuation1  = src.attenuation1;
+    attenuation2  = src.attenuation2;
+    phi           = src.phi;
+    theta         = src.theta;
+    falloff       = src.falloff;
+    isSetup       = false;
+    index         = 0;
+  }
 
-    return *this;
+  return *this;
 }
 
 void APILight::alloc() {
 
-    // maximum number of lights supported by the display device
-    D3DCAPS9 caps;
-    d3dd->GetDeviceCaps(&caps);
-	maxLights = caps.MaxActiveLights ? caps.MaxActiveLights : MAX_ACTIVE_LIGHTS;
-    if (maxLights > (unsigned)MAX_ACTIVE_LIGHTS) maxLights = MAX_ACTIVE_LIGHTS;
-    if (lightIndex)
-        delete [] lightIndex;
-    lightIndex = new bool[maxLights];
-    for (int i = 0; i < maxLights; i++)
-        lightIndex[i] = true;
+  // maximum number of lights supported by the display device
+  D3DCAPS9 caps;
+  d3dd->GetDeviceCaps(&caps);
+  maxLights = caps.MaxActiveLights ? caps.MaxActiveLights : MAX_ACTIVE_LIGHTS;
+  if (maxLights > (unsigned)MAX_ACTIVE_LIGHTS) maxLights = MAX_ACTIVE_LIGHTS;
+  if (lightIndex)
+    delete [] lightIndex;
+  lightIndex = new bool[maxLights];
+  for (int i = 0; i < maxLights; i++)
+    lightIndex[i] = true;
 }
 
 void APILight::dealloc() {
 
-    if (lightIndex)
-        delete [] lightIndex;
-    lightIndex = nullptr;
+  if (lightIndex)
+    delete [] lightIndex;
+  lightIndex = nullptr;
 }
 
 // setAmbient sets the ambient background colour
 //
 void APILight::setAmbient(const Colour& a) {
 
-    if (d3dd) 
-        d3dd->SetRenderState(D3DRS_AMBIENT, 
-         D3DCOLOR_COLORVALUE(a.r, a.g, a.b, 1.0f));
+  if (d3dd) 
+    d3dd->SetRenderState(D3DRS_AMBIENT, 
+    D3DCOLOR_COLORVALUE(a.r, a.g, a.b, 1.0f));
 }
 
 // set turns on off the specified render state
 //
 void APILight::set(RenderState state, bool b) {
 
-    if (d3dd) {
-        switch (state) {
-            case DITHERING:
-                d3dd->SetRenderState(D3DRS_DITHERENABLE, b);
-                break;
-            case SPECULARITY:
-                d3dd->SetRenderState(D3DRS_SPECULARENABLE, b);
-                break;
-        }
+  if (d3dd) {
+    switch (state) {
+    case DITHERING:
+      d3dd->SetRenderState(D3DRS_DITHERENABLE, b);
+      break;
+    case SPECULARITY:
+      d3dd->SetRenderState(D3DRS_SPECULARENABLE, b);
+      break;
     }
+  }
 }
 
 // setup finds an index for the api light and creates the api light using
@@ -117,54 +117,54 @@ void APILight::set(RenderState state, bool b) {
 //
 bool APILight::setup() {
 
-	bool rc = false;
+  bool rc = false;
 
-	// find an index for this api light and assign it
-    index = -1;
-    for (int i = 0; i < maxLights; i++) {
-        if (lightIndex && lightIndex[i]) {
-            lightIndex[i] = false;
-            index = i;
-            i = maxLights;
-        }
+  // find an index for this api light and assign it
+  index = -1;
+  for (int i = 0; i < maxLights; i++) {
+    if (lightIndex && lightIndex[i]) {
+      lightIndex[i] = false;
+      index = i;
+      i = maxLights;
     }
-	if (index == -1)
-		error(L"APILight::21 No more room for lights on this device");
-	else {
-		D3DLIGHT9 d3dLight;
-		ZeroMemory(&d3dLight, sizeof d3dLight);
-		switch (type) {
-		  case POINT_LIGHT:
-			d3dLight.Type = D3DLIGHT_POINT;
-			break;
-		  case SPOT_LIGHT:
-			d3dLight.Type = D3DLIGHT_SPOT;
-			break;
-		  case DIRECTIONAL_LIGHT:
-			d3dLight.Type = D3DLIGHT_DIRECTIONAL;
-			break;
-		}
-		d3dLight.Diffuse      = D3DXCOLOR(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
-		d3dLight.Ambient      = D3DXCOLOR(ambient.r, ambient.g, ambient.b, ambient.a);
-		d3dLight.Specular     = D3DXCOLOR(specular.r, specular.g, specular.b, specular.a);
-		d3dLight.Attenuation0 = attenuation0;
-		d3dLight.Attenuation1 = attenuation1;
-		d3dLight.Attenuation2 = attenuation2;
-		d3dLight.Phi          = phi;
-		d3dLight.Theta        = theta;
-		d3dLight.Falloff      = falloff;
-		d3dLight.Range        = range;
-		d3dLight.Position     = D3DXVECTOR3(0, 0, 0);
-		d3dLight.Direction    = D3DXVECTOR3(0, 0, 0);
+  }
+  if (index == -1)
+    error(L"APILight::21 No more room for lights on this device");
+  else {
+    D3DLIGHT9 d3dLight;
+    ZeroMemory(&d3dLight, sizeof d3dLight);
+    switch (type) {
+    case POINT_LIGHT:
+      d3dLight.Type = D3DLIGHT_POINT;
+      break;
+    case SPOT_LIGHT:
+      d3dLight.Type = D3DLIGHT_SPOT;
+      break;
+    case DIRECTIONAL_LIGHT:
+      d3dLight.Type = D3DLIGHT_DIRECTIONAL;
+      break;
+    }
+    d3dLight.Diffuse      = D3DXCOLOR(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+    d3dLight.Ambient      = D3DXCOLOR(ambient.r, ambient.g, ambient.b, ambient.a);
+    d3dLight.Specular     = D3DXCOLOR(specular.r, specular.g, specular.b, specular.a);
+    d3dLight.Attenuation0 = attenuation0;
+    d3dLight.Attenuation1 = attenuation1;
+    d3dLight.Attenuation2 = attenuation2;
+    d3dLight.Phi          = phi;
+    d3dLight.Theta        = theta;
+    d3dLight.Falloff      = falloff;
+    d3dLight.Range        = range;
+    d3dLight.Position     = D3DXVECTOR3(0, 0, 0);
+    d3dLight.Direction    = D3DXVECTOR3(0, 0, 0);
 
-		if (!d3dd || FAILED(d3dd->SetLight(index, &d3dLight)))
-			error(L"APILight::22 Failed to create device light");
-		else
-			rc = true;
+    if (!d3dd || FAILED(d3dd->SetLight(index, &d3dLight)))
+      error(L"APILight::22 Failed to create device light");
+    else
+      rc = true;
 
-	}
+  }
 
-	return rc;
+  return rc;
 }
 
 // turnOn sets up the api light if it needs to be setup,
@@ -173,20 +173,20 @@ bool APILight::setup() {
 //
 void APILight::turnOn(const Vector& p, const Vector& o) {
 
-	if (!isSetup) isSetup = setup();
+  if (!isSetup) isSetup = setup();
 
-	if (isSetup) {
-		D3DLIGHT9 d3dLight;
-		if (FAILED(d3dd->GetLight(index, &d3dLight)))
-			error(L"APILight::23 Failed to find a device light");
-		else {
-			d3dLight.Position  = D3DXVECTOR3(p.x, p.y, p.z);
-			d3dLight.Direction = D3DXVECTOR3(o.x, o.y, o.z);
-			if (FAILED(d3dd->SetLight(index, &d3dLight)))
-				error(L"APILight:24 Failed to update position");
-		}
-		d3dd->LightEnable(index, true);
-	}
+  if (isSetup) {
+    D3DLIGHT9 d3dLight;
+    if (FAILED(d3dd->GetLight(index, &d3dLight)))
+      error(L"APILight::23 Failed to find a device light");
+    else {
+      d3dLight.Position  = D3DXVECTOR3(p.x, p.y, p.z);
+      d3dLight.Direction = D3DXVECTOR3(o.x, o.y, o.z);
+      if (FAILED(d3dd->SetLight(index, &d3dLight)))
+        error(L"APILight:24 Failed to update position");
+    }
+    d3dd->LightEnable(index, true);
+  }
 }
 
 // update sets up the api light if it needs to be setup and adjusts
@@ -194,30 +194,30 @@ void APILight::turnOn(const Vector& p, const Vector& o) {
 //
 void APILight::update(const Vector& p, const Vector& o) {
 
-	if (!isSetup) isSetup = setup();
+  if (!isSetup) isSetup = setup();
 
-	if (isSetup) {
-		D3DLIGHT9 d3dLight;
-		if (FAILED(d3dd->GetLight(index, &d3dLight)))
-			error(L"APILight::23 Failed to find a device light");
-		else {
-			d3dLight.Position  = D3DXVECTOR3(p.x, p.y, p.z);
-			d3dLight.Direction = D3DXVECTOR3(o.x, o.y, o.z);
-			if (FAILED(d3dd->SetLight(index, &d3dLight)))
-				error(L"APILight:24 Failed to update position");
-		}
-		d3dd->LightEnable(index, true);
+  if (isSetup) {
+    D3DLIGHT9 d3dLight;
+    if (FAILED(d3dd->GetLight(index, &d3dLight)))
+      error(L"APILight::23 Failed to find a device light");
+    else {
+      d3dLight.Position  = D3DXVECTOR3(p.x, p.y, p.z);
+      d3dLight.Direction = D3DXVECTOR3(o.x, o.y, o.z);
+      if (FAILED(d3dd->SetLight(index, &d3dLight)))
+        error(L"APILight:24 Failed to update position");
     }
+    d3dd->LightEnable(index, true);
+  }
 }
 
 // turnOff turns off the api light
 //
 void APILight::turnOff() {
 
-    if (isSetup) {
-        if (d3dd)
-            d3dd->LightEnable(index, false);
-    }
+  if (isSetup) {
+    if (d3dd)
+      d3dd->LightEnable(index, false);
+  }
 }
 
 // suspend turns off the api light and makes its index available
@@ -225,10 +225,10 @@ void APILight::turnOff() {
 //
 void APILight::suspend() {
 
-    turnOff();
+  turnOff();
 
-	if (isSetup) {
-		lightIndex[index] = true;
-		isSetup = false;
-	}
+  if (isSetup) {
+    lightIndex[index] = true;
+    isSetup = false;
+  }
 }
