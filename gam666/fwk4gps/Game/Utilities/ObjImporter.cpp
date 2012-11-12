@@ -13,32 +13,32 @@ using namespace std;
 
 Mesh* ObjImporter::import(const char* fileName) {
   Mesh* mesh = new Mesh;
-	string fileData;
-	ifstream file(fullPath(fileName));
-	if(file.is_open()) { // if we opened the file...
-		while(file.good()) { // while not EOF or an error
-			getline(file, fileData, '\n'); // grab line until newline
-			if (!tokenEmpty(fileData)) {
-				// tokenize string
-				std::istringstream ss(fileData);
-				std::istream_iterator<std::string> begin(ss), end;
-				std::vector<std::string> tokens(begin, end);
+  string fileData;
+  ifstream file(fullPath(fileName));
+  if(file.is_open()) { // if we opened the file...
+    while(file.good()) { // while not EOF or an error
+      getline(file, fileData, '\n'); // grab line until newline
+      if (!tokenEmpty(fileData)) {
+        // tokenize string
+        std::istringstream ss(fileData);
+        std::istream_iterator<std::string> begin(ss), end;
+        std::vector<std::string> tokens(begin, end);
         std::string type = tokens[0];
-				if (hasValue(type, "v")) // vertex
-					mesh->vertices.push_back(readVector(tokens));
-				else if (hasValue(type, "vn")) // vertex normal
-					mesh->normals.push_back(readVector(tokens));
-				else if (hasValue(type, "vt")) // texture vertex
-					mesh->uvs.push_back(readVector(tokens));
-				else if (hasValue(type, "f")) // face
+        if (hasValue(type, "v")) // vertex
+          mesh->vertices.push_back(readVector(tokens));
+        else if (hasValue(type, "vn")) // vertex normal
+          mesh->normals.push_back(readVector(tokens));
+        else if (hasValue(type, "vt")) // texture vertex
+          mesh->uvs.push_back(readVector(tokens));
+        else if (hasValue(type, "f")) // face
           mesh->faces.push_back(readFace(tokens));
-				else if (hasValue(type, "g")) { // group
-					// TO DO
-				}
-			}
-		}
-	}
-	return mesh;
+        else if (hasValue(type, "g")) { // group
+          // TO DO
+        }
+      }
+    }
+  }
+  return mesh;
 }
 
 Vector ObjImporter::readVector(const std::vector<std::string>& tokens, int offset) {
@@ -46,7 +46,7 @@ Vector ObjImporter::readVector(const std::vector<std::string>& tokens, int offse
     (float)atof(tokens[offset].c_str()), 
     (float)atof(tokens[offset+1].c_str()),
     (float)atof(tokens[offset+2].c_str())
-  );
+    );
 }
 
 Face ObjImporter::readFace(const std::vector<std::string>& tokens) {
