@@ -5,10 +5,11 @@
 #include "Weapon.h"
 #include "Projectile.h"
 
-Player::Player(World* world, int id) : GameObject(world), 
-    thruster(300), id(id), thrusterCooldown(0), health(300),
-    cameraDistance(Vector(0, 40, -100)) { 
+Player::Player(World* world, int id, iGraphic* graphic) : 
+    GameObject(world, graphic), thruster(300), id(id), 
+    thrusterCooldown(0), health(300), cameraDistance(Vector(0, 40, -100)) { 
   createCamera();
+
   physics = new PhysicsObject(world->physics, this);
   physics->stayUpright = true;
 
