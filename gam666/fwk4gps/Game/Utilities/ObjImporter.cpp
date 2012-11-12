@@ -46,14 +46,18 @@ Vector ObjImporter::readVector(const std::vector<std::string>& tokens, int offse
     (float)atof(tokens[offset].c_str()), 
     (float)atof(tokens[offset+1].c_str()),
     (float)atof(tokens[offset+2].c_str())
-    );
+  );
 }
 
 Face ObjImporter::readFace(const std::vector<std::string>& tokens) {
   int size = tokens.size(), offset = 1;
   Face face(size - offset);
-  for (int i = offset; i < size; ++i)
-    face.add(IndexList(splitNumbers<int>(tokens[i])));
+  for (int i = offset; i < size; ++i) {
+    std::vector<int>& numbers = splitNumbers<int>(tokens[i]);
+    for (unsigned j = 0; j < numbers.size(); ++j)
+      --numbers[j];
+    face.add(IndexList(numbers));
+  }
   return face;
 }
 

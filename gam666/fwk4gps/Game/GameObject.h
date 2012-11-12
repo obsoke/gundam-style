@@ -13,6 +13,7 @@ protected:
   World* world;
 
   iObject* buildDefaultModel();
+  Colour randomColour();
 public:
   PhysicsObject* physics;
   iObject* model;
