@@ -27,6 +27,15 @@ iObject* CreateSprite(iGraphic* v, unsigned char a) {
   return new Object(SPRITE, v, a);
 }
 
+iObject* CreateSprite(const wchar_t* file, Rect* destRect, 
+    Rect* sourceRect, unsigned char a) {
+  iObject* obj = new Object(SPRITE, 
+    CreateGraphic(destRect->width, destRect->height, sourceRect), a);
+  obj->attach(CreateTexture(file));
+  obj->translate((float)destRect->x, (float)destRect->y, 0);
+  return obj;
+}
+
 Frame* CreateSkybox(const wchar_t** file, float width, float height, float depth) {
   Frame* skybox = new Frame();
   for (int i=0; i<6; ++i) {
@@ -143,3 +152,7 @@ Object::~Object() {
 AABB Object::getAABB() const { 
   return graphic->getAABB(); 
 }
+
+void Object::setClip(Rect* source) { 
+  if (graphic) graphic->setClip(source); 
+};
