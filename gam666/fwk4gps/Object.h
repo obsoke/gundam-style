@@ -44,6 +44,7 @@ public:
   int  height() const;
   float radius() const;
   AABB getAABB() const;
+  void setClip(Rect* source);
   void setTextureFilter(unsigned f)      { flags = f; }
   void setTextureAddressing(unsigned f) { texAddr = f; }
   bool belongsTo(Category c) const       { return c == category; }

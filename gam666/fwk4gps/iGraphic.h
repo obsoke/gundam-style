@@ -21,10 +21,12 @@ enum PrimitiveType;
 struct Colour;
 struct Vector;
 struct AABB;
+struct Rect;
 
 class iGraphic : public Base {
   virtual void setWorld(const void*)                        = 0;
   virtual void setRadius(float)                             = 0;
+  virtual void setClip(Rect*)                               { };
   virtual float getRadius() const                           = 0;
   virtual void beginDraw()                                  = 0;
   virtual void render(int = 0, int = 0, unsigned char = 0) = 0;
@@ -43,7 +45,7 @@ class iGraphic : public Base {
   friend class HUD;
 };
 
-iGraphic* CreateGraphic(int = 0, int = 0);
+iGraphic* CreateGraphic(int = 0, int = 0, Rect* source = nullptr);
 iGraphic* CreateBox(float, float, float, float, float, float, const Colour&);
 iGraphic* CreateGrid(float, float, int, const Colour&);
 iGraphic* TriangleList(const wchar_t*, const Colour&);

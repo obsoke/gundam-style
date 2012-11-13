@@ -26,7 +26,7 @@ iObject* GameObject::buildDefaultModel() {
   iObject* object = CreateObject(boxg, &Reflectivity(randomColour()));
   iGraphic* boxr  = CreateBox(-5, -5, -5, 20, 5, 5);
   iObject* child = CreateObject(boxr, &Reflectivity(red));
-  child->translate(0, 0, 20);
+  child->translate(0, 0, -20);
   child->attachTo(object);
   return object;
 }
