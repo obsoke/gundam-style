@@ -1,7 +1,6 @@
 #include "Mesh.h"
 
-Mesh Mesh::Build(const char* fileName)
-{
-	Mesh mesh;
-	return mesh;
+VertexList<Vertex>* Mesh::build() {
+  VertexList<Vertex>* vertexList = new VertexList<Vertex>;
+  return vertexList;
 }
