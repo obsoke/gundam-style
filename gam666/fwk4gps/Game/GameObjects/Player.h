@@ -9,6 +9,7 @@
 
 class World;
 class iCamera;
+class iGraphic;
 class Projectile;
 class Weapon;
 
@@ -24,7 +25,7 @@ public:
   int health;
   Weapon* weaponSet[3];
 
-  Player(World* world, int id);
+  Player(World* world, int id, iGraphic* graphic = nullptr);
   ~Player();
   void update();
   void useThruster(int amount);

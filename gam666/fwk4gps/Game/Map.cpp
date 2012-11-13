@@ -21,7 +21,7 @@ Floor* Map::addFloor(World* world, const Vector& position, const Vector& tiles,
 void DefaultMap::create(World* world) {
   addFloor(world, Vector(0, -10, 0), Vector(20, 1, 20));
   addFloor(world, Vector(500, -10, 0), Vector(5, 5, 5), Vector(100, 100, 100));
-  addFloor(world, Vector(0, 140, 0), Vector(5, 1, 5));
+  addFloor(world, Vector(0, 240, 0), Vector(5, 1, 5));
   addFloor(world, Vector(0, -10, 250), Vector(5, 9, 5));
 
   world->setBoundary(AABB(

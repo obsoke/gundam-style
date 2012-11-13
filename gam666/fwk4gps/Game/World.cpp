@@ -23,6 +23,9 @@
 #include "GameObjects\Player.h"
 #include "GameObjects\Floor.h"
 
+#include "Mesh.h"
+#include "Utilities\ObjImporter.h"
+
 World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
   game(game), numberOfPlayers(1), map(map) {
     physics = new PhysicsWorld(this);
@@ -67,12 +70,17 @@ void World::initializeObjects() {
   };
   skybox = CreateSkybox(files);
   map.create(this);
+  
+  //Mesh* mesh = ObjImporter::import("gundam.obj");
+  //iGraphic* vertexList = mesh->build();
   for (int i=0; i<numberOfPlayers; ++i) {
+    // send in vertex list when mesh->build works
     Player* player = new Player(this, i);
     if (!i) currentCam = player->getCamera();
     players.push_back(player);
     add(player);
   }
+  //delete mesh;
 }
 
 void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {

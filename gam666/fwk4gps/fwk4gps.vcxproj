@@ -105,7 +105,7 @@
     <ClCompile Include="Game\GameObjects\Projectile.cpp" />
     <ClCompile Include="Game\GameObjects\InputComponent.cpp" />
     <ClCompile Include="Game\Mesh.cpp" />
-    <ClCompile Include="Game\ObjImporter.cpp" />
+    <ClCompile Include="Game\Utilities\ObjImporter.cpp" />
     <ClCompile Include="Game\PhysicsObject.cpp" />
     <ClCompile Include="Game\PhysicsWorld.cpp" />
     <ClCompile Include="Entry.cpp" />

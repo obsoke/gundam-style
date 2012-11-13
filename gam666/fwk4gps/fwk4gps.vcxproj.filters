@@ -129,10 +129,10 @@
     <ClCompile Include="Game\GameObjects\Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\ObjImporter.cpp">
+    <ClCompile Include="Game\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Mesh.cpp">
+    <ClCompile Include="Game\Utilities\ObjImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

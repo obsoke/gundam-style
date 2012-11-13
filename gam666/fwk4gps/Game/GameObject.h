@@ -11,6 +11,9 @@ class PhysicsObject;
 class GameObject : public Frame {
 protected:
   World* world;
+
+  iObject* buildDefaultModel();
+  Colour randomColour();
 public:
   PhysicsObject* physics;
   iObject* model;
@@ -19,6 +22,7 @@ public:
   bool isAlive;
 
   GameObject(World* world, iObject* object = nullptr, bool createDefaultModel = true);
+  GameObject(World* world, iGraphic* graphic);
   ~GameObject();
   void setModel(iObject* object);
   void setModel(iGraphic* graphic, Reflectivity* reflectivity = nullptr);
