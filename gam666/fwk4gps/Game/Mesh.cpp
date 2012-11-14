@@ -9,6 +9,7 @@ VertexList<Vertex>* Mesh::build(bool normalize) {
   for (unsigned i=0; i<faces.size(); ++i)
     addFace(vertexList, faces[i]);
   vertexList->calcAABB();
+  cachedMesh = vertexList;
   return vertexList;
 }
 
@@ -91,4 +92,8 @@ void Mesh::normalizeSize(float scale) {
     v.y *= scale;
     v.z *= scale;
   }
+}
+
+VertexList<Vertex>* Mesh::getVertexList() {
+  return cachedMesh ? cachedMesh : build();
 }

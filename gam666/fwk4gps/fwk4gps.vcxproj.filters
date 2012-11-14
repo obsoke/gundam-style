@@ -320,13 +320,13 @@
     <ClInclude Include="game\gameobjects\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utilities\ObjImporter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Face.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Utilities\ObjImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

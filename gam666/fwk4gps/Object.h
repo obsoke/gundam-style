@@ -47,6 +47,7 @@ public:
   void setClip(Rect* source);
   void setTextureFilter(unsigned f)      { flags = f; }
   void setTextureAddressing(unsigned f) { texAddr = f; }
+  void setReflectivity(Reflectivity* r);
   bool belongsTo(Category c) const       { return c == category; }
   void render();
   void Delete() const { delete this; }

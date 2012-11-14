@@ -31,14 +31,6 @@ iObject* GameObject::buildDefaultModel() {
   return object;
 }
 
-Colour GameObject::randomColour() {
-  return Colour(
-    1.0f / ((rand() % 2) + 2), 
-    1.0f / ((rand() % 2) + 2), 
-    1.0f / ((rand() % 2) + 2)
-  );
-}
-
 GameObject::~GameObject() {
   delete physics;
   if (model) {
@@ -151,4 +143,12 @@ int GameObject::stayInBounds(const AABB& boundary) {
 
 int GameObject::stayInBounds() {
   return stayInBounds(world->getBoundary());
+}
+
+Colour randomColour() {
+  return Colour(
+    1.0f / ((rand() % 2) + 2), 
+    1.0f / ((rand() % 2) + 2), 
+    1.0f / ((rand() % 2) + 2)
+  );
 }

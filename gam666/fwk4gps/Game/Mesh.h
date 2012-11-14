@@ -20,9 +20,13 @@ public:
   std::vector<Vector> normals;
   std::vector<Face> faces;
 
-  Mesh (float buildScale = 45) : buildScale(buildScale) { };
+  VertexList<Vertex>* cachedMesh;
+
+  Mesh (float buildScale = 45) : buildScale(buildScale), 
+    cachedMesh(nullptr) { };
 
   VertexList<Vertex>* build(bool normalize = true);
+  VertexList<Vertex>* getVertexList();
   AABB calcAABB();
 };
 

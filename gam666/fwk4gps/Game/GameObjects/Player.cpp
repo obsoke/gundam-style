@@ -7,7 +7,7 @@
 
 Player::Player(World* world, int id, iGraphic* graphic) : 
     GameObject(world, graphic), thruster(300), id(id), 
-    thrusterCooldown(0), health(300), cameraDistance(Vector(0, 40, -100)) { 
+    thrusterCooldown(0), health(200), cameraDistance(Vector(0, 40, -100)) { 
   createCamera();
 
   physics = new PhysicsObject(world->physics, this);
@@ -27,13 +27,11 @@ void Player::createCamera() {
 }
 
 void Player::update() {
-	if(isAlive()){
+	if(isAlive()) {
 		recoverThrusters();
 		input.update(world, this);
 		weaponSet[0]->checkCoolDown();
-	}
-	else
-	{
+	} else {
 		physics->stayUpright = false;
 	}
 	GameObject::update();
