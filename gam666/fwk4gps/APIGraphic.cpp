@@ -116,7 +116,7 @@ void APIGraphic::render(int x, int y, unsigned char a, Rect* source) {
 
   if (d3dd && sprite) {
     D3DXVECTOR3 topLeft((float)x, (float)y, 1.f);
-    sprite->Draw(texture, rect, source ? &createRect(source) : nullptr, 
+    sprite->Draw(texture, source ? &createRect(source) : nullptr, nullptr,
       &topLeft, D3DCOLOR_RGBA(255, 255, 255, a ? a : '\xFF'));
   }
 }
