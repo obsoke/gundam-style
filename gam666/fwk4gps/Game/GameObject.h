@@ -11,6 +11,7 @@ class PhysicsObject;
 class GameObject : public Frame {
 protected:
   World* world;
+  Vector previousPosition;
 
   iObject* buildDefaultModel();
   Colour randomColour();
