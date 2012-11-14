@@ -156,3 +156,9 @@ AABB Object::getAABB() const {
 void Object::setClip(Rect* source) { 
   if (graphic) graphic->setClip(source); 
 };
+
+void Object::setReflectivity(Reflectivity* r) { 
+  reflectivity = *r; 
+  if (r->translucent())
+    category = TRANSLUCENT_OBJECT;
+}

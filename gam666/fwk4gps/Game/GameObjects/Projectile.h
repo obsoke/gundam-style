@@ -17,7 +17,8 @@ public:
   float life;
   unsigned time;
 
-  Projectile(World* world, Player* owner = nullptr, float speed = 0);
+  Projectile(World* world, Player* owner = nullptr, 
+    iGraphic* moddel = nullptr, float speed = 0);
   ~Projectile();
   void shoot();
   void update();

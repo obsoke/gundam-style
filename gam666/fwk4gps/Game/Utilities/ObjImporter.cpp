@@ -12,28 +12,34 @@
 using namespace std;
 
 Mesh* ObjImporter::import(const char* fileName) {
-  Mesh* mesh = new Mesh;
-  string lines, type;
-  ifstream file(fullPath(fileName));
-  if(file.is_open()) { // if we opened the file...
-    while(file.good()) { // while not EOF or an error
-      getline(file, lines, '\n'); // grab line until newline
-      if (!tokenEmpty(lines)) {
-        const vector<string>& tokens = split(lines);
-        type = tokens[0];
-        if (hasValue(type, "v")) // vertex
-          mesh->vertices.push_back(readVector(tokens));
-        else if (hasValue(type, "vn")) // vertex normal
-          mesh->normals.push_back(readVector(tokens));
-        else if (hasValue(type, "vt")) // texture vertex
-          mesh->uvs.push_back(readVector(tokens));
-        else if (hasValue(type, "f")) // face
-          mesh->faces.push_back(readFace(tokens));
-        else if (hasValue(type, "g")) { // group
-          // TO DO
+  Mesh* mesh;
+  if (meshLibrary[fileName]) {
+    mesh = meshLibrary[fileName];
+  } else {
+    mesh = new Mesh;
+    string lines, type;
+    ifstream file(fullPath(fileName));
+    if(file.is_open()) { // if we opened the file...
+      while(file.good()) { // while not EOF or an error
+        getline(file, lines, '\n'); // grab line until newline
+        if (!tokenEmpty(lines)) {
+          const vector<string>& tokens = split(lines);
+          type = tokens[0];
+          if (hasValue(type, "v")) // vertex
+            mesh->vertices.push_back(readVector(tokens));
+          else if (hasValue(type, "vn")) // vertex normal
+            mesh->normals.push_back(readVector(tokens));
+          else if (hasValue(type, "vt")) // texture vertex
+            mesh->uvs.push_back(readVector(tokens));
+          else if (hasValue(type, "f")) // face
+            mesh->faces.push_back(readFace(tokens));
+          else if (hasValue(type, "g")) { // group
+            // TO DO
+          }
         }
       }
     }
+    meshLibrary[fileName] = mesh;
   }
   return mesh;
 }
@@ -106,3 +112,4 @@ std::string ObjImporter::defaultPath = "..\\..\\resources\\assets\\";
 std::string ObjImporter::tempElement = "";
 std::vector<std::string> ObjImporter::splitElements = std::vector<std::string>();
 std::vector<int> ObjImporter::splitNumElements = std::vector<int>();
+std::map<std::string, Mesh*> ObjImporter::meshLibrary = std::map<std::string, Mesh*>();

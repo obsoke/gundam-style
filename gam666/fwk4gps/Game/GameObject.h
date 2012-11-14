@@ -11,9 +11,9 @@ class PhysicsObject;
 class GameObject : public Frame {
 protected:
   World* world;
+  Vector previousPosition;
 
   iObject* buildDefaultModel();
-  Colour randomColour();
 public:
   PhysicsObject* physics;
   iObject* model;
@@ -52,5 +52,7 @@ public:
   int stayInBounds(const AABB& boundary);
   int stayInBounds();
 };
+
+Colour randomColour();
 
 #endif

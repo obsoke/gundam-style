@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include "..\..\MathDecl.h"
 
 /*********************/
@@ -33,6 +34,7 @@ class ObjImporter {
   static bool tokenEmpty(std::string fileData);
   static bool hasValue(std::string str, std::string compareTo);
   static std::string fullPath(std::string fileName);
+  static std::map<std::string, Mesh*> meshLibrary;
 public:
   static Mesh* import(const char* fileName);
 };
