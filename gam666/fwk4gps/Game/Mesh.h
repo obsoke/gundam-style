@@ -7,20 +7,23 @@
 #include "Face.h"
 #include <vector>
 
-struct Mesh {
-  std::vector<Vector> vertices;
-  std::vector<Vector> uvs;
-  std::vector<Vector> normals;
-  std::vector<Face> faces;
+class Mesh {
+    void addTri(VertexList<Vertex>* vertexList, const Face& face);
+    void addQuad(VertexList<Vertex>* vertexList, const Face& face);
+    void addFace(VertexList<Vertex>* vertexList, const Face& face);
+    unsigned numberOfTriangles();
+    void normalizeSize(float scale = 1);
+  public:
+    float buildScale;
+    std::vector<Vector> vertices;
+    std::vector<Vector> uvs;
+    std::vector<Vector> normals;
+    std::vector<Face> faces;
 
-  VertexList<Vertex>* build();
-  void normalizeSize(float scale); // makes sure the mesh is the size you want
-  void calcAABB(); // we need to know the AABB before finding out the avg size
-private:
-  void addFace(VertexList<Vertex>* vertexList, const Face& face); // calls addTri() or addQuad depending on the face's type
-  void addTri(VertexList<Vertex>* vertexList, const Face& face);
-  void addQuad(VertexList<Vertex>* vertexList, const Face& face);
-  int numberOfTriangles(); //for allocation
+    Mesh (float buildScale = 45) : buildScale(buildScale) { };
+
+    VertexList<Vertex>* build(bool normalize = true);
+    AABB calcAABB();
 };
 
 #endif

@@ -1,92 +1,94 @@
 #include "Mesh.h"
-#include "../Translation.h"
+#include "..\APIVertex.h"
+#include "..\Translation.h"
 
-VertexList<Vertex>* Mesh::build() {
-  VertexList<Vertex>* vertexList = 
-	  (VertexList<Vertex>*)CreateVertexList<Vertex>(TRIANGLE_STRIP,
-													numberOfTriangles());
-  for(unsigned int i = 0; i < faces.size(); ++i) // add all faces to vertexList
-  {
-	  addFace(vertexList, faces[i]);
-  }
+VertexList<Vertex>* Mesh::build(bool normalize) {
+  if (normalize) normalizeSize(buildScale);
+  VertexList<Vertex>* vertexList = (VertexList<Vertex>*) 
+    CreateVertexList<Vertex>(TRIANGLE_LIST, numberOfTriangles());
+  for (unsigned i=0; i<faces.size(); ++i)
+    addFace(vertexList, faces[i]);
+  vertexList->calcAABB();
   return vertexList;
 }
 
-void Mesh::addFace(VertexList<Vertex>* vertexList, const Face& face)
-{
-	if(face.type == Tri)
-		addTri(vertexList, face);
-	else if(face.type == Quad)
-		addQuad(vertexList, face);
+void Mesh::addTri(VertexList<Vertex>* vertexList, const Face& face) {
+  const Vector& v0 = vertices[face[0].v], 
+    v1 = vertices[face[1].v], v2 = vertices[face[2].v];
+  const Vector& n0 = normals[face[0].vn], 
+    n1 = normals[face[1].vn], n2 = normals[face[2].vn];
+  const Vector& uv0 = uvs[face[0].vt], uv1 = uvs[face[1].vt], 
+    uv2 = uvs[face[2].vt];
+  vertexList->add(Vertex(v0, n0, uv0.x, uv0.y));
+  vertexList->add(Vertex(v1, n1, uv1.x, uv1.y));
+  vertexList->add(Vertex(v2, n2, uv2.x, uv2.y));
 }
 
-void Mesh::addTri(VertexList<Vertex>* vertexList, const Face& face)
-{
-	//addTri goes in the order of 0, 1, 2
-	Vector v1 = vertices[face[0].v];
-	Vector vn1 = normals[face[0].vn];
-	Vector vt1 = uvs[face[0].vt];
-
-	Vector v2 = vertices[face[1].v];
-	Vector vn2 = normals[face[1].vn];
-	Vector vt2 = uvs[face[1].vt];
-
-	Vector v3 = vertices[face[2].v];
-	Vector vn3 = normals[face[2].vn];
-	Vector vt3 = uvs[face[2].vt];
-
-	vertexList->add(Vertex(v1, vn1, vt1.x, vt1.y));
-	vertexList->add(Vertex(v2, vn2, vt2.x, vt2.y));
-	vertexList->add(Vertex(v3, vn3, vt3.x, vt3.y));
+void Mesh::addQuad(VertexList<Vertex>* vertexList, const Face& face) {
+  const Vector& v0 = vertices[face[0].v], v1 = vertices[face[1].v], 
+    v2 = vertices[face[2].v], v3 = vertices[face[3].v];
+  const Vector& n0 = normals[face[0].vn], n1 = normals[face[1].vn], 
+    n2 = normals[face[2].vn], n3 = normals[face[3].vn];
+  const Vector& uv0 = uvs[face[0].vt], uv1 = uvs[face[1].vt], 
+    uv2 = uvs[face[2].vt], uv3 = uvs[face[3].vt];
+  vertexList->add(Vertex(v0, n0, uv0.x, uv0.y));
+  vertexList->add(Vertex(v1, n1, uv1.x, uv1.y));
+  vertexList->add(Vertex(v2, n2, uv2.x, uv2.y));
+  vertexList->add(Vertex(v0, n0, uv0.x, uv0.y));
+  vertexList->add(Vertex(v2, n2, uv2.x, uv2.y));
+  vertexList->add(Vertex(v3, n3, uv3.x, uv3.y));
 }
 
-void Mesh::addQuad(VertexList<Vertex>* vertexList, const Face& face)
-{
-	// addQuad goes in the order of 0, 1, 2, 0, 2, 3
-	Vector v1 = vertices[face[0].v];
-	Vector vn1 = normals[face[0].vn];
-	Vector vt1 = uvs[face[0].vt];
-
-	Vector v2 = vertices[face[1].v];
-	Vector vn2 = normals[face[1].vn];
-	Vector vt2 = uvs[face[1].vt];
-
-	Vector v3 = vertices[face[2].v];
-	Vector vn3 = normals[face[2].vn];
-	Vector vt3 = uvs[face[2].vt];
-
-	Vector v4 = vertices[face[3].v];
-	Vector vn4 = normals[face[3].vn];
-	Vector vt4 = uvs[face[3].vt];
-
-	vertexList->add(Vertex(v1, vn1, vt1.x, vt1.y));
-	vertexList->add(Vertex(v2, vn2, vt2.x, vt2.y));
-	vertexList->add(Vertex(v3, vn3, vt3.x, vt3.y));
-
-	vertexList->add(Vertex(v1, vn1, vt1.x, vt1.y));
-	vertexList->add(Vertex(v3, vn3, vt3.x, vt3.y));
-	vertexList->add(Vertex(v4, vn4, vt4.x, vt4.y));
+void Mesh::addFace(VertexList<Vertex>* vertexList, const Face& face) {
+  if (face.type == Quad) 
+    addQuad(vertexList, face);
+  else 
+    addTri(vertexList, face);
 }
 
-void Mesh::normalizeSize(float scale)
-{
-	// TO DO
+unsigned Mesh::numberOfTriangles() {
+  int num = 0;
+  for (unsigned i=0; i<faces.size(); ++i) {
+    const Face& face = faces[i];
+    if (face.type == Quad) 
+      num += 2;
+    else if (face.type == Tri) 
+      ++num;
+  }
+  return num;
 }
+
+AABB Mesh::calcAABB() {
+  AABB aabb;
   
-void Mesh::calcAABB()
-{
-	// TO DO
+  for (unsigned i=0; i<vertices.size(); ++i) {
+    const Vector& v = vertices[i];
+    if (!i) {
+      aabb.minimum = v;
+      aabb.maximum = v;
+    }
+    aabb.minimum.x = min(aabb.minimum.x, v.x);
+    aabb.minimum.y = min(aabb.minimum.y, v.y);
+    aabb.minimum.z = min(aabb.minimum.z, v.z);
+    aabb.maximum.x = max(aabb.maximum.x, v.x);
+    aabb.maximum.y = max(aabb.maximum.y, v.y);
+    aabb.maximum.z = max(aabb.maximum.z, v.z);
+  }
+
+  return aabb;
 }
 
-int Mesh::numberOfTriangles()
-{
-	int num = 0;
-	for(unsigned int i = 0; i < faces.size(); ++i)
-	{
-		if(faces[i].type == Tri)
-			num++;
-		else if(faces[i].type == Quad)
-			num += 2;
-	}
-	return num;
+void Mesh::normalizeSize(float scale) {
+  AABB& aabb = calcAABB();
+  float width = aabb.width(), height = aabb.height(), depth = aabb.depth();
+  float avg = (width + height + depth) / 3.0f;
+  for (unsigned i=0; i<vertices.size(); ++i) {
+    Vector& v = vertices[i];
+    if (width) v.x /= avg;
+    if (height) v.y /= avg;
+    if (depth) v.z /= avg;
+    v.x *= scale;
+    v.y *= scale;
+    v.z *= scale;
+  }
 }
