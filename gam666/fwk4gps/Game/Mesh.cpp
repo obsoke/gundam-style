@@ -1,10 +1,12 @@
 #include "Mesh.h"
 #include "../Translation.h"
 
+#include "Utils.h"
+
 VertexList<Vertex>* Mesh::build() {
   VertexList<Vertex>* vertexList = 
 	  (VertexList<Vertex>*)CreateVertexList<Vertex>(TRIANGLE_STRIP,
-													numberOfTriangles());
+													numberOfTriangles() * 3);
   for(unsigned int i = 0; i < faces.size(); ++i) // add all faces to vertexList
   {
 	  addFace(vertexList, faces[i]);
@@ -88,5 +90,6 @@ int Mesh::numberOfTriangles()
 		else if(faces[i].type == Quad)
 			num += 2;
 	}
+	debug(num);
 	return num;
 }
