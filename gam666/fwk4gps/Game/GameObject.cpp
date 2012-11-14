@@ -15,7 +15,7 @@ GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) :
 GameObject::GameObject(World* world, iGraphic* graphic) : 
     world(world), physics(nullptr), isAlive(true) {
   if (graphic)
-    setModel(CreateObject(graphic, &Reflectivity(randomColour())));
+    setModel(CreateObject(graphic, &Reflectivity(Colour(1,1,1))));
   else
     setModel(buildDefaultModel());
 }
