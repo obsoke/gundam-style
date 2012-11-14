@@ -55,7 +55,9 @@ Face ObjImporter::readFace(const std::vector<std::string>& tokens) {
   for (int i = offset; i < size; ++i) {
     std::vector<int>& numbers = splitNumbers<int>(tokens[i]);
     for (unsigned j = 0; j < numbers.size(); ++j)
-      --numbers[j];
+	{
+      if(numbers[j] > 0) --numbers[j];
+	}
     face.add(IndexList(numbers));
   }
   return face;
