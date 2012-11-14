@@ -13,9 +13,13 @@
 
 #include "..\Face.h"
 
-struct Mesh;
+class Mesh;
 
 class ObjImporter {
+  static std::vector<std::string> splitElements;
+  static std::vector<int> splitNumElements;
+  static std::string tempElement;
+
   static std::string defaultPath;
 
   ObjImporter(const ObjImporter& s);            // prevents copying
@@ -24,8 +28,8 @@ class ObjImporter {
   // Import helper functions
   static Vector readVector(const std::vector<std::string>& tokens, int offset = 1);
   static Face readFace(const std::vector<std::string>& tokens);
-  template <class T> 
-    static std::vector<T> splitNumbers(std::string str, char separator = '/');
+  static std::vector<int>& splitNumbers(std::string str, char separator = '/');
+  static const std::vector<std::string>& split(std::string str, char separator = ' ');
   static bool tokenEmpty(std::string fileData);
   static bool hasValue(std::string str, std::string compareTo);
   static std::string fullPath(std::string fileName);

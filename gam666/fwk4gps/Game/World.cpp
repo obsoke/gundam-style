@@ -71,16 +71,16 @@ void World::initializeObjects() {
   skybox = CreateSkybox(files);
   map.create(this);
   
-  //Mesh* mesh = ObjImporter::import("gundam.obj");
-  //iGraphic* vertexList = mesh->build();
+  Mesh* mesh = ObjImporter::import("gundam.obj");
+  iGraphic* vertexList = mesh->build();
   for (int i=0; i<numberOfPlayers; ++i) {
     // send in vertex list when mesh->build works
-    Player* player = new Player(this, i);
+    Player* player = new Player(this, i, vertexList);
     if (!i) currentCam = player->getCamera();
     players.push_back(player);
     add(player);
   }
-  //delete mesh;
+  delete mesh;
 }
 
 void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
