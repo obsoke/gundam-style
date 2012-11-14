@@ -41,6 +41,7 @@ class iObject : public Frame, public Base {
   friend class Design;
   friend class World;
 public:
+  virtual void setReflectivity(Reflectivity* r)    = 0;
   virtual void setClip(Rect* source)               = 0;
   virtual void setTextureAddressing(unsigned)      = 0;
   virtual void attach(iTexture* t)                 = 0;

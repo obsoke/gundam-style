@@ -2,8 +2,8 @@
 #include "..\World.h"
 #include "../../MathDef.h"
 
-Projectile::Projectile(World* world, Player* owner, float pSpeed) : 
-    GameObject(world), owner(owner), pSpeed(pSpeed),
+Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed) : 
+    GameObject(world, model), owner(owner), pSpeed(pSpeed), damage(10),
     time(0), force(1000), life(5000) {
 	if (owner) initializeFromOwner();
 }
