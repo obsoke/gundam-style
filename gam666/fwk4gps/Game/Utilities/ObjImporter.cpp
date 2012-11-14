@@ -13,17 +13,14 @@ using namespace std;
 
 Mesh* ObjImporter::import(const char* fileName) {
   Mesh* mesh = new Mesh;
-  string fileData;
+  string lines, type;
   ifstream file(fullPath(fileName));
   if(file.is_open()) { // if we opened the file...
     while(file.good()) { // while not EOF or an error
-      getline(file, fileData, '\n'); // grab line until newline
-      if (!tokenEmpty(fileData)) {
-        // tokenize string
-        std::istringstream ss(fileData);
-        std::istream_iterator<std::string> begin(ss), end;
-        std::vector<std::string> tokens(begin, end);
-        std::string type = tokens[0];
+      getline(file, lines, '\n'); // grab line until newline
+      if (!tokenEmpty(lines)) {
+        const vector<string>& tokens = split(lines);
+        type = tokens[0];
         if (hasValue(type, "v")) // vertex
           mesh->vertices.push_back(readVector(tokens));
         else if (hasValue(type, "vn")) // vertex normal
@@ -53,22 +50,41 @@ Face ObjImporter::readFace(const std::vector<std::string>& tokens) {
   int size = tokens.size(), offset = 1;
   Face face(size - offset);
   for (int i = offset; i < size; ++i) {
-    std::vector<int>& numbers = splitNumbers<int>(tokens[i]);
+    std::vector<int>& numbers = splitNumbers(tokens[i]);
+    if (numbers.size() < 3)
+      int x = 0;
     for (unsigned j = 0; j < numbers.size(); ++j)
-      --numbers[j];
+      if (numbers[j] > 0)
+        --numbers[j];
     face.add(IndexList(numbers));
   }
   return face;
 }
 
-template<class T>
-std::vector<T> ObjImporter::splitNumbers(std::string str, char separator) {
-  std::vector<T> numbers;
-  std::istringstream stream(str.c_str()); // stream to iterate over
-  std::string num; // output of iterator
-  while (getline(stream, num, separator))
-    numbers.push_back((T)atof(num.c_str()));
-  return numbers;
+const std::vector<std::string>& ObjImporter::split(std::string str, char separator) {
+  splitElements.clear();
+  int current = 0, next = 0;
+  while (next != -1) {
+    next = str.find(separator, current + 1);
+    const std::string& element = str.substr(current, next - current);
+    if (element.length())
+      splitElements.push_back(element);
+    current = next + 1;
+  }
+  return splitElements;
+}
+
+std::vector<int>& ObjImporter::splitNumbers(std::string str, char separator) {
+  splitNumElements.clear();
+  int current = 0, next = 0;
+  while (next != -1) {
+    next = str.find(separator, current);
+    const std::string& element = str.substr(current, next - current);
+    int number = element.length() ? atoi(element.c_str()) : 0;
+    splitNumElements.push_back(number);
+    current = next + 1;
+  }
+  return splitNumElements;
 }
 
 bool ObjImporter::hasValue(std::string str, std::string compareTo) {
@@ -87,3 +103,6 @@ std::string ObjImporter::fullPath(std::string fileName) {
 };
 
 std::string ObjImporter::defaultPath = "..\\..\\resources\\assets\\";
+std::string ObjImporter::tempElement = "";
+std::vector<std::string> ObjImporter::splitElements = std::vector<std::string>();
+std::vector<int> ObjImporter::splitNumElements = std::vector<int>();
