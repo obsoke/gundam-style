@@ -22,9 +22,7 @@ class Game {
     int show;
 
     Game(void* handle, int show);
-    ~Game() {
-      if (currentState) delete currentState;
-    }
+    ~Game();
     void initialize();
     void update();
 };

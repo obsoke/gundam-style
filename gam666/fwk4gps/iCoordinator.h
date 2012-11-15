@@ -62,6 +62,7 @@ public:
   virtual void suspend()               = 0;
   virtual void restore()               = 0;
   virtual void release()               = 0;
+  virtual ~iCoordinator() { };
 };
 
 iCoordinator* CoordinatorAddress();

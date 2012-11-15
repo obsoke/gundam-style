@@ -37,6 +37,7 @@ class ObjImporter {
   static std::map<std::string, Mesh*> meshLibrary;
 public:
   static Mesh* import(const char* fileName);
+  static void disposeLibrary();
 };
 
 #endif

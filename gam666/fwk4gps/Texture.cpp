@@ -21,8 +21,14 @@
 // CreateTexture creates a Texture object
 //
 iTexture* CreateTexture(const wchar_t* file, unsigned key) {
-
-  return new Texture(file, key);
+  iTexture* tex;
+  if (Texture::textureLibrary.find(file) != Texture::textureLibrary.end()) {
+    tex = Texture::textureLibrary[file];
+  } else {
+    tex = new Texture(file, key);
+    Texture::textureLibrary[file] = tex;
+  }
+  return tex;
 }
 
 iTexture* Clone(const iTexture* src) {
@@ -139,3 +145,13 @@ Texture::~Texture() {
   coordinator->remove(this);
 }
 
+std::map<const wchar_t*, iTexture*> Texture::textureLibrary = 
+  std::map<const wchar_t*, iTexture*>();
+
+void Texture::disposeLibrary() {
+  std::map<const wchar_t*, iTexture*>::iterator it;
+  for (it = Texture::textureLibrary.begin(); it != Texture::textureLibrary.end(); ++it) {
+    if (it->second) delete it->second;
+    it->second = nullptr;
+  }
+}

@@ -27,7 +27,7 @@
 #include "Utilities\ObjImporter.h"
 
 World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
-  game(game), numberOfPlayers(1), map(map) {
+  game(game), numberOfPlayers(1), map(map), skybox(nullptr), physics(nullptr) {
     physics = new PhysicsWorld(this);
 }
 
@@ -78,14 +78,12 @@ void World::initializeObjects() {
   Mesh* mesh = ObjImporter::import("gundam.obj");
   iGraphic* vertexList = mesh->build();
   for (int i=0; i<numberOfPlayers; ++i) {
-    // send in vertex list when mesh->build works
     Player* player = new Player(this, i, vertexList);
     player->model->attach(CreateTexture(gundamTextures[i]));
     if (!i) currentCam = player->getCamera();
     players.push_back(player);
     add(player);
   }
-  delete mesh;
 }
 
 void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
@@ -192,14 +190,7 @@ void World::checkBoundaryCollision() {
   }
 }
 
-World::~World() {
-  for (unsigned i=0, length=floors.size(); i<length; ++i) {
-    delete floors[i];
-  }
-  for (unsigned i=0, length=players.size(); i<length; ++i) {
-    delete players[i];
-  }
-  for (unsigned i=0, length=sprites.size(); i<length; ++i) {
-    delete sprites[i];
-  }
+World::~World() { 
+  if (skybox) delete skybox;
+  if (physics) delete physics;
 }
