@@ -513,9 +513,7 @@ Coordinator::~Coordinator() {
     if (object[i]) 
       object[i]->Delete();
 
-  for (unsigned i = 0; i < texture.size(); i++)
-    if (texture[i]) 
-      texture[i]->Delete();
+  Texture::disposeLibrary();
 
   for (unsigned i = 0; i < light.size(); i++)
     if (light[i])

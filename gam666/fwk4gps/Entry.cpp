@@ -18,5 +18,6 @@
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cp, int show) {
 
   Game game(hinst, show);
+  return 0;
 
 }
