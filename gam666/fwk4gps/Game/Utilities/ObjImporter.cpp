@@ -13,7 +13,7 @@ using namespace std;
 
 Mesh* ObjImporter::import(const char* fileName) {
   Mesh* mesh;
-  if (meshLibrary[fileName]) {
+  if (meshLibrary.find(fileName) != meshLibrary.end()) {
     mesh = meshLibrary[fileName];
   } else {
     mesh = new Mesh;
@@ -113,3 +113,11 @@ std::string ObjImporter::tempElement = "";
 std::vector<std::string> ObjImporter::splitElements = std::vector<std::string>();
 std::vector<int> ObjImporter::splitNumElements = std::vector<int>();
 std::map<std::string, Mesh*> ObjImporter::meshLibrary = std::map<std::string, Mesh*>();
+
+void ObjImporter::disposeLibrary() {
+  std::map<std::string, Mesh*>::iterator it;
+  for (it = meshLibrary.begin(); it != meshLibrary.end(); ++it) {
+    if (it->second) delete it->second;
+    it->second = nullptr;
+  }
+}
