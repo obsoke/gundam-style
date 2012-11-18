@@ -52,6 +52,14 @@ inline Vector& Vector::operator-=(const Vector& a) {
   return *this;
 }
 
+inline bool Vector::operator==(const Vector& a) {
+  return (x == a.x) && (y == a.y) && (z == a.z);
+}
+
+inline bool Vector::operator!=(const Vector& a) {
+  return !((x == a.x) && (y == a.y) && (z == a.z));
+}
+
 inline float Vector::length() const {
 
   return sqrtf(dot(*this, *this));
