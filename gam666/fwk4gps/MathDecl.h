@@ -36,6 +36,8 @@ struct Vector {
   Vector  operator*(const Matrix& m);
   Vector  operator*(const Matrix& m) const;
   Vector  operator*=(const Matrix& m);
+  bool    operator==(const Vector& a);
+  bool    operator!=(const Vector& a);
   float   length() const;
 };
 

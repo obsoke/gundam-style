@@ -51,6 +51,7 @@ public:
   virtual int hitBoundary() { return 0; };
   int stayInBounds(const AABB& boundary);
   int stayInBounds();
+  Matrix worldTransform() { return Frame::world(); };
 };
 
 Colour randomColour();

@@ -13,6 +13,7 @@
 #include "MathDef.h"      // for math functions
 #include "Model.h"        // for FORWARD_SPEED, ROT_SPEED
 #include "Translation.h"  // for CAM_PAN_ ...
+#include "Game\Utils.h"
 
 //-------------------------------- Camera -------------------------------------
 //
@@ -126,6 +127,7 @@ void Camera::update() {
       // roll left/right
       if (rz) 
         rotate(orientation('z'), rz * ANG_CAM_SPEED);
+      debug(position());
     }
     // adjust camera position
     if ((dx || dy || dz)) { 
@@ -134,6 +136,7 @@ void Camera::update() {
         (float) dy * CAM_SPEED * orientation('y') + 
         (float) dz * CAM_SPEED * orientation('z');
       translate(displacement.x, displacement.y, displacement.z);
+      debug(position());
     }
   }
 
