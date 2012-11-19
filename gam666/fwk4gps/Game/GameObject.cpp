@@ -152,3 +152,8 @@ Colour randomColour() {
     1.0f / ((rand() % 2) + 2)
   );
 }
+
+AABB createSpawnArea(const Vector& spawnPoint, int distance) {
+  Vector halfDistance(distance / 2.0f, distance / 2.0f, distance / 2.0f);
+  return AABB(spawnPoint - halfDistance, spawnPoint + halfDistance);
+}

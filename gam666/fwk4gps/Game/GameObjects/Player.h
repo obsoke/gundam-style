@@ -35,6 +35,7 @@ public:
   virtual void onCollision(Projectile* projectile);
   bool isAlive();
   void setWeapons();
+  Vector findSpawnPoint();
   
   iCamera* getCamera() { return camera; };
 };
