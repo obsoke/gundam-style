@@ -7,8 +7,10 @@
 void InputComponent::update(World* world, Player* object) {
   float delta = 1.5f, dx = 0, dy = 0, dz = 0, ang = 0;
   int id = object->id;
-  int changeX = world->change(GF_CT_POSX, id);
-  int changeY = world->change(GF_CT_POSY, id);
+  int changeX = world->change(POSX, id);
+  int changeY = world->change(POSY, id);
+  int aimChangeX = world->change(RPOSX, id);
+  int aimChangeY = world->change(RPOSY, id);
 
   // add changes introduced through keyboard input
   if (changeX < -50 || world->pressed(MOVE_LEFT, id))
