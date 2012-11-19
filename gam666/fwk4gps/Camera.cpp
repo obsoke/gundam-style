@@ -65,9 +65,9 @@ void Camera::update() {
       rz = 0;
 
     // controller input
-    int jx = change(GF_CT_POSX);
-    int jy = change(GF_CT_POSY);
-    int jr = change(GF_CT_ROTZ);
+    int jx = change(POSX);
+    int jy = change(POSY);
+    int jr = change(RPOSX);
     if (jy)
       rx = -(int)(jy * CTR_SPEED);
     if (jr)
