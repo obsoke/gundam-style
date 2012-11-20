@@ -34,6 +34,7 @@ World::World(Game* game, Map& map) : Coordinator(game->handle, game->show),
 void World::initialize() {
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
+  //numberOfPlayers = 4;
   farcp = 10000.0f;
   nearcp = 80.0f;
   initializeLighting();
@@ -188,6 +189,14 @@ void World::checkBoundaryCollision() {
       }
     }
   }
+}
+
+bool World::collidesWithFloors(const AABB& aabb) {
+  bool collided = false;
+  for (unsigned i=0; i<floors.size() && !collided; ++i) {
+    collided = floors[i]->getAABB().intersects(aabb);
+  }
+  return collided;
 }
 
 World::~World() { 

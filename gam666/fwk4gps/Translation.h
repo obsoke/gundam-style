@@ -170,9 +170,9 @@ typedef enum Key {
 // controller buttons listed in the user dialog
 //
 #define CONTROLLER_OBJECT_DESCRIPTIONS { \
-  L"Trigger", L"Button 1", L"Button 2", L"Button 3", L"Button 4", \
-  L"Button 5", L"Button 6", L"Button 7", L"Button 8", L"Button 9", \
-  L"Button 10", L"North", L"East", L"West",  L"South" \
+  L"A", L"B", L"X", L"Y", \
+  L"L1", L"R1", L"Back", L"Start", L"L3", L"R3", \
+  L"?", L"?", L"LX", L"LY", L"RX", L"RY" \
   }
 
 //-------------------------------- Action Enumerations -------------------------
@@ -238,10 +238,10 @@ typedef enum Action {
   CAM_SMOOTH_YAW,
   CAM_SMOOTH_PITCH,
   CAM_SMOOTH_F_B,
-  GF_CT_POSX,
-  GF_CT_POSY,
-  GF_CT_DSPZ,
-  GF_CT_ROTZ,
+  POSX,
+  POSY,
+  RPOSX,
+  RPOSY,
   THRUSTER,
   FIRE_WEAPON_1,
   FIRE_WEAPON_2,
@@ -333,13 +333,13 @@ typedef enum Action {
   KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, KEY_1, \
   KEY_SPACE, \
   KEY_Q, KEY_E, KEY_R \
-  }
+}
 
 // initial mappings of pointer objects to actions
 //
 #define PTR_OBJ_ACTION_MAP { \
-  CAM_PITCH_UP, CAM_PITCH_DOWN, ROLL_SQUARE, CAM_SMOOTH_YAW, CAM_SMOOTH_PITCH, CAM_SMOOTH_F_B, \
-  }
+  RPOSX, RPOSY, ROLL_SQUARE, CAM_SMOOTH_YAW, CAM_SMOOTH_PITCH, CAM_SMOOTH_F_B, \
+}
 
 // initial mappings of controller objects to actions
 //
@@ -347,8 +347,13 @@ typedef enum Action {
   THRUSTER, FIRE_WEAPON_3, CAM_YAW_LEFT, CAM_YAW_RIGHT, \
   FIRE_WEAPON_2, FIRE_WEAPON_1, CAM_ROLL_LEFT, CAM_ROLL_RIGHT, \
   CAM_PAN_LEFT, CAM_PAN_RIGHT, CAM_PAN_LEFT_ALT, \
-  CAM_PAN_LEFT, GF_CT_POSX, GF_CT_POSY, GF_CT_DSPZ, \
-  }
+  CAM_PAN_LEFT, POSX, POSY, RPOSX, RPOSY, \
+}
+
+/* { A, B, X, Y,
+L1, R1, Back, Start,
+L3, R3, ?,
+?, LeftStickX, LeftStickY, RightStickX, RightStickY } */
 
 /* { A, B, X, Y,
 L1, R1, Back, Start,

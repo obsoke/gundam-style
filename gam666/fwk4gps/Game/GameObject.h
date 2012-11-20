@@ -55,5 +55,6 @@ public:
 };
 
 Colour randomColour();
+AABB createSpawnArea(const Vector& spawnPoint, int distance=400);
 
 #endif

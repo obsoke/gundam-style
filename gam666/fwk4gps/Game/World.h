@@ -27,6 +27,7 @@ public:
   std::vector<Player*> players;
   std::vector<Projectile*> projectiles;
   std::vector<iObject*> sprites;
+  std::vector<Vector> spawnPoints;
 
   Frame* skybox;
   Game* game;
@@ -56,6 +57,7 @@ public:
   void checkBoundaryCollision();
   void setBoundary(AABB b) { boundary = b; }
   const AABB& getBoundary() { return boundary; }
+  bool collidesWithFloors(const AABB& aabb);
 };
 
 #endif

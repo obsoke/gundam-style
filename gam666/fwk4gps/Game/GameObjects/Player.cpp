@@ -17,6 +17,7 @@ Player::Player(World* world, int id, iGraphic* graphic) :
   int maxHeat = 100;
   int heatPerShot = 10;
   weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
+  setTranslation(findSpawnPoint());
 };
 
 void Player::createCamera() {
@@ -60,6 +61,42 @@ void Player::onCollision(Projectile* projectile) {
 
 bool Player::isAlive(){
 	return health > 0;
+}
+
+Vector Player::findSpawnPoint() {
+  bool spawnPointFound = false;
+  Vector spawnPoint;
+  unsigned numSpawnPoints = world->spawnPoints.size();
+  unsigned numPlayers = world->players.size();
+  unsigned numPointsChecked = 0;
+  unsigned pointToCheck = 0;
+  std::vector<bool> pointsChecked(numSpawnPoints);
+
+  for (unsigned i=0; i<numSpawnPoints; ++i)
+    pointsChecked[i] = false;
+
+  while (!spawnPointFound) {
+    pointToCheck = rand() % numSpawnPoints;
+    while (pointsChecked[pointToCheck])
+      pointToCheck = rand() % numSpawnPoints;
+    pointsChecked[pointToCheck] = true;
+    const Vector& sp = world->spawnPoints[pointToCheck];
+    const AABB& spawnArea = createSpawnArea(sp);
+    setTranslation(sp, false);
+    if (numPlayers < 2) spawnPointFound = true;
+    
+    for (unsigned i=0; i<numPlayers && !spawnPointFound; ++i) {
+      Player* player = world->players[i];
+      if (player != this && !player->getAABB().intersects(spawnArea))
+        spawnPointFound = true;
+    }
+
+    ++numPointsChecked;
+    if (spawnPointFound || numPointsChecked >= numSpawnPoints)
+      spawnPoint = sp;
+  }
+
+  return spawnPoint;
 }
 
 Player::~Player() {
