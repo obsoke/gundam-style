@@ -49,7 +49,8 @@ public:
   virtual int  change(Action a, unsigned deviceNumber = 0) const  = 0;
   virtual void release(Action)         = 0;
   virtual void resize()                = 0;
-  virtual int  run()                   = 0;
+  virtual int  run(bool config = true) = 0;
+  virtual void  stop()                 = 0;
   // termination
   virtual void remove(iObject* o)      = 0;
   virtual void remove(iTexture* t)     = 0;

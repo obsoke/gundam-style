@@ -35,6 +35,7 @@ class iAPIWindow {
   virtual void  Delete() const                                = 0;
   friend class Coordinator;
   friend class World;
+  friend struct APIObjects;
 };
 
 iAPIWindow* CreateAPIWindow(void*, int);

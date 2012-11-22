@@ -192,6 +192,5 @@ void Light::restore() {
 // destructor deletes the light source from the coordinator
 //
 Light::~Light() {
-
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }

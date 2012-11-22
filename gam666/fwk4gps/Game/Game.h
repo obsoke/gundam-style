@@ -12,19 +12,29 @@
  */
 
 #include "..\iCoordinator.h"
+#include <vector>
+
+class iAPIWindow;
+struct APIObjects;
 
 class Game {
     Game(const Game& s);            // prevents copying
     Game& operator=(const Game& s); // prevents assignment
-    iCoordinator* currentState;
+    std::vector<iCoordinator*> states;
   public:
     void* handle;
     int show;
+    APIObjects* apiObjects;
 
     Game(void* handle, int show);
     ~Game();
     void initialize();
-    void update();
+    void addState(iCoordinator* state);
+    void removeState(iCoordinator* state);
+    void toEntryPoint();
+    iCoordinator* currentState() { 
+      return states.size() ? states[states.size()-1] : nullptr; 
+    };
 };
 
 #endif

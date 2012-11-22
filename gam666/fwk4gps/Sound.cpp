@@ -276,5 +276,5 @@ Sound::~Sound() {
     delete [] relFile;
   if (apiSound) 
     apiSound->Delete();
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }

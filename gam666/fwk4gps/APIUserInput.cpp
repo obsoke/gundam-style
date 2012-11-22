@@ -74,12 +74,12 @@ APIUserInput::APIUserInput(const wchar_t* a) : audioDirectory(a) {
   strcpy(cntlrStr, NO_CONTROLLER_DESC, MAX_DESC);
   strcpy(trigStr,  L"", MAX_DESC);
   action_     = 0;
-  sound       = 0;
   flags       = 0;
 
+  sound       = 0;
   displayId   = 0;      
   modeId      = 0;         
-  pixelId     = 0;        
+  pixelId     = 0;  
   runinwndw   = true;      
 
   // allocate memory for configurable action descriptions
@@ -1100,18 +1100,18 @@ BOOL CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 
   // Process message msg
   switch (msg) {
-    case WM_INITDIALOG:
-      // make this dialog window a layered window 
-      SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) 
-        | WS_EX_LAYERED);
-      // make this dialog window 5% transparent
-      SetLayeredWindowAttributes(hwnd, 0, (255 * 95) / 100, LWA_ALPHA);
-      // populate dialog
-      apiDialog->populateAPIUserDialog(hwnd);
-      rc = true;
-      break;
+  case WM_INITDIALOG:
+    // make this dialog window a layered window 
+    SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) 
+      | WS_EX_LAYERED);
+    // make this dialog window 5% transparent
+    SetLayeredWindowAttributes(hwnd, 0, (255 * 95) / 100, LWA_ALPHA);
+    // populate dialog
+    apiDialog->populateAPIUserDialog(hwnd);
+    rc = true;
+    break;
 
-    case WM_COMMAND:          // user accessed a dialog box control
+  case WM_COMMAND:          // user accessed a dialog box control
     switch (LOWORD(wp)) {   // which control?
     case IDC_DIS:     // accessed the apiDisplay combo box
       // only process this if it is the first time or the user
@@ -1192,12 +1192,24 @@ BOOL CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 int APIUserInput::getDeviceCount(int deviceType) {
   int rc = 0;
   switch (deviceType) {
-    case KEYBOARD:
-      rc = nKeyboards;
-    case POINTER:
-      rc = nPointers;
-    case CONTROLLER:
-      rc = nControllers;
+  case KEYBOARD:
+    rc = nKeyboards;
+  case POINTER:
+    rc = nPointers;
+  case CONTROLLER:
+    rc = nControllers;
   }
   return rc;
+}
+
+void APIUserInput::reset() {
+  if (controller)
+    for (unsigned i = 0; i < nControllers; i++)
+      controller[i]->reset();
+  if (pointer)
+    for (unsigned i = 0; i < nPointers; i++)
+      pointer[i]->reset();
+  if (keyboard)
+    for (unsigned i = 0; i < nKeyboards; i++)
+      keyboard[i]->reset();
 }

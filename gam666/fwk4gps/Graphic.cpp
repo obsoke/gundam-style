@@ -101,7 +101,7 @@ void Graphic::release() {
 Graphic::~Graphic() {
 
   delete apiGraphic;
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }
 
 //-------------------------------- Graphic Structures -------------------------
