@@ -27,6 +27,7 @@ class iAPIAudio {
   virtual void release()              = 0;
   virtual void Delete() const         = 0;
   friend class Coordinator;
+  friend struct APIObjects;
 };
 
 iAPIAudio* CreateAPIAudio(float, int, int, int, int, int, int);

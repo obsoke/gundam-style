@@ -32,6 +32,7 @@ class iAPIGraphic {
   virtual void release()                       = 0;
   virtual void Delete() const                  = 0;
   friend class Graphic;
+  friend struct APIObjects;
 };
 
 iAPIGraphic* CreateAPIGraphic();

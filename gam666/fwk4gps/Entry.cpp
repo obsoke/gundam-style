@@ -18,7 +18,7 @@
 // Entry point for the Application
 //
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cp, int show) {
-  srand(time((time_t)0));
+  srand((unsigned)time((time_t)0));
   Game game(hinst, show);
   return 0;
 }

@@ -59,6 +59,7 @@ class iAPIDisplay {
   friend class Coordinator;
   friend class World;
   friend class APIUserInput;
+  friend struct APIObjects;
 };
 
 iAPIDisplay* CreateAPIDisplay();
