@@ -18,6 +18,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Utils.h"
+#include "Map.h"
 #include "btBulletDynamicsCommon.h"
 
 #include "GameObjects\Player.h"
@@ -26,7 +27,7 @@
 #include "Mesh.h"
 #include "Utilities\ObjImporter.h"
 
-World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
+World::World(Game* game, Map& map) : Coordinator(game->apiObjects), 
   game(game), numberOfPlayers(1), map(map), skybox(nullptr), physics(nullptr) {
     physics = new PhysicsWorld(this);
 }

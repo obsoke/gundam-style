@@ -167,6 +167,6 @@ HUD::~HUD() {
 
   if (rect)
     delete [] rect;
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }
 

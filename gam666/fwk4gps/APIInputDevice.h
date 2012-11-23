@@ -133,6 +133,10 @@ public:
   // termination
   void release();
   void Delete() const { delete this; }
+  void reset() {
+    for (int i=0; i<256; ++i)
+      key[i] = false;
+  };
 };
 
 //------------------------------- Pointer ---------------------------------------
@@ -165,6 +169,12 @@ public:
   // termination
   void release();
   void Delete() const { delete this; }
+  void reset() {
+    for (int i=0; i<8; ++i)
+      button[i] = false;
+    for (int i=0; i<3; ++i)
+      motion[i] = 0;
+  };
 };
 
 //---------------------------------- Controller -------------------------------
@@ -200,6 +210,12 @@ public:
   // termination
   void release();
   void Delete() const { delete this; }
+  void reset() {
+    for (int i=0; i<128; ++i)
+      button[i] = false;
+    for (int i=0; i<12; ++i)
+      motion[i] = 0;
+  };
 };
 
 #endif
