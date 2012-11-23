@@ -152,6 +152,5 @@ void Camera::update() {
 // destructor removes the Camera Instance from the coordinator
 //
 Camera::~Camera() {
-
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }

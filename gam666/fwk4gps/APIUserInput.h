@@ -113,6 +113,7 @@ public:
   void  updateSoundMapping(void*);
   bool  saveUserChoices(void*);
   void  error(const wchar_t*) const;
+  void reset();
   int getDeviceCount(int deviceType);
 };
 

@@ -145,8 +145,7 @@ void Object::render() {
 // destructor removes the object from the model coordinator
 //
 Object::~Object() {
-
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }
 
 AABB Object::getAABB() const { 

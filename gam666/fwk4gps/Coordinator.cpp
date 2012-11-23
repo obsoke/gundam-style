@@ -26,6 +26,7 @@
 #include "Model.h"         // for macros
 #include "MathDef.h"       // for ::projection
 #include "Translation.h"   // for CAMERA_SELECT ...
+#include "APIObjects.h"
 
 //-------------------------------- Coordinator --------------------------------
 //
@@ -36,14 +37,10 @@ iCoordinator* CoordinatorAddress() { return Coordinator::Address(); }
 // constructor initializes the reference time and sets the current camera
 // and HUD
 //
-Coordinator::Coordinator(void* hinst, int show) {
+Coordinator::Coordinator(APIObjects* objects) {
 
   coordinator = this;
-  window      = CreateAPIWindow(hinst, show);
-  userInput   = CreateAPIUserInput(AUDIO_DIRECTORY);
-  display     = CreateAPIDisplay();
-  audio       = CreateAPIAudio(1.0f, MIN_VOLUME, MAX_VOLUME, MIN_FREQUENCY, 
-    MAX_FREQUENCY, DEFAULT_VOLUME, DEFAULT_FREQUENCY);
+  setAPIObjects(objects);
 
   // timers
   now              = 0;
@@ -99,7 +96,6 @@ bool Coordinator::setConfiguration() {
           createProjection();
           Light::set(DITHERING, true);
           Light::set(SPECULARITY, true);
-          Light::alloc();
           Texture::setAnisotropy(10);
           audio->setup();
           rc = true;
@@ -138,17 +134,19 @@ void Coordinator::reset() {
 // processMessage processes the next message in the message queue 
 // returns false if queue is empty
 //
-int Coordinator::run() {
+int Coordinator::run(bool configure) {
 
   int  rc = 0;
-  bool keepgoing;
+  keepgoing = configure ? setConfiguration() : true;
 
   // configure and initialize the application
-  if (keepgoing = setConfiguration()) {
+  if (keepgoing) {
+    Light::alloc();
     initialize();
     now = window->time();
     lastUpdate = now;
     lastReset  = now;
+    if (userInput) userInput->reset();
   }
 
   while (keepgoing) {
@@ -171,6 +169,11 @@ int Coordinator::run() {
   }
 
   return rc;
+}
+
+void Coordinator::stop()  { 
+  keepgoing = false; 
+  Light::dealloc(); 
 }
 
 // setAmbientLight sets the colour of the background lighting
@@ -333,6 +336,7 @@ void Coordinator::render() {
     // update the user input devices
     userInput->update();  
     Coordinator::update();
+    if (!keepgoing) return;
     // update the model
     update();
     // update the light sources in object space
@@ -538,11 +542,6 @@ Coordinator::~Coordinator() {
     if (text[i]) 
       text[i]->Delete();
 
-  display->Delete();
-  userInput->Delete();
-  audio->Delete();
-  window->Delete();
-
   coordinator = nullptr;
 }
 
@@ -561,4 +560,11 @@ void Coordinator::remove(iObject* o)  {
   for (int i = ((int)children.size()) - 1; i >= 0; --i) {
     remove((iObject*)children[i]);
   }
+}
+
+void Coordinator::setAPIObjects(APIObjects* objects) {
+  window = objects->window;
+  display = objects->display;
+  audio = objects->audio;
+  userInput = objects->userInput;
 }

@@ -53,6 +53,7 @@ public:
   virtual bool saveUserChoices(void*)             = 0;
   virtual const wchar_t* file(ModelSound s) const = 0;
   virtual int getDeviceCount(int deviceType) = 0;
+  virtual void reset()                            = 0;
 };
 
 iAPIUserInput* CreateAPIUserInput(const wchar_t*);

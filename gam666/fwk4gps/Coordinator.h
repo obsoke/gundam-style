@@ -73,10 +73,12 @@ class iAPIUserInput;
 class iAPIDisplay;
 class iAPIAudio;
 struct Viewport;
+struct APIObjects;
 
 class Coordinator : public iCoordinator {
 
   iText*                 timerText;        // points to timer's text object
+  bool keepgoing;
 
   Coordinator(const Coordinator& s);            // prevents copying
   Coordinator& operator=(const Coordinator& s); // prevents assignment
@@ -87,10 +89,6 @@ class Coordinator : public iCoordinator {
   void render(Category category);
 
 protected:
-  iAPIWindow*            window;           // points to the window object
-  iAPIUserInput*         userInput;        // points to the user input object
-  iAPIDisplay*           display;          // points to the display object
-  iAPIAudio*             audio;            // points to the audio object
 
   std::vector<iGraphic*> graphic;          // points to graphics
   std::vector<iTexture*> texture;          // points to textures
@@ -100,6 +98,11 @@ protected:
   std::vector<iText*>    text;             // points to text items
   std::vector<iHUD*>     hud;              // points to huds
   std::vector<iObject*>  object;           // points to objects
+
+  iAPIWindow*            window;           // points to the window object
+  iAPIUserInput*         userInput;        // points to the user input object
+  iAPIDisplay*           display;          // points to the display object
+  iAPIAudio*             audio;            // points to the audio object
 
   bool updateOnRender;
   // display device
@@ -139,7 +142,7 @@ protected:
 
 public:
   static iCoordinator* Address() { return coordinator; }
-  Coordinator(void*, int);
+  Coordinator(APIObjects* objects);
   // initialization
   void  add(iObject* o)  { ::add(object, o); }
   void  add(iTexture* t) { ::add(texture, t); }
@@ -151,7 +154,8 @@ public:
   void  add(iHUD* h)     { ::add(hud, h); }
   void  reset();
   // execution
-  int   run();
+  int   run(bool configure = true);
+  void  stop();
   void  resize();
   // termination
   void  suspend();
@@ -171,9 +175,11 @@ public:
   bool ctrPressed() const;
   virtual void render();
   void setViewport(const Viewport& viewport);
+
   // game states
   int getState() { return gameState; }
   void setState(int s) { gameState = s; }
+  void setAPIObjects(APIObjects* objects);
 };
 
 #endif

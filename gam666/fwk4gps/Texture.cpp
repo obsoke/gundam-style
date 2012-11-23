@@ -142,7 +142,7 @@ void Texture::release() {
 Texture::~Texture() {
 
   apiTexture->Delete();
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }
 
 std::map<const wchar_t*, iTexture*> Texture::textureLibrary = 
