@@ -76,6 +76,9 @@ Coordinator::Coordinator(void* hinst, int show) {
   farcp  = 1000.0f;
 
   updateOnRender = true;
+
+  // set initial game state to LOADING
+  gameState = LOADING;
 }
 
 // setConfiguration retrieves the configuration selection from the user

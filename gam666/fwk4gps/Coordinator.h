@@ -124,6 +124,8 @@ protected:
   unsigned               lastHUDToggle;    // time - most recent hud toggle
   unsigned               lastAudioUpdate;  // time - most recent audio update
 
+  int gameState;                           // current game state
+
   // configuration
   virtual void initialize()                 { }
   void setProjection(float, float, float);
@@ -169,6 +171,9 @@ public:
   bool ctrPressed() const;
   virtual void render();
   void setViewport(const Viewport& viewport);
+  // game states
+  int getState() { return gameState; }
+  void setState(int s) { gameState = s; }
 };
 
 #endif

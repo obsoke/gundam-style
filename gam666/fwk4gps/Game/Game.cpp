@@ -7,7 +7,8 @@
 Game::Game(void* handle, int show) {
   this->handle = handle;
   this->show = show;
-  currentState = new World(this, DefaultMap());
+  //currentState = new World(this, DefaultMap());
+  currentState = new Coordinator(handle, show);
   currentState->run();
 }
 

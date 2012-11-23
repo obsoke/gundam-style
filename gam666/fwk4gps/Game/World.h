@@ -36,6 +36,7 @@ public:
   World(Game* game, Map& map);
   ~World();
   void initialize();
+  void loadingScreen();
   void add(GameObject* gameObject);
   void remove(GameObject* gameObject);
   void add(iObject* object) { Coordinator::add(object); };

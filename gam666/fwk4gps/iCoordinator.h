@@ -63,6 +63,9 @@ public:
   virtual void restore()               = 0;
   virtual void release()               = 0;
   virtual ~iCoordinator() { };
+  // game states
+  virtual int getState()               = 0;
+  virtual void setState(int s)         = 0;
 };
 
 iCoordinator* CoordinatorAddress();

@@ -32,6 +32,7 @@ World::World(Game* game, Map& map) : Coordinator(game->handle, game->show),
 }
 
 void World::initialize() {
+  loadingScreen();
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
   //numberOfPlayers = 4;
@@ -41,6 +42,16 @@ void World::initialize() {
   initializeObjects();
   initializeHUD();
   createProjection();
+  coordinator->setState(MAINGAME);
+}
+
+void World::loadingScreen() {
+  coordinator->setState(LOADING);
+  iObject* loadScr;
+  loadScr = CreateSprite(L"stonehenge.bmp");  
+  display->beginDrawFrame(&view);  
+  loadScr->render();  
+  display->endDrawFrame();
 }
 
 void World::initializeHUD() {
