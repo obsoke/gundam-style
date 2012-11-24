@@ -7,13 +7,27 @@
 #include "Face.h"
 #include <vector>
 
-struct Mesh {
+class Mesh {
+  void addTri(VertexList<Vertex>* vertexList, const Face& face);
+  void addQuad(VertexList<Vertex>* vertexList, const Face& face);
+  void addFace(VertexList<Vertex>* vertexList, const Face& face);
+  unsigned numberOfTriangles();
+  void normalizeSize(float scale = 1);
+public:
+  float buildScale;
   std::vector<Vector> vertices;
   std::vector<Vector> uvs;
   std::vector<Vector> normals;
   std::vector<Face> faces;
 
-  VertexList<Vertex>* build();
+  VertexList<Vertex>* cachedMesh;
+
+  Mesh (float buildScale = 45) : buildScale(buildScale), 
+    cachedMesh(nullptr) { };
+
+  VertexList<Vertex>* build(bool normalize = true);
+  VertexList<Vertex>* getVertexList();
+  AABB calcAABB();
 };
 
 #endif

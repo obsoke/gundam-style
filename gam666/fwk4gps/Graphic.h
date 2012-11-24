@@ -34,10 +34,13 @@ protected:
   Graphic& operator=(const Graphic&);
   virtual ~Graphic();
 public:
-  Graphic(int = 0, int = 0);
+  Rect* sourceRect;
+
+  Graphic(int = 0, int = 0, Rect* source = nullptr);
   void* clone() const { return new Graphic(*this); }
   void setWorld(const void*) {}
   void set(void*) {}
+  void setClip(Rect* rect) { sourceRect = rect; };
   void setRadius(float r) { radius = r; }
   float getRadius() const { return radius; }
   int  width() const  { return width_; }

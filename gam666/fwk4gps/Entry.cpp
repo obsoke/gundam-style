@@ -10,13 +10,15 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> // for WinMain and Windows Types
+#include <stdlib.h>
+#include <time.h>
 
 #include "Game\Game.h"  // for the Design class definition
 
 // Entry point for the Application
 //
 int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprev, LPSTR cp, int show) {
-
+  srand((unsigned)time((time_t)0));
   Game game(hinst, show);
-
+  return 0;
 }

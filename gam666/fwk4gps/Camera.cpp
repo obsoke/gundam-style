@@ -13,6 +13,7 @@
 #include "MathDef.h"      // for math functions
 #include "Model.h"        // for FORWARD_SPEED, ROT_SPEED
 #include "Translation.h"  // for CAM_PAN_ ...
+#include "Game\Utils.h"
 
 //-------------------------------- Camera -------------------------------------
 //
@@ -64,9 +65,9 @@ void Camera::update() {
       rz = 0;
 
     // controller input
-    int jx = change(GF_CT_POSX);
-    int jy = change(GF_CT_POSY);
-    int jr = change(GF_CT_ROTZ);
+    int jx = change(POSX);
+    int jy = change(POSY);
+    int jr = change(RPOSX);
     if (jy)
       rx = -(int)(jy * CTR_SPEED);
     if (jr)
@@ -126,6 +127,7 @@ void Camera::update() {
       // roll left/right
       if (rz) 
         rotate(orientation('z'), rz * ANG_CAM_SPEED);
+      debug(position());
     }
     // adjust camera position
     if ((dx || dy || dz)) { 
@@ -134,6 +136,7 @@ void Camera::update() {
         (float) dy * CAM_SPEED * orientation('y') + 
         (float) dz * CAM_SPEED * orientation('z');
       translate(displacement.x, displacement.y, displacement.z);
+      debug(position());
     }
   }
 
@@ -149,6 +152,5 @@ void Camera::update() {
 // destructor removes the Camera Instance from the coordinator
 //
 Camera::~Camera() {
-
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }

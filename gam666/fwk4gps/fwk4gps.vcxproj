@@ -91,6 +91,7 @@
     <ClCompile Include="APIGraphic.cpp" />
     <ClCompile Include="APIInputDevice.cpp" />
     <ClCompile Include="APILight.cpp" />
+    <ClCompile Include="APIObjects.cpp" />
     <ClCompile Include="APISound.cpp" />
     <ClCompile Include="APIText.cpp" />
     <ClCompile Include="APITexture.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="APIGraphic.h" />
     <ClInclude Include="APIInputDevice.h" />
     <ClInclude Include="APILight.h" />
+    <ClInclude Include="APIObjects.h" />
     <ClInclude Include="APIPlatform.h" />
     <ClInclude Include="APISound.h" />
     <ClInclude Include="APIText.h" />

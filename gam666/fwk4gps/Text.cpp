@@ -244,7 +244,7 @@ Text::~Text() {
     font->Delete();
   if (rect)
     delete rect;
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }
 
 

@@ -16,6 +16,8 @@ public:
   Floor* addFloor(World* world, const Vector& position, const Vector& tiles = Vector(1, 1, 1), 
     const Vector& tileSize = Vector(100, 10, 100), iTexture* tex = nullptr);
   virtual void create(World* world) = 0;
+  virtual void createSpawns(World* world, const Vector& range, 
+    const Vector& minimum = Vector(0, 0, 0), int numberOfPoints = 50);
 };
 
 class DefaultMap : public Map {

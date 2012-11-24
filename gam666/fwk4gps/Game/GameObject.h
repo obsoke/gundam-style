@@ -11,9 +11,9 @@ class PhysicsObject;
 class GameObject : public Frame {
 protected:
   World* world;
+  Vector previousPosition;
 
   iObject* buildDefaultModel();
-  Colour randomColour();
 public:
   PhysicsObject* physics;
   iObject* model;
@@ -51,6 +51,10 @@ public:
   virtual int hitBoundary() { return 0; };
   int stayInBounds(const AABB& boundary);
   int stayInBounds();
+  Matrix worldTransform() { return Frame::world(); };
 };
+
+Colour randomColour();
+AABB createSpawnArea(const Vector& spawnPoint, int distance=400);
 
 #endif

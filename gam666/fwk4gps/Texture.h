@@ -12,6 +12,7 @@
 */
 
 #include "iTexture.h" // for the Texture Interface
+#include <map>
 
 //-------------------------------- Texture ------------------------------------
 //
@@ -41,6 +42,9 @@ public:
   void suspend();
   void release();
   void Delete() const { delete this; }
+
+  static std::map<const wchar_t*, iTexture*> textureLibrary;
+  static void disposeLibrary();
 };
 
 #endif

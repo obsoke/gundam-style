@@ -8,6 +8,7 @@
 class Weapon;
 
 class Projectile : public GameObject {
+  void findTarget();
 public:
   Player* owner;
   Vector direction;
@@ -16,8 +17,11 @@ public:
   float force;
   float life;
   unsigned time;
+  Player* target;
+  bool isHoming;
 
-  Projectile(World* world, Player* owner = nullptr, float speed = 0);
+  Projectile(World* world, Player* owner = nullptr, 
+    iGraphic* moddel = nullptr, float speed = 0);
   ~Projectile();
   void shoot();
   void update();

@@ -761,7 +761,7 @@ bool Controller::setup() {
   unsigned flags  = getFlags();
   unsigned button = selectedObject();
   bool none       = flags & 1;
-  bool zAxisOn    = !!(flags & 2);
+  bool zAxisOn    = true; // Why was this getting set to false with !!(flags & 2)?
   reversey        = !!(flags & 4);
   if (!none)
     controller = (LPDIRECTINPUTDEVICE8)APIInputDevice::setup(*guid(), 
@@ -887,7 +887,7 @@ void Controller::update() {
       if (axisIsActive[2])
         motion[2] = state.lZ;
       if (axisIsActive[3])
-        motion[5] = state.lRz;
+        motion[3] = state.lRz;
       if (povIsActive)
         for (int i = 0; i < 4; i++)
           motion[i + 8] = state.rgdwPOV[i];

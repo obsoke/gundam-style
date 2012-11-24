@@ -17,6 +17,7 @@
 #include "MathDecl.h"    // for Vector
 
 struct AABB;
+struct Rect;
 
 //-------------------------------- APIVertexDeclaration -----------------------
 //
@@ -47,6 +48,7 @@ class APIGraphic : public iAPIGraphic, public APIBase {
 protected:
   virtual ~APIGraphic();
   void    setup();
+  RECT createRect(Rect* source);
 
 public:
   APIGraphic();
@@ -56,7 +58,7 @@ public:
   void setWorld(const void*);
   void setReflectivity(const void*);
   void beginDraw();
-  void render(int, int, unsigned char);
+  void render(int, int, unsigned char, Rect* sourceRect = nullptr);
   void draw() {}
   void endDraw();
   void suspend();

@@ -36,6 +36,8 @@ struct Vector {
   Vector  operator*(const Matrix& m);
   Vector  operator*(const Matrix& m) const;
   Vector  operator*=(const Matrix& m);
+  bool    operator==(const Vector& a);
+  bool    operator!=(const Vector& a);
   float   length() const;
 };
 
@@ -228,6 +230,13 @@ struct AABB {
     return collision(minimum, maximum, 
       other.minimum, other.maximum, Vector(0,0,0));
   };
+};
+
+struct Rect {
+  int x;
+  int y;
+  int width;
+  int height;
 };
 
 #endif

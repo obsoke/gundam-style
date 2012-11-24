@@ -27,7 +27,6 @@ class Camera : public iCamera {
 
   bool pressed(Action a) const;
   int  change(Action a) const;
-  virtual ~Camera();
 
 public:
   bool useInput;
@@ -40,6 +39,7 @@ public:
   // execution
   void update();
   void Delete() const { delete this; }
+  virtual ~Camera();
 };
 
 #endif

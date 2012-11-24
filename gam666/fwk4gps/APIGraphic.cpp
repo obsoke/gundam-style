@@ -111,15 +111,23 @@ void APIGraphic::beginDraw() {
 
 // render draws the graphic
 //
-void APIGraphic::render(int x, int y, unsigned char a) {
-
+void APIGraphic::render(int x, int y, unsigned char a, Rect* source) {
   if (!ready) setup();
 
   if (d3dd && sprite) {
     D3DXVECTOR3 topLeft((float)x, (float)y, 1.f);
-    sprite->Draw(texture, nullptr, nullptr, &topLeft, 
-      D3DCOLOR_RGBA(255, 255, 255, a ? a : '\xFF'));
+    sprite->Draw(texture, source ? &createRect(source) : nullptr, nullptr,
+      &topLeft, D3DCOLOR_RGBA(255, 255, 255, a ? a : '\xFF'));
   }
+}
+
+RECT APIGraphic::createRect(Rect* source) {
+  RECT r;
+  r.left = source->x;
+  r.top = source->y;
+  r.right = source->x + source->width;
+  r.bottom = source->y + source->height;
+  return r;
 }
 
 // endDraw ends the drawing by the api graphic object

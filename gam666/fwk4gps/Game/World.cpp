@@ -18,6 +18,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Utils.h"
+#include "Map.h"
 #include "btBulletDynamicsCommon.h"
 
 #include "GameObjects\Player.h"
@@ -26,14 +27,15 @@
 #include "Mesh.h"
 #include "Utilities\ObjImporter.h"
 
-World::World(Game* game, Map& map) : Coordinator(game->handle, game->show), 
-  game(game), numberOfPlayers(1), map(map) {
+World::World(Game* game, Map& map) : Coordinator(game->apiObjects), 
+  game(game), numberOfPlayers(1), map(map), skybox(nullptr), physics(nullptr) {
     physics = new PhysicsWorld(this);
 }
 
 void World::initialize() {
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
+  //numberOfPlayers = 4;
   farcp = 10000.0f;
   nearcp = 80.0f;
   initializeLighting();
@@ -75,16 +77,19 @@ void World::initializeObjects() {
   skybox = CreateSkybox(files);
   map.create(this);
   
-  //Mesh* mesh = ObjImporter::import("gundam.obj");
-  //iGraphic* vertexList = mesh->build();
+  const wchar_t* gundamTextures[] = {
+    L"gundam-tex.png", L"gundam-tex-2.png",
+    L"gundam-tex-3.png", L"gundam-tex-4.png"
+  };
+  Mesh* mesh = ObjImporter::import("gundam.obj");
+  iGraphic* vertexList = mesh->build();
   for (int i=0; i<numberOfPlayers; ++i) {
-    // send in vertex list when mesh->build works
-    Player* player = new Player(this, i);
+    Player* player = new Player(this, i, vertexList);
+    player->model->attach(CreateTexture(gundamTextures[i]));
     if (!i) currentCam = player->getCamera();
     players.push_back(player);
     add(player);
   }
-  //delete mesh;
 }
 
 void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
@@ -191,14 +196,15 @@ void World::checkBoundaryCollision() {
   }
 }
 
-World::~World() {
-  for (unsigned i=0, length=floors.size(); i<length; ++i) {
-    delete floors[i];
+bool World::collidesWithFloors(const AABB& aabb) {
+  bool collided = false;
+  for (unsigned i=0; i<floors.size() && !collided; ++i) {
+    collided = floors[i]->getAABB().intersects(aabb);
   }
-  for (unsigned i=0, length=players.size(); i<length; ++i) {
-    delete players[i];
-  }
-  for (unsigned i=0, length=sprites.size(); i<length; ++i) {
-    delete sprites[i];
-  }
+  return collided;
+}
+
+World::~World() { 
+  if (skybox) delete skybox;
+  if (physics) delete physics;
 }

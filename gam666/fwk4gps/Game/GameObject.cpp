@@ -15,7 +15,7 @@ GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) :
 GameObject::GameObject(World* world, iGraphic* graphic) : 
     world(world), physics(nullptr), isAlive(true) {
   if (graphic)
-    setModel(CreateObject(graphic, &Reflectivity(randomColour())));
+    setModel(CreateObject(graphic, &Reflectivity(Colour(1,1,1))));
   else
     setModel(buildDefaultModel());
 }
@@ -26,17 +26,9 @@ iObject* GameObject::buildDefaultModel() {
   iObject* object = CreateObject(boxg, &Reflectivity(randomColour()));
   iGraphic* boxr  = CreateBox(-5, -5, -5, 20, 5, 5);
   iObject* child = CreateObject(boxr, &Reflectivity(red));
-  child->translate(0, 0, 20);
+  child->translate(0, 0, -20);
   child->attachTo(object);
   return object;
-}
-
-Colour GameObject::randomColour() {
-  return Colour(
-    1.0f / ((rand() % 2) + 2), 
-    1.0f / ((rand() % 2) + 2), 
-    1.0f / ((rand() % 2) + 2)
-  );
 }
 
 GameObject::~GameObject() {
@@ -48,6 +40,7 @@ GameObject::~GameObject() {
 }
 
 void GameObject::update() {
+  previousPosition = position();
   if (physics) {
     physics->update();
   } else {
@@ -128,37 +121,39 @@ bool GameObject::collides(const AABB& other) {
 // Keep the game object within an AABB boundary
 int GameObject::stayInBounds(const AABB& boundary) {
 	AABB currentAABB = getAABB();
-	
-	if (currentAABB.maximum.x < boundary.minimum.x) {  //outside the minimum xy plane
-		currentAABB.minimum.x -= (currentAABB.maximum.x - boundary.minimum.x);
-		currentAABB.maximum.x = boundary.minimum.x;
+  Vector& pos = position();
+
+	if (currentAABB.maximum.x < boundary.minimum.x ||
+      currentAABB.minimum.x > boundary.maximum.x) {  //outside the xy plane
+    pos.x = previousPosition.x;  
 	}
-	if (currentAABB.minimum.x > boundary.maximum.x) {  //outside the maximum xy plane
-		currentAABB.maximum.x -= (currentAABB.minimum.x - boundary.maximum.x);
-		currentAABB.minimum.x = boundary.maximum.x;
+	if (currentAABB.maximum.y < boundary.minimum.y ||
+      currentAABB.minimum.y > boundary.maximum.y) {  //outside the xy plane
+    pos.y = previousPosition.y;
 	}
-	if (currentAABB.maximum.z < boundary.minimum.z) {  //outside the minimum zy plane
-		currentAABB.minimum.z -= (currentAABB.maximum.z - boundary.minimum.z);
-		currentAABB.maximum.z = boundary.minimum.z;
-	}
-	if (currentAABB.minimum.z > boundary.maximum.z) {  //outside the maximum zy plane
-		currentAABB.maximum.z -= (currentAABB.minimum.z - boundary.maximum.z);
-		currentAABB.minimum.z = boundary.maximum.z;
-	}
-	if (currentAABB.maximum.y < boundary.minimum.y) {  //outside the minimum xy plane
-		currentAABB.minimum.y -= (currentAABB.maximum.y - boundary.minimum.y);
-		currentAABB.maximum.y = boundary.minimum.y;
-	}
-	if (currentAABB.minimum.y > boundary.maximum.y) {  //outside the maximum xy plane
-		currentAABB.maximum.y -= (currentAABB.minimum.y - boundary.maximum.y);
-		currentAABB.minimum.y = boundary.maximum.y;
+	if (currentAABB.maximum.z < boundary.minimum.z ||
+      currentAABB.minimum.z > boundary.maximum.z) {  //outside the zy plane
+    pos.z= previousPosition.z;
 	}
 
-	setTranslation(currentAABB.center());
+	setTranslation(pos);
 
 	return 1;
 }
 
 int GameObject::stayInBounds() {
   return stayInBounds(world->getBoundary());
+}
+
+Colour randomColour() {
+  return Colour(
+    1.0f / ((rand() % 2) + 2), 
+    1.0f / ((rand() % 2) + 2), 
+    1.0f / ((rand() % 2) + 2)
+  );
+}
+
+AABB createSpawnArea(const Vector& spawnPoint, int distance) {
+  Vector halfDistance(distance / 2.0f, distance / 2.0f, distance / 2.0f);
+  return AABB(spawnPoint - halfDistance, spawnPoint + halfDistance);
 }

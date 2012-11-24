@@ -24,6 +24,7 @@ struct Matrix;
 struct Reflectivity;
 enum   Category;
 struct AABB;
+struct Rect;
 
 class iObject : public Frame, public Base {
   // initialization
@@ -40,6 +41,8 @@ class iObject : public Frame, public Base {
   friend class Design;
   friend class World;
 public:
+  virtual void setReflectivity(Reflectivity* r)    = 0;
+  virtual void setClip(Rect* source)               = 0;
   virtual void setTextureAddressing(unsigned)      = 0;
   virtual void attach(iTexture* t)                 = 0;
   virtual AABB getAABB() const                     = 0;
@@ -52,6 +55,8 @@ iObject* CreateObject(iGraphic*, unsigned char a = 0);
 Frame* CreateSkybox(const wchar_t** file, float width = 10000, 
   float height = 10000, float depth = 10000); 
 iObject* CreateSprite(iGraphic*, unsigned char a = 0);
+iObject* CreateSprite(const wchar_t* file, Rect* destRect, 
+  Rect* sourceRect = nullptr, unsigned char a = 0);
 iObject* Clone(const iObject*);
 
 #endif

@@ -135,6 +135,9 @@
     <ClCompile Include="Game\Utilities\ObjImporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="APIObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIAudio.h">
@@ -320,13 +323,16 @@
     <ClInclude Include="game\gameobjects\weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utilities\ObjImporter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Face.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Utilities\ObjImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="APIObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

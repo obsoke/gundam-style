@@ -23,14 +23,15 @@
 //
 // The Graphic class is the base class of the Graphic hierarchy
 //
-iGraphic* CreateGraphic(int w, int h) {
+iGraphic* CreateGraphic(int w, int h, Rect* source) {
 
-  return new Graphic(w, h);
+  return new Graphic(w, h, source);
 }
 
 // constructor adds the Graphic to the coordinator
 //
-Graphic::Graphic(int w, int h) : width_(w), height_(h), radius(sqrtf((float)(w * w + h * h))) {
+Graphic::Graphic(int w, int h, Rect* source) : width_(w), height_(h), 
+    radius(sqrtf((float)(w * w + h * h))), sourceRect(source) {
   coordinator->add(this);
   apiGraphic = CreateAPIGraphic();
 }
@@ -68,7 +69,7 @@ void Graphic::beginDraw() {
 void Graphic::render(int x, int y, unsigned char a) {
 
   if (apiGraphic)
-    apiGraphic->render(x, y, a);
+    apiGraphic->render(x, y, a, sourceRect);
 }
 
 // endDraw ends the drawing process
@@ -100,7 +101,7 @@ void Graphic::release() {
 Graphic::~Graphic() {
 
   delete apiGraphic;
-  coordinator->remove(this);
+  if (coordinator) coordinator->remove(this);
 }
 
 //-------------------------------- Graphic Structures -------------------------
