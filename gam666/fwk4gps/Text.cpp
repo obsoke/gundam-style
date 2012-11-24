@@ -15,6 +15,8 @@
 #include "iUtilities.h"   // for error()
 #include "Model.h"        // for TEXT_MIN, TEXT_MAX, TEXT_ON, TEXT_OFF
 #include "Translation.h"  // for MAX_DESC
+#include "Game\GameObjects\Player.h" // for player object
+#include "Game\Utils.h"   // for to_string(int)
 
 //-------------------------------- Text --------------------------------------
 //
@@ -282,4 +284,13 @@ const wchar_t* onOff(wchar_t* str, const iSwitch* item) {
     strcpy(str, item->isOn() ? TEXT_ON : TEXT_OFF, MAX_DESC);
 
   return str;
+}
+
+// health returns a text string representation of the player's health
+const wchar_t* health(wchar_t* str, const Player* player) {
+	const wchar_t* health = toString(player->health).c_str();
+
+	if (player) 
+		strcpy(str, health, strlen(health));
+	return str;
 }

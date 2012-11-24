@@ -11,5 +11,6 @@ void debug(const Vector& v);
 void debug(float f);
 std::string toString(const Vector& v);
 std::string toString(float f);
+std::wstring toString(int i);
 
 #endif

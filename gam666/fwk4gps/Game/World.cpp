@@ -51,6 +51,10 @@ void World::initializeHUD() {
     Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
   CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
     Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
+
+  // need to create method createText that will display the health of the player
+
+  // need to create a loop for multiple players to display health of player
 }
 
 void World::initializeLighting() {

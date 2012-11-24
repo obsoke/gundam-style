@@ -28,3 +28,9 @@ std::string toString(float f) {
   ss << f << "\n";
   return ss.str();
 }
+
+std::wstring toString(int i) {
+  std::wstringstream ss;
+  ss << i ;
+  return ss.str();
+}
