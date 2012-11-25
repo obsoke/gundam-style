@@ -21,6 +21,7 @@ struct Rectf;
 class Frame;
 class iSwitch;
 class iHUD;
+class Player;
 
 class iText : public Base {
   virtual void  set(const wchar_t* text) = 0;
@@ -48,6 +49,10 @@ iText* CreateText(Rectf, void*, const wchar_t*,
 iText* CreateText(Rectf, void*, const wchar_t*, 
   const wchar_t* (*)(wchar_t*, const iSwitch*), iSwitch*, int = 0, 
   const wchar_t* = 0, unsigned = 0, unsigned = 0);
+/*iText* CreateText(Rectf, void*, const wchar_t*, 
+  const wchar_t* (*)(wchar_t*, const Player*), Frame**, char,
+  unsigned = 1, int = 0, const wchar_t* = 0, unsigned = 0, unsigned = 0);*/
+
 
 iText* Clone(const iText*);
 
@@ -55,5 +60,6 @@ iText* Clone(const iText*);
 const wchar_t* orient(wchar_t*, const Frame*, char, unsigned = 1u);
 const wchar_t* position(wchar_t*, const Frame*, char = ' ', unsigned = 1u);
 const wchar_t* onOff(wchar_t*, const iSwitch*);
+const wchar_t* health(wchar_t* str, const Player*);
 
 #endif

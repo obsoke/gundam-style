@@ -55,6 +55,15 @@ iText* CreateText(Rectf r, void* h, const wchar_t* t,
     return new Text(r, h, t, v, s, j, u, f, c);
 }
 
+/*iText* CreateText(Rectf r, void* h, const wchar_t* s, 
+  const wchar_t* (*v)(wchar_t*, const Player*), 
+  Frame** q, char a, unsigned x, int j, const wchar_t* u, unsigned f, 
+  unsigned c) {
+
+    return new Text(r, h, s, v, q, a, x, j, u, f, c);
+}*/
+
+
 iText* Clone(const iText* src) {
 
   return (iText*)src->clone();
@@ -120,6 +129,15 @@ Text::Text(Rectf r, void* h, const wchar_t* text,
 
     init(r, text, type, j, flags, colour);
 }
+
+/*Text::Text(Rectf r, void* h, const wchar_t* text, 
+  const wchar_t* (*fn)(wchar_t*, const Player*), Frame** q, 
+  char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
+  unsigned colour) : frame(nullptr), axis(c), factor(x), intToWCStr(fn), 
+  boolToWCStr(nullptr), swtch(nullptr), pFrame(q), hud((iHUD*)h) {
+
+    init(r, text, type, j, flags, colour);
+}*/
 
 // copy constructor adds the new object's address to the coordinator,
 // initializes the instance pointers and calls the assignment operator

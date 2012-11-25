@@ -14,6 +14,7 @@ class Floor;
 struct Viewport;
 
 class World : public Coordinator {
+	iObject* sprite; 
   iLight* defaultLight;
   int numberOfPlayers;
   AABB boundary;

@@ -51,10 +51,11 @@ void World::initializeHUD() {
 
   CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
     Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
-  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
-    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
 
   // need to create method createText that will display the health of the player
+  // player data
+  //CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Health: ", health,
+  //  Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
 
   // need to create a loop for multiple players to display health of player
 }
@@ -76,6 +77,8 @@ void World::initializeObjects() {
   };
   skybox = CreateSkybox(files);
   map.create(this);
+
+  add(CreateSprite(L"hudBackground.bmp", Vector(0.10f, 0.10f, 0.0f), 10));
   
   const wchar_t* gundamTextures[] = {
     L"gundam-tex.png", L"gundam-tex-2.png",
@@ -165,7 +168,7 @@ void World::createProjection() {
 }
 
 iObject* World::CreateSprite(const wchar_t* file, const Vector& position, unsigned char a) {
-  iObject* sprite = ::CreateSprite(CreateGraphic(), a);
+  iObject* sprite = ::CreateSprite(CreateGraphic(120,120), a);
   sprite->attach(CreateTexture(file));
   sprite->translate(position.x, position.y, 0);
   sprites.push_back(sprite);

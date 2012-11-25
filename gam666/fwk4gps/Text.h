@@ -37,6 +37,7 @@ class Text : public iText {
   unsigned factor;
   const wchar_t* (*intToWCStr)(wchar_t*, const Frame*, char, unsigned); 
   const wchar_t* (*boolToWCStr)(wchar_t*, const iSwitch*);
+  //const wchar_t* (*intToWCStr)(wchar_t*, const Player*);
 
   Text(const Text& src);
   virtual ~Text();
