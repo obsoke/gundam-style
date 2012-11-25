@@ -54,7 +54,7 @@ void Projectile::findTarget() {
     Vector playerWorldPosition = world->players[i]->position();
     if(world->players[i] != owner) {
       float dotPlayerOwner = dot(playerWorldPosition - owner->position(), ownerCamera->orientation('z'));
-      float normPlayerOwner = sqrt(dot(playerWorldPosition - owner->position(), playerWorldPosition - owner->position()));
+      float normPlayerOwner = (playerWorldPosition - owner->position()).length();
       float dist = sqrt(normPlayerOwner * normPlayerOwner - dotPlayerOwner * dotPlayerOwner);
 
       if(((dist < AIMASSISTDISTANCE) && (dotPlayerOwner > 0)) || isHoming ) {
@@ -71,7 +71,7 @@ void Projectile::homeOnTarget() {
   if(target){
     bool negativeAngle = false;
     Vector previousDirection = direction;
-    Vector newDirection = (target->position() - this->position()) / sqrt(dot(target->position() - owner->position(), target->position() - this->position()));
+    Vector newDirection = (target->position() - this->position()) / (target->position() - this->position()).length();
   
     float testNegative = dot(previousDirection, newDirection);
     if(testNegative < 0)
@@ -109,10 +109,10 @@ void Projectile::homeOnTarget() {
 }
 
 void Projectile::initializeFromOwner() {
+  isHoming = false;
   findTarget();
-
   if(target && !isHoming) {
-    direction = (target->position() - owner->position()) / sqrt(dot(target->position() - owner->position(), target->position() - owner->position()));
+    direction = (target->position() - owner->position()) / (target->position() - owner->position()).length();
   } else {
 	  direction = owner->orientation('z');
   }
