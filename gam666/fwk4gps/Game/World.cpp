@@ -14,10 +14,10 @@
 #include "..\APIDisplay.h" // for Viewport
 #include "..\APIUserInput.h" // for Viewport
 #include "..\iAPIWindow.h"
+#include "../Utils.h"
 
 #include "Game.h"
 #include "GameObject.h"
-#include "Utils.h"
 #include "Map.h"
 #include "btBulletDynamicsCommon.h"
 
@@ -45,14 +45,10 @@ void World::initialize() {
 }
 
 void World::initializeHUD() {
-  iHUD* hud = CreateHUD(CreateGraphic(), 0.1f, 0.1f, 0.43f, 0.43f, CreateTexture(HUD_IMAGE));
-  setTimerText(CreateText(Rectf(0.0f, 0.05f, 0.2f, 0.15f), hud, L"",
-    TEXT_HEIGHT, TEXT_TYPEFACE, TEXT_LEFT));
-
-  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
-    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
-  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
-    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
+  /*testText = CreateText(0.1f, 0.1f, "DAT LABEL: ");
+  testText->setColour(0xFFFF0000);
+  testText->setStyle(26);
+  testText->outline();*/
 }
 
 void World::initializeLighting() {
@@ -98,6 +94,7 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
 }
 
 void World::updateWorld() {
+  //testText->set("TESTING");
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
   physics->update();

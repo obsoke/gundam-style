@@ -4,7 +4,7 @@
 #include "..\iObject.h"
 #include "..\iGraphic.h"
 #include "PhysicsObject.h"
-#include "Utils.h"
+#include "..\Utils.h"
 
 GameObject::GameObject(World* world, iObject* object, bool createDefaultModel) : 
     world(world), physics(nullptr), isAlive(true) {
