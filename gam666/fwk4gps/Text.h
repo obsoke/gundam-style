@@ -26,8 +26,16 @@ class Text : public iText {
 
   iAPIText* font;                   // points to the font at the API level
   wchar_t   label[MAX_DESC + 1];    // the text string
+  wchar_t   value[MAX_DESC + 1];
   iHUD*     hud;                    // points to the parent HUD
   Rectf*    rect;                   // relative rectangle within parent hud
+  unsigned _colour;
+  unsigned _flags;
+  int      _height;
+  Text*    topLeft;
+  Text*    bottomLeft;
+  Text*    topRight;
+  Text*    bottomRight;
 
   // evaluation function and parameters for an evaluated Text
   Frame*  frame;
@@ -59,6 +67,14 @@ public:
   iText*  clone() const         { return new Text(*this); }
   // execution
   void    set(const wchar_t*);
+  void    set(const char*);
+  void    set(float);
+  void    set(int);
+  void    setLabel(const wchar_t*);
+  void    setLabel(const char*);
+  void    setStyle(int height, unsigned flags = 0);
+  void    setColour(unsigned colour);
+  void    outline(unsigned colour = 0xFF000000, bool turnOff = false);
   iHUD*   getHUD() const        { return hud; }
   const   wchar_t* text() const { return label; }
   void    render();

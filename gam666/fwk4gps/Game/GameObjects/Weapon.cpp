@@ -2,7 +2,6 @@
 #include "../GameObject.h"
 #include "../World.h"
 #include "Projectile.h"
-#include "../Utils.h"
 #include "..\Utilities\ObjImporter.h"
 #include "..\Mesh.h"
 #include "..\..\iTexture.h"

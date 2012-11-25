@@ -4,7 +4,7 @@
 #include <iterator> //for std::istream_iterator
 #include <vector>   //for std::vector
 
-#include "..\Utils.h"
+#include "..\..\Utils.h"
 #include "..\Face.h"
 #include "..\Mesh.h"
 #include "ObjImporter.h"

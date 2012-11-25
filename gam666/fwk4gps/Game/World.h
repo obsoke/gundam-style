@@ -16,6 +16,7 @@ struct Viewport;
 class World : public Coordinator {
 	iObject* sprite; 
   iLight* defaultLight;
+  iText* testText;
   int numberOfPlayers;
   AABB boundary;
   Map& map;

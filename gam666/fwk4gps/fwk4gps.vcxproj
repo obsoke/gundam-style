@@ -113,7 +113,7 @@
     <ClCompile Include="Frame.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameObject.cpp" />
-    <ClCompile Include="Game\Utils.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Game\World.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="HUD.cpp" />
@@ -157,7 +157,7 @@
     <ClInclude Include="Game\PhysicsObject.h" />
     <ClInclude Include="Game\PhysicsWorld.h" />
     <ClInclude Include="Game\Utilities\ObjImporter.h" />
-    <ClInclude Include="Game\Utils.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Game\World.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="HUD.h" />

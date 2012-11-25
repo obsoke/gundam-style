@@ -3,7 +3,7 @@
 
 #include "..\Object.h"
 #include "..\Frame.h"
-#include "Utils.h"
+#include "..\Utils.h"
 
 class World;
 class PhysicsObject;
