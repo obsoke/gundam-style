@@ -1,7 +1,6 @@
 #include "Floor.h"
 #include "..\PhysicsObject.h"
 #include "..\World.h"
-#include "..\Utils.h"
 
 Floor::Floor(World* world, iObject* object, 
   const Vector& pos, const Vector& tiles) : 

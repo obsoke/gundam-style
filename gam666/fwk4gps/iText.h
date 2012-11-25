@@ -23,7 +23,6 @@ class iSwitch;
 class iHUD;
 
 class iText : public Base {
-  virtual void  set(const wchar_t* text) = 0;
   virtual const wchar_t* text() const    = 0;
   virtual iHUD* getHUD() const           = 0;
   virtual void render()                  = 0;
@@ -34,6 +33,15 @@ class iText : public Base {
   friend class Coordinator;
   friend class Design;
 public:
+  virtual void set(const wchar_t*)       = 0;
+  virtual void set(const char*)          = 0;
+  virtual void set(float)                = 0;
+  virtual void set(int)                  = 0;
+  virtual void setLabel(const wchar_t*)  = 0;
+  virtual void setLabel(const char*)     = 0;
+  virtual void setStyle(int height, unsigned flags = 0) = 0;
+  virtual void setColour(unsigned colour) = 0;
+  virtual void outline(unsigned colour = 0xFF000000, bool turnOff = false) = 0;
   virtual iText* clone() const           = 0;
 };
 
@@ -48,6 +56,10 @@ iText* CreateText(Rectf, void*, const wchar_t*,
 iText* CreateText(Rectf, void*, const wchar_t*, 
   const wchar_t* (*)(wchar_t*, const iSwitch*), iSwitch*, int = 0, 
   const wchar_t* = 0, unsigned = 0, unsigned = 0);
+iText* CreateText(float x, float y, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFFF);
+iText* CreateText(float x, float y, const char* label = "", unsigned colour = 0xFFFFFFFF);
+iText* CreateText(Rectf rect, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFFF);
+iText* CreateText(Rectf rect, const char* label = "", unsigned colour = 0xFFFFFFFF);
 
 iText* Clone(const iText*);
 
