@@ -2,12 +2,15 @@
 #include "..\World.h"
 #include "../../MathDef.h"
 #include "../../Camera.h"
+#include <cmath>
 
 #define AIMASSISTDISTANCE 60
+#define PI 3.14159265f
 
 Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed) : 
     GameObject(world, model), owner(owner), pSpeed(pSpeed), damage(10),
-    time(0), force(1000), life(5000), target(nullptr), isHoming(false) {
+    time(0), force(1000), life(999999), target(nullptr), isHoming(true),
+    maxHomeAngle(10.0f) {
 	if (owner) initializeFromOwner();
 }
 
@@ -35,6 +38,10 @@ void Projectile::update() {
   if (time >= life) {
     world->remove(this);
   } else {
+    if(isHoming) {
+      findTarget();
+      homeOnTarget();
+    }
     speed = pSpeed * direction;
     GameObject::update();
   }
@@ -51,7 +58,7 @@ void Projectile::findTarget() {
       float dist = sqrt(normPlayerOwner * normPlayerOwner - dotPlayerOwner * dotPlayerOwner);
 
       if(((dist < AIMASSISTDISTANCE) && (dotPlayerOwner > 0)) || isHoming ) {
-        if(dist < minDistance) {
+        if((dist < minDistance) && world->players[i]->isAlive()) {
           minDistance = dist;
           target = world->players[i];
         }
@@ -60,10 +67,51 @@ void Projectile::findTarget() {
   }
 }
 
+void Projectile::homeOnTarget() {
+  if(target){
+    bool negativeAngle = false;
+    Vector previousDirection = direction;
+    Vector newDirection = (target->position() - this->position()) / sqrt(dot(target->position() - owner->position(), target->position() - this->position()));
+  
+    float testNegative = dot(previousDirection, newDirection);
+    if(testNegative < 0)
+    {
+      negativeAngle = true;
+      newDirection = -1 * newDirection;
+      newDirection.y = -1 * newDirection.y;
+    }
+
+    Vector projectionNewOnPrevious = (dot(previousDirection, newDirection) / previousDirection.length()) * previousDirection;
+
+    // angle = arccos((previousDirection dot newDirection) / (|previousDirection||newDirection|))
+    float angle = acos((dot(projectionNewOnPrevious, newDirection)) / (projectionNewOnPrevious.length() * newDirection.length())) * 180.0f / PI;
+
+    if(angle > maxHomeAngle || negativeAngle) {
+      Vector opposite = newDirection - projectionNewOnPrevious;
+      Vector oppositeUnitVector = opposite / opposite.length();
+      float magnitudeOpposite = opposite.length();
+      float newMagnitudeOpposite = projectionNewOnPrevious.length() * tan(maxHomeAngle * PI / 180.0f);
+      Vector newOpposite = newMagnitudeOpposite * oppositeUnitVector;
+
+      if(negativeAngle) {
+        newOpposite = -1 * newOpposite;
+        newOpposite.y = -1 * newOpposite.y;
+      }
+
+      Vector newHypoteneuse = newOpposite + projectionNewOnPrevious;
+      Vector newUnitVector = newHypoteneuse / newHypoteneuse.length();
+
+      direction = newDirection.length() * newUnitVector;
+    } else {
+      direction = newDirection;
+    }
+  }
+}
+
 void Projectile::initializeFromOwner() {
   findTarget();
 
-  if(target) {
+  if(target && !isHoming) {
     direction = (target->position() - owner->position()) / sqrt(dot(target->position() - owner->position(), target->position() - owner->position()));
   } else {
 	  direction = owner->orientation('z');
