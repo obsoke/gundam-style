@@ -1,7 +1,7 @@
 #include "PhysicsObject.h"
 #include "GameObject.h"
 #include "PhysicsWorld.h"
-#include "Utils.h"
+#include "..\Utils.h"
 
 Vector toVector(const btVector3& v) {
   return Vector(v.x(), v.y(), v.z());
