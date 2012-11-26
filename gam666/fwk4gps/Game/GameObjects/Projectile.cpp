@@ -9,7 +9,7 @@
 
 Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed) : 
     GameObject(world, model), owner(owner), pSpeed(pSpeed), damage(10),
-    time(0), force(1000), life(999999), target(nullptr), isHoming(true),
+    time(0), force(1000), life(5000), target(nullptr), isHoming(true),
     maxHomeAngle(10.0f) {
 	if (owner) initializeFromOwner();
 }
@@ -39,7 +39,6 @@ void Projectile::update() {
     world->remove(this);
   } else {
     if(isHoming) {
-      findTarget();
       homeOnTarget();
     }
     speed = pSpeed * direction;
@@ -109,7 +108,6 @@ void Projectile::homeOnTarget() {
 }
 
 void Projectile::initializeFromOwner() {
-  isHoming = false;
   findTarget();
   if(target && !isHoming) {
     direction = (target->position() - owner->position()) / (target->position() - owner->position()).length();
