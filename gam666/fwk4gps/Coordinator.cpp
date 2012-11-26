@@ -71,6 +71,8 @@ Coordinator::Coordinator(APIObjects* objects) {
   fov    = 0.9f;
   nearcp = 1.0f;
   farcp  = 1000.0f;
+  mainHUD = CreateHUD(CreateGraphic(), 0, 0, 1, 1, nullptr);
+  mainHUD->toggle();
 
   updateOnRender = true;
 }
@@ -391,7 +393,7 @@ void Coordinator::render(Category category) {
       if (hud[i] && hud[i]->isOn())
         hud[i]->render();
     for (unsigned i = 0; i < text.size(); i++)
-      if (text[i] && text[i]->getHUD() && text[i]->getHUD()->isOn())
+      if (text[i])
         text[i]->render();
     break;
   case ALL_SOUNDS:

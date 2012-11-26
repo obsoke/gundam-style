@@ -13,7 +13,7 @@
 #include "MathDef.h"      // for math functions
 #include "Model.h"        // for FORWARD_SPEED, ROT_SPEED
 #include "Translation.h"  // for CAM_PAN_ ...
-#include "Game\Utils.h"
+#include "Utils.h"
 
 //-------------------------------- Camera -------------------------------------
 //
