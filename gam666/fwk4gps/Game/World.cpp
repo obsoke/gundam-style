@@ -35,7 +35,6 @@ World::World(Game* game, Map& map) : Coordinator(game->apiObjects),
 void World::initialize() {
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
-  //numberOfPlayers = 4;
   farcp = 10000.0f;
   nearcp = 80.0f;
   initializeLighting();
