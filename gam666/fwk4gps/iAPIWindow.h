@@ -33,8 +33,7 @@ class iAPIWindow {
   // termination
   virtual void  release()                                     = 0;
   virtual void  Delete() const                                = 0;
-  friend class Coordinator;
-  friend class Menu;
+  friend class Coordinator;  
   friend class World;
   friend struct APIObjects;
 };

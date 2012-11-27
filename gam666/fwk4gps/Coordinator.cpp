@@ -76,6 +76,7 @@ Coordinator::Coordinator(APIObjects* objects) {
 
   updateOnRender = true;  
   displayCursor = false;
+  terminate = false;
 }
 
 // setConfiguration retrieves the configuration selection from the user

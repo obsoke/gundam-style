@@ -21,8 +21,7 @@
 class iCamera : public Frame, public Base {
   virtual void update()       = 0;
   virtual void Delete() const = 0;
-  friend class Coordinator;
-  friend class Menu;
+  friend class Coordinator;  
   friend class World;
   friend class Design;
 };
