@@ -26,6 +26,7 @@ class iAPIText {
   virtual bool restore()                          = 0;
   virtual void release()                          = 0;
   virtual void Delete() const                     = 0;
+  virtual void outline(unsigned colour = 0, bool turnOff = false) = 0;
   friend class Text;
 };
 

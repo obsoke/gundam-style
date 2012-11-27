@@ -102,9 +102,6 @@
     <ClCompile Include="Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\PhysicsWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,6 +136,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Menu.cpp">
+    <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -299,9 +297,6 @@
     <ClInclude Include="Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\PhysicsWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -338,7 +333,11 @@
     <ClInclude Include="APIObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Game\Menu.h">
+=======
+    <ClInclude Include="Utils.h">
+>>>>>>> master
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

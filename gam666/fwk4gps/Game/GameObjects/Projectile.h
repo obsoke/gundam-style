@@ -9,6 +9,7 @@ class Weapon;
 
 class Projectile : public GameObject {
   void findTarget();
+  void homeOnTarget();
 public:
   Player* owner;
   Vector direction;
@@ -17,6 +18,7 @@ public:
   float force;
   float life;
   unsigned time;
+  float maxHomeAngle;
   Player* target;
   bool isHoming;
 

@@ -19,7 +19,6 @@
 // CreateAPIText creates an APIText object
 //
 iAPIText* CreateAPIText(const wchar_t* t, int h, unsigned f, unsigned c) {
-
   return new APIText(t, h, f, c);
 }
 
@@ -29,6 +28,8 @@ APIText::APIText(const wchar_t* t, int h, unsigned f, unsigned c) :
 typeFace(t), fontHght(h) {
 
   d3dfont = nullptr;
+  outlined = false;
+  outlineColour = 0xFF000000;
 
   // define the text alignment flags
   if (!f) f = TEXT_DEFAULT;
@@ -114,9 +115,35 @@ void APIText::draw(const Rectf& r, const wchar_t* text) {
     RECT rect;
     SetRect(&rect, (int)(width * r.topLeftX), (int)(height * r.topLeftY), 
       (int)(width * r.bottomRightX), (int)(height * r.bottomRightY));
+    if (outlined) {
+      draw(rect.left - 1, rect.top - 1, rect.right, rect.bottom, text, outlineColour);
+      draw(rect.left - 1, rect.top + 1, rect.right, rect.bottom, text, outlineColour);
+      draw(rect.left + 1, rect.top - 1, rect.right, rect.bottom, text, outlineColour);
+      draw(rect.left + 1, rect.top + 1, rect.right, rect.bottom, text, outlineColour);
+    }
     // draws text within the drawing rectangle rect
     d3dfont->DrawText(manager, text, -1, &rect, align, colour);
   }
+}
+
+// draw draws text within Rectf r adjusted to the display dimensions
+//
+void APIText::draw(int x, int y, int r, int b, const wchar_t* text, unsigned colour) {
+
+  if (!d3dfont) setup();
+
+  if (d3dfont && manager && text) {
+    // creates the drawing rectangle in screen coordinates
+    RECT rect;
+    SetRect(&rect, x, y, r, b);
+    // draws text within the drawing rectangle rect
+    d3dfont->DrawText(manager, text, -1, &rect, align, colour);
+  }
+}
+
+void APIText::outline(unsigned colour, bool turnOff) {
+  outlined = !turnOff;
+  outlineColour = colour;
 }
 
 // suspend detaches the font from the APIDisplay device

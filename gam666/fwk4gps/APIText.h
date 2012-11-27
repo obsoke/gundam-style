@@ -31,6 +31,8 @@ class APIText : public iAPIText, public APIBase {
   unsigned       quality;   // antialias, cleartype
   const wchar_t* typeFace;  // typeFace name of font
   int            fontHght;  // height of font
+  bool outlined;
+  unsigned outlineColour;
 
   virtual ~APIText();
   void    setup();
@@ -41,7 +43,9 @@ public:
   APIText& operator=(const APIText& v);
   iAPIText* clone() const                 { return new APIText(*this); }
   // execution function
+  void   draw(int x, int y, int r, int b, const wchar_t* text, unsigned colour);
   void   draw(const Rectf& r, const wchar_t* text);
+  void outline(unsigned colour = 0xFF000000, bool turnOff = false);
   // termination
   void   suspend();
   bool   restore();

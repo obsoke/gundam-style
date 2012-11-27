@@ -97,7 +97,9 @@ protected:
   std::vector<iSound*>   sound;            // points to sound sources
   std::vector<iText*>    text;             // points to text items
   std::vector<iHUD*>     hud;              // points to huds
+  iHUD*                  mainHUD;
   std::vector<iObject*>  object;           // points to objects
+
 
   iAPIWindow*            window;           // points to the window object
   iAPIUserInput*         userInput;        // points to the user input object
@@ -178,6 +180,7 @@ public:
   void setAPIObjects(APIObjects* objects);
   void showCursor(bool show) { displayCursor = show; }
   bool getCursor() { return displayCursor; }
+  iHUD* getHUD() { return mainHUD; }
 };
 
 #endif

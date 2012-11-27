@@ -15,6 +15,7 @@
 #include "iUtilities.h"   // for error()
 #include "Model.h"        // for TEXT_MIN, TEXT_MAX, TEXT_ON, TEXT_OFF
 #include "Translation.h"  // for MAX_DESC
+#include "Utils.h"
 
 //-------------------------------- Text --------------------------------------
 //
@@ -53,6 +54,26 @@ iText* CreateText(Rectf r, void* h, const wchar_t* t,
     return new Text(r, h, t, v, s, j, u, f, c);
 }
 
+iText* CreateText(float x, float y, const wchar_t* label, unsigned colour) {
+  return new Text(Rectf(x, y), nullptr, label, nullptr, nullptr, 0, nullptr, 0, colour);
+}
+
+iText* CreateText(float x, float y, const char* label, unsigned colour) {
+  wchar_t newLabel[MAX_DESC + 1] = L"";
+  toWCString(newLabel, label, MAX_DESC);
+  return CreateText(x, y, newLabel, colour);
+}
+
+iText* CreateText(Rectf rect, const wchar_t* label, unsigned colour) {
+  return new Text(rect, nullptr, label, nullptr, nullptr, 0, nullptr, 0, colour);
+}
+
+iText* CreateText(Rectf rect, const char* label, unsigned colour) {
+  wchar_t newLabel[MAX_DESC + 1] = L"";
+  toWCString(newLabel, label, MAX_DESC);
+  return CreateText(rect, newLabel, colour);
+}
+
 iText* Clone(const iText* src) {
 
   return (iText*)src->clone();
@@ -66,7 +87,11 @@ void Text::init(Rectf& r, const wchar_t* text, const wchar_t* face, int height,
   unsigned flags, unsigned colour) {
 
     coordinator->add(this);
+    if (!hud) hud = coordinator->getHUD();
 
+    _colour = colour;
+    _height = height;
+    _flags = flags;
     font = CreateAPIText(face, height, flags, colour);
 
     if (r.topLeftX < TEXT_MIN) r.topLeftX = TEXT_MIN;
@@ -80,7 +105,25 @@ void Text::init(Rectf& r, const wchar_t* text, const wchar_t* face, int height,
     rect  = new Rectf;
     *rect = r;
 
-    if (text) set(text);
+    if (text) setLabel(text);
+    set(L"");
+}
+
+void Text::setStyle(int height, unsigned flags) {
+  if (font) delete font;
+  _height = height;
+  _flags = flags;
+  font = CreateAPIText(value, _height, _flags, _colour);
+}
+
+void Text::setColour(unsigned colour) {
+  if (font) delete font;
+  _colour = colour;
+  font = CreateAPIText(value, _height, _flags, _colour);
+}
+
+void Text::outline(unsigned colour, bool turnOff) {
+  font->outline(colour, turnOff);
 }
 
 // constructor initialializes the instance variables and stores the 
@@ -162,8 +205,27 @@ Text& Text::operator=(const Text& src) {
 // set copies the string text into the Text object
 //
 void Text::set(const wchar_t* text) {
+  strcpy(value, text, MAX_DESC);
+}
 
+void Text::set(const char* text) {
+  toWCString(value, text, MAX_DESC);
+}
+
+void Text::set(float text) {
+  set(toWString(text).c_str());
+}
+
+void Text::set(int text) {
+  set(toWString((float)text).c_str());
+}
+
+void Text::setLabel(const wchar_t* text) {
   strcpy(label, text, MAX_DESC);
+}
+
+void Text::setLabel(const char* text) {
+  toWCString(label, text, MAX_DESC);
 }
 
 // render draws the text string using the APIText object
@@ -174,16 +236,12 @@ void Text::render() {
 
   // value follows label
   if (intToWCStr && frame) {
-    wchar_t value[MAX_DESC + 1];
     intToWCStr(value, frame, axis, factor);
     strcpy(text, label, MAX_DESC);
-    strcat(text, value, MAX_DESC);
   }
   else if (intToWCStr && pFrame) {
-    wchar_t value[MAX_DESC + 1];
     intToWCStr(value, *pFrame, axis, factor);
     strcpy(text, label, MAX_DESC);
-    strcat(text, value, MAX_DESC);
   }
   // value precedes label
   else if (boolToWCStr && swtch) {
@@ -192,6 +250,7 @@ void Text::render() {
   }
   else
     strcpy(text, label, MAX_DESC);
+  strcat(text, value, MAX_DESC);
 
   // retrieves the current hud coordinates, if any
   Rectf hudRect = Rectf(0, 0, 1, 1);
