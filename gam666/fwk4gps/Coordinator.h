@@ -126,8 +126,8 @@ protected:
   unsigned               currentHUD;       // index - current HUD
   unsigned               lastHUDToggle;    // time - most recent hud toggle
   unsigned               lastAudioUpdate;  // time - most recent audio update
-
-  int gameState;                           // current game state
+  
+  bool displayCursor;                         // display windows cursor
 
   // configuration
   virtual void initialize()                 { }
@@ -175,11 +175,9 @@ public:
   bool ctrPressed() const;
   virtual void render();
   void setViewport(const Viewport& viewport);
-
-  // game states
-  int getState() { return gameState; }
-  void setState(int s) { gameState = s; }
   void setAPIObjects(APIObjects* objects);
+  void showCursor(bool show) { displayCursor = show; }
+  bool getCursor() { return displayCursor; }
 };
 
 #endif

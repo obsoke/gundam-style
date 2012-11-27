@@ -43,16 +43,15 @@ void World::initialize() {
   initializeObjects();
   initializeHUD();
   createProjection();
-  coordinator->setState(MAINGAME);
+  showCursor(false);
 }
 
-void World::loadingScreen() {
-  coordinator->setState(LOADING);
+void World::loadingScreen() {  
   iObject* loadScr;
-  loadScr = CreateSprite(L"stonehenge.bmp");  
+  loadScr = CreateSprite(L"loading.bmp");  
   display->beginDrawFrame(&view);  
   loadScr->render();  
-  display->endDrawFrame();
+  display->endDrawFrame();  
 }
 
 void World::initializeHUD() {

@@ -51,6 +51,8 @@ public:
   virtual void resize()                = 0;
   virtual int  run(bool config = true) = 0;
   virtual void  stop()                 = 0;
+  virtual void showCursor(bool)        = 0;
+  virtual bool getCursor()             = 0;
   // termination
   virtual void remove(iObject* o)      = 0;
   virtual void remove(iTexture* t)     = 0;
@@ -64,9 +66,6 @@ public:
   virtual void restore()               = 0;
   virtual void release()               = 0;
   virtual ~iCoordinator() { };
-  // game states
-  virtual int getState()               = 0;
-  virtual void setState(int s)         = 0;
 };
 
 iCoordinator* CoordinatorAddress();

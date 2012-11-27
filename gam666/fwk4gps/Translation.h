@@ -509,12 +509,4 @@ typedef struct Rectf {
   }
 } Rectf;
 
-//-------------------------------- Game States -----------------------------
-//
-typedef enum GameState {
-  MAINGAME = 1,
-  MENU = 2,
-  LOADING = 3
-} GameState;
-
 #endif

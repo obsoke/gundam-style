@@ -72,10 +72,8 @@ Coordinator::Coordinator(APIObjects* objects) {
   nearcp = 1.0f;
   farcp  = 1000.0f;
 
-  updateOnRender = true;
-
-  // set initial game state to LOADING
-  gameState = LOADING;
+  updateOnRender = true;  
+  displayCursor = false;
 }
 
 // setConfiguration retrieves the configuration selection from the user
