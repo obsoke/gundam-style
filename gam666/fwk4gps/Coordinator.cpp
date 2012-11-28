@@ -74,7 +74,9 @@ Coordinator::Coordinator(APIObjects* objects) {
   mainHUD = CreateHUD(CreateGraphic(), 0, 0, 1, 1, nullptr);
   mainHUD->toggle();
 
-  updateOnRender = true;
+  updateOnRender = true;  
+  displayCursor = false;
+  terminate = false;
 }
 
 // setConfiguration retrieves the configuration selection from the user

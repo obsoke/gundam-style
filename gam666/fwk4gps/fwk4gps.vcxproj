@@ -105,6 +105,7 @@
     <ClCompile Include="Game\GameObjects\Player.cpp" />
     <ClCompile Include="Game\GameObjects\Projectile.cpp" />
     <ClCompile Include="Game\GameObjects\InputComponent.cpp" />
+    <ClCompile Include="Game\Menu.cpp" />
     <ClCompile Include="Game\Mesh.cpp" />
     <ClCompile Include="Game\Utilities\ObjImporter.cpp" />
     <ClCompile Include="Game\PhysicsObject.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Game\GameObjects\Player.h" />
     <ClInclude Include="Game\GameObjects\Projectile.h" />
     <ClInclude Include="Game\GameObjects\InputComponent.h" />
+    <ClInclude Include="Game\Menu.h" />
     <ClInclude Include="Game\Mesh.h" />
     <ClInclude Include="Game\PhysicsObject.h" />
     <ClInclude Include="Game\PhysicsWorld.h" />
