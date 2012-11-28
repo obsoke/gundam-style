@@ -7,7 +7,8 @@
 
 Player::Player(World* world, int id, iGraphic* graphic) : 
     GameObject(world, graphic), thruster(300), id(id), 
-    thrusterCooldown(0), health(200), cameraDistance(Vector(0, 40, -100)) { 
+    thrusterCooldown(0), health(200), kills(0), deaths(0), 
+    isAlive(true), cameraDistance(Vector(0, 40, -100)) { 
   createCamera();
 
   physics = new PhysicsObject(world->physics, this);
@@ -28,7 +29,7 @@ void Player::createCamera() {
 }
 
 void Player::update() {
-	if(isAlive()) {
+	if(isAlive) {
 		recoverThrusters();
 		input.update(world, this);
 		weaponSet[0]->checkCoolDown();
@@ -57,10 +58,6 @@ void Player::recoverThrusters() {
 void Player::onCollision(Projectile* projectile) {
 	health -= projectile->damage;
 	applyForce(projectile->force * direction(getAABB().center(), projectile->getAABB().center()));
-}
-
-bool Player::isAlive(){
-	return health > 0;
 }
 
 Vector Player::findSpawnPoint() {

@@ -4,13 +4,16 @@
 #include "../../Camera.h"
 #include <cmath>
 
-#define AIMASSISTDISTANCE 60
+#define AIMASSISTDISTANCE 50
 #define PI 3.14159265f
 
-Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed) : 
+Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed, bool iHoming, float mHomeAngle) : 
     GameObject(world, model), owner(owner), pSpeed(pSpeed), damage(10),
-    time(0), force(1000), life(5000), target(nullptr), isHoming(true),
+    time(0), force(1000), life(5000), target(nullptr),
     maxHomeAngle(10.0f) {
+  isHoming = iHoming;
+  maxHomeAngle = mHomeAngle;
+
 	if (owner) initializeFromOwner();
 }
 
@@ -24,6 +27,12 @@ void Projectile::onCollision(Player* other)
 {
   //debug("PLAYER HIT\n");
 	//override for special hit effects here
+  if((other->health - damage) <= 0 && other->isAlive)
+  {
+    owner->kills++;
+    other->deaths++;
+    other->isAlive = false;
+  }
 	world->remove(this);
 }
 
@@ -57,7 +66,7 @@ void Projectile::findTarget() {
       float dist = sqrt(normPlayerOwner * normPlayerOwner - dotPlayerOwner * dotPlayerOwner);
 
       if(((dist < AIMASSISTDISTANCE) && (dotPlayerOwner > 0)) || isHoming ) {
-        if((dist < minDistance) && world->players[i]->isAlive()) {
+        if((dist < minDistance) && world->players[i]->isAlive) {
           minDistance = dist;
           target = world->players[i];
         }

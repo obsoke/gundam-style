@@ -23,6 +23,9 @@ public:
   int id;
   //
   int health;
+  int kills;
+  int deaths;
+  bool isAlive;
   Weapon* weaponSet[3];
 
   Player(World* world, int id, iGraphic* graphic = nullptr);
@@ -33,7 +36,6 @@ public:
   int hitBoundary() { return stayInBounds(); };
   void createCamera();
   virtual void onCollision(Projectile* projectile);
-  bool isAlive();
   void setWeapons();
   Vector findSpawnPoint();
   
