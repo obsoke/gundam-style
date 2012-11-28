@@ -28,14 +28,16 @@ std::string toString(float f) {
   std::stringstream ss;
   ss << f << "\n";
   return ss.str();
+
 }
 
-<<<<<<< HEAD:gam666/fwk4gps/Game/Utils.cpp
+
 std::wstring toString(int i) {
   std::wstringstream ss;
   ss << i ;
   return ss.str();
-=======
+}
+
 std::wstring toWString(const Vector& v) {
   std::wstringstream ss;
   ss << "{ " << v.x << ", " << v.y << ", " << v.z << " }" << "\n";
@@ -50,5 +52,5 @@ std::wstring toWString(float f) {
 
 void toWCString(wchar_t* dest, const char* src, unsigned size) {
   mbstowcs_s(&size, dest, size + 1, src, size); 
->>>>>>> master:gam666/fwk4gps/Utils.cpp
+
 }

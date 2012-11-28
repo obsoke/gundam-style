@@ -57,17 +57,12 @@ iText* CreateText(Rectf, void*, const wchar_t*,
 iText* CreateText(Rectf, void*, const wchar_t*, 
   const wchar_t* (*)(wchar_t*, const iSwitch*), iSwitch*, int = 0, 
   const wchar_t* = 0, unsigned = 0, unsigned = 0);
-<<<<<<< HEAD
-/*iText* CreateText(Rectf, void*, const wchar_t*, 
-  const wchar_t* (*)(wchar_t*, const Player*), Frame**, char,
-  unsigned = 1, int = 0, const wchar_t* = 0, unsigned = 0, unsigned = 0);*/
 
-=======
 iText* CreateText(float x, float y, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFFF);
 iText* CreateText(float x, float y, const char* label = "", unsigned colour = 0xFFFFFFFF);
 iText* CreateText(Rectf rect, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFFF);
 iText* CreateText(Rectf rect, const char* label = "", unsigned colour = 0xFFFFFFFF);
->>>>>>> master
+
 
 iText* Clone(const iText*);
 

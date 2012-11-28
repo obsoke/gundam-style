@@ -15,12 +15,9 @@
 #include "iUtilities.h"   // for error()
 #include "Model.h"        // for TEXT_MIN, TEXT_MAX, TEXT_ON, TEXT_OFF
 #include "Translation.h"  // for MAX_DESC
-<<<<<<< HEAD
 #include "Game\GameObjects\Player.h" // for player object
-#include "Game\Utils.h"   // for to_string(int)
-=======
 #include "Utils.h"
->>>>>>> master
+
 
 //-------------------------------- Text --------------------------------------
 //
@@ -59,16 +56,7 @@ iText* CreateText(Rectf r, void* h, const wchar_t* t,
     return new Text(r, h, t, v, s, j, u, f, c);
 }
 
-<<<<<<< HEAD
-/*iText* CreateText(Rectf r, void* h, const wchar_t* s, 
-  const wchar_t* (*v)(wchar_t*, const Player*), 
-  Frame** q, char a, unsigned x, int j, const wchar_t* u, unsigned f, 
-  unsigned c) {
 
-    return new Text(r, h, s, v, q, a, x, j, u, f, c);
-}*/
-
-=======
 iText* CreateText(float x, float y, const wchar_t* label, unsigned colour) {
   return new Text(Rectf(x, y), nullptr, label, nullptr, nullptr, 0, nullptr, 0, colour);
 }
@@ -88,7 +76,7 @@ iText* CreateText(Rectf rect, const char* label, unsigned colour) {
   toWCString(newLabel, label, MAX_DESC);
   return CreateText(rect, newLabel, colour);
 }
->>>>>>> master
+
 
 iText* Clone(const iText* src) {
 
@@ -368,6 +356,7 @@ const wchar_t* onOff(wchar_t* str, const iSwitch* item) {
   return str;
 }
 
+
 // health returns a text string representation of the player's health
 const wchar_t* health(wchar_t* str, const Player* player) {
 	const wchar_t* health = toString(player->health).c_str();
@@ -376,3 +365,4 @@ const wchar_t* health(wchar_t* str, const Player* player) {
 		strcpy(str, health, strlen(health));
 	return str;
 }
+
