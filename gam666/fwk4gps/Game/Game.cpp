@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "World.h"
+#include "Menu.h"
 #include "Map.h"
 #include "..\Texture.h"
 #include "..\Object.h"
@@ -10,7 +11,8 @@ Game::Game(void* handle, int show) {
   this->handle = handle;
   this->show = show;
   apiObjects = new APIObjects(handle, show);
-  addState(new World(this, DefaultMap()));
+  addState(new Menu(this)); 
+  //addState(new World(this, DefaultMap()));
 }
 
 void Game::addState(iCoordinator* state) {

@@ -31,7 +31,7 @@ class Game {
     void initialize();
     void addState(iCoordinator* state);
     void removeState(iCoordinator* state);
-    void toEntryPoint();
+    void toEntryPoint();	
     iCoordinator* currentState() { 
       return states.size() ? states[states.size()-1] : nullptr; 
     };

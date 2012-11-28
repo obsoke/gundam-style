@@ -33,6 +33,7 @@ World::World(Game* game, Map& map) : Coordinator(game->apiObjects),
 }
 
 void World::initialize() {
+  loadingScreen();
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
   farcp = 10000.0f;
@@ -41,6 +42,15 @@ void World::initialize() {
   initializeObjects();
   initializeHUD();
   createProjection();
+  showCursor(false);
+}
+
+void World::loadingScreen() {  
+  iObject* loadScr;
+  loadScr = CreateSprite(L"loading.bmp");  
+  display->beginDrawFrame(&view);  
+  loadScr->render();  
+  display->endDrawFrame();  
 }
 
 void World::initializeHUD() {
