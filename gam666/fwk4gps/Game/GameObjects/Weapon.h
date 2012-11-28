@@ -26,10 +26,10 @@ public:
   clock_t refireTimer;
 
   Weapon(Player* o, int cdDuration, int mHeat, int hPerShot);
-  void fireProjectile();
-  bool checkOverHeat();
-  void checkRefireTime();
-  void checkCoolDown();
+  virtual void fireProjectile();
+  virtual bool checkOverHeat();
+  virtual void checkRefireTime();
+  virtual void checkCoolDown();
   ~Weapon();
 };
 
