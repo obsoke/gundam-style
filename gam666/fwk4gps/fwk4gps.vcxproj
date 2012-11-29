@@ -102,6 +102,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Coordinator.cpp" />
     <ClCompile Include="Game\GameObjects\Floor.cpp" />
+    <ClCompile Include="Game\GameObjects\GameTimer.cpp" />
     <ClCompile Include="Game\GameObjects\Player.cpp" />
     <ClCompile Include="Game\GameObjects\Projectile.cpp" />
     <ClCompile Include="Game\GameObjects\InputComponent.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameObject.h" />
     <ClInclude Include="Game\GameObjects\Floor.h" />
+    <ClInclude Include="Game\GameObjects\GameTimer.h" />
     <ClInclude Include="Game\GameObjects\Player.h" />
     <ClInclude Include="Game\GameObjects\Projectile.h" />
     <ClInclude Include="Game\GameObjects\InputComponent.h" />

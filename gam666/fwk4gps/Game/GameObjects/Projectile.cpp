@@ -30,8 +30,7 @@ void Projectile::onCollision(Player* other)
   if((other->health - damage) <= 0 && other->isAlive)
   {
     owner->kills++;
-    other->deaths++;
-    other->isAlive = false;
+    other->die();
   }
 	world->remove(this);
 }

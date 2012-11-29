@@ -6,6 +6,7 @@
 #include "InputComponent.h"
 #include "Weapon.h"
 #include "Projectile.h"
+#include "GameTimer.h"
 
 class World;
 class iCamera;
@@ -24,9 +25,11 @@ public:
   //
   int health;
   int kills;
-  int deaths;
+  std::vector<float> deaths;
   bool isAlive;
   Weapon* weaponSet[3];
+  GameTimer lifeTimer;
+  GameTimer respawnTimer;
 
   Player(World* world, int id, iGraphic* graphic = nullptr);
   ~Player();
@@ -38,6 +41,7 @@ public:
   virtual void onCollision(Projectile* projectile);
   void setWeapons();
   Vector findSpawnPoint();
+  void die();
   
   iCamera* getCamera() { return camera; };
 };
