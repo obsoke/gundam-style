@@ -5,15 +5,19 @@
 #include "Weapon.h"
 #include "Projectile.h"
 
+#define CPS (float)CLOCKS_PER_SEC
+
 Player::Player(World* world, int id, iGraphic* graphic) : 
     GameObject(world, graphic), thruster(300), id(id), 
-    thrusterCooldown(0), health(200), cameraDistance(Vector(0, 40, -100)) { 
+    thrusterCooldown(0), health(200), kills(0), deaths(0), 
+    isAlive(true), cameraDistance(Vector(0, 40, -100)),
+    lifeTimer(0.0f), respawnTimer(30.0f) { 
   createCamera();
 
   physics = new PhysicsObject(world->physics, this);
   physics->stayUpright = true;
 
-  int cooldownDuration = 1;
+  float cooldownDuration = 1.0f;
   int maxHeat = 100;
   int heatPerShot = 10;
   weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
@@ -28,10 +32,10 @@ void Player::createCamera() {
 }
 
 void Player::update() {
-	if(isAlive()) {
+	if(isAlive) {
 		recoverThrusters();
 		input.update(world, this);
-		weaponSet[0]->checkCoolDown();
+    weaponSet[0]->cooldownTimer.checkTimer();
 	} else {
 		physics->stayUpright = false;
 	}
@@ -57,10 +61,6 @@ void Player::recoverThrusters() {
 void Player::onCollision(Projectile* projectile) {
 	health -= projectile->damage;
 	applyForce(projectile->force * direction(getAABB().center(), projectile->getAABB().center()));
-}
-
-bool Player::isAlive(){
-	return health > 0;
 }
 
 Vector Player::findSpawnPoint() {
@@ -97,6 +97,13 @@ Vector Player::findSpawnPoint() {
   }
 
   return spawnPoint;
+}
+
+void Player::die()
+{
+  deaths.push_back((clock() - lifeTimer.getTime()) / CPS);
+  isAlive = false;
+  respawnTimer.reset();
 }
 
 Player::~Player() {

@@ -43,6 +43,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Game\GameObjects\Weapon.cpp" />
+    <ClCompile Include="Game\GameObjects\GameTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIAudio.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Translation.h" />
     <ClInclude Include="Game\GameObjects\Weapon.h" />
+    <ClInclude Include="Game\GameObjects\GameTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dialog.rc" />
