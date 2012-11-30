@@ -44,9 +44,9 @@
 
 // backbuffer background colour
 //
-#define BGROUND_R 200
-#define BGROUND_G 200
-#define BGROUND_B 200
+#define BGROUND_R 0
+#define BGROUND_G 0
+#define BGROUND_B 0
 
 // maximum number of attached input devices
 #define MAX_INPUT_DEVICES 32
