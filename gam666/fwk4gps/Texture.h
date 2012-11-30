@@ -36,6 +36,8 @@ public:
   static void setAnisotropy(int);
   void setFilter(unsigned) const;
   void setAddressing(unsigned) const;
+  int getWidth();
+  int getHeight();
   void attach(int, int);
   void detach();
   // termination
