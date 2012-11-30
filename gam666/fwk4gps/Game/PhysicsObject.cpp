@@ -90,9 +90,14 @@ void PhysicsObject::setAngularSpeed(const Vector& v) {
   body->setAngularVelocity(toBtVector(v));
 }
 
-void PhysicsObject::applyForce(const Vector& v) {
+void PhysicsObject::applyForce(const Vector& v, const Vector& offset) {
   body->setActivationState(ACTIVE_TAG);
-  body->applyForce(toBtVector(v), btVector3(0,0,0));
+  body->applyForce(toBtVector(v), toBtVector(offset));
+}
+
+void PhysicsObject::applyImpulse(const Vector& v, const Vector& offset) {
+  body->setActivationState(ACTIVE_TAG);
+  body->applyImpulse(toBtVector(v), toBtVector(offset));
 }
 
 void PhysicsObject::setRotation(const Vector& axis, float angle) {

@@ -25,7 +25,7 @@ void Weapon::fireProjectile() {
   if(!cooldownTimer.timerActive && !refireTimer.timerActive) {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
-		Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 10);
+		Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 50);
     proj->translate(0, 20, 0);
     proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
 		proj->shoot();
