@@ -24,6 +24,7 @@ public:
   int id;
   //
   int health;
+  int startingHealth;
   int kills;
   std::vector<float> deaths;
   bool isAlive;
@@ -42,6 +43,7 @@ public:
   void setWeapons();
   Vector findSpawnPoint();
   void die();
+  void respawn();
   
   iCamera* getCamera() { return camera; };
 };
