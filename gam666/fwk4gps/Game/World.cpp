@@ -43,6 +43,7 @@ void World::initialize() {
   initializeHUD();
   createProjection();
   showCursor(false);
+  updateOnRender = false;
 }
 
 void World::loadingScreen() {  
@@ -116,10 +117,12 @@ void World::updateWorld() {
 
 void World::render() {
   updateWorld();
+  updateOther();
   for (unsigned i=0; i<players.size(); ++i) {
     const Viewport& viewport = calcViewport(i);
     setViewport(viewport);
     currentCam = players[i]->getCamera();
+    currentCam->update();
     Coordinator::render();
   }
 }

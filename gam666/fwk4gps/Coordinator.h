@@ -160,6 +160,7 @@ public:
   int   run(bool configure = true);
   void  stop();
   void  resize();
+  void updateOther();
   // termination
   void  suspend();
   void  restore();

@@ -95,7 +95,7 @@ void APIAudio::update(const void* view) {
     Listener.Position    = ePosition;
     Listener.OrientTop   = eUp;
   }
-  pMasteringVoice->SetVolume(volume);
+  if (pMasteringVoice) pMasteringVoice->SetVolume(volume);
 }
 
 // suspend suspends the master voice
