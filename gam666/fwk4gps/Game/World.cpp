@@ -109,10 +109,10 @@ void World::updateWorld() {
   //testText->set("TESTING");
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
-  physics->update();
   for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
     gameObjects[i]->update();
   checkBoundaryCollision();
+  physics->update();
 }
 
 void World::render() {
