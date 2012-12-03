@@ -43,6 +43,7 @@ void World::initialize() {
   initializeHUD();
   createProjection();
   showCursor(false);
+  updateOnRender = false;
 }
 
 void World::loadingScreen() {  
@@ -108,18 +109,20 @@ void World::updateWorld() {
   //testText->set("TESTING");
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
-  physics->update();
   for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
     gameObjects[i]->update();
   checkBoundaryCollision();
+  physics->update();
 }
 
 void World::render() {
   updateWorld();
+  updateOther();
   for (unsigned i=0; i<players.size(); ++i) {
     const Viewport& viewport = calcViewport(i);
     setViewport(viewport);
     currentCam = players[i]->getCamera();
+    currentCam->update();
     Coordinator::render();
   }
 }
