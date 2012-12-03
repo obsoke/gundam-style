@@ -27,6 +27,7 @@ class APITexture : public iAPITexture, public APIBase {
   IDirect3DTexture9* tex;    // interface to the texture COM object
   unsigned           filter; // sampling filter
   unsigned           addressing;
+  D3DXIMAGE_INFO     imageInfo;
 
   void setSamplerState(unsigned flags) const;
   void setup(int, int);
@@ -45,6 +46,8 @@ public:
   void setAddressingState(unsigned flags);
   void attach(int ,int);
   void detach();
+  int getWidth() { return imageInfo.Width; };
+  int getHeight() { return imageInfo.Height; };
   // suspension
   void suspend();
   // termination

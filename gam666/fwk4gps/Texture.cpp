@@ -155,3 +155,11 @@ void Texture::disposeLibrary() {
     it->second = nullptr;
   }
 }
+
+int Texture::getWidth() { 
+  return apiTexture ? apiTexture->getWidth() : 0; 
+}
+
+int Texture::getHeight() { 
+  return apiTexture ? apiTexture->getHeight() : 0; 
+}

@@ -237,14 +237,24 @@ bool registerAPIWindowClass(HINSTANCE application) {
 // wndProc handles the message "msg" sent to the main application window "hwnd"
 //
 LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
-
   static bool   quit        = false;
-  iCoordinator* coordinator = CoordinatorAddress();
+  iCoordinator* coordinator = CoordinatorAddress();  
+  
+  HCURSOR hcursor = nullptr;
+  if (coordinator->getCursor())
+	  hcursor = LoadCursor(0, IDC_ARROW);
+
+  //coordinator has quit program from alternate means
+  if (coordinator->quit() && !quit) { 
+	  wp = VK_ESCAPE;
+	  msg = WM_KEYDOWN;
+  }
 
   switch (msg) {
   case WM_CREATE:    // called once when the window is first created
-  case WM_SETCURSOR: // called whenever the mouse is moved to ...
-    SetCursor(nullptr); // ...lets us change the cursor if we want to
+  case WM_SETCURSOR: // called whenever the mouse is moved to ...	
+    //SetCursor(nullptr); // ...lets us change the cursor if we want to
+	SetCursor(hcursor);
     break;
 
     // sent when the user switches applications
