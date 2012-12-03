@@ -71,7 +71,7 @@
 #define STEP_FREQUENCY	   1
 
 // foreground texture transparency [\x00,\xff]
-#define TEXTURE_ALPHA '\x02'
+#define TEXTURE_ALPHA '\x99'
 
 // hud and text controls
 //

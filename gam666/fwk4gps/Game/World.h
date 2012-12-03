@@ -16,7 +16,13 @@ struct Viewport;
 class World : public Coordinator {
 	iObject* sprite; 
   iLight* defaultLight;
-  iText* testText;
+
+  // HUD text
+  iText* health;
+  iText* thrusters;
+  iText* weapon;
+  iText* score;
+
   int numberOfPlayers;
   AABB boundary;
   Map& map;

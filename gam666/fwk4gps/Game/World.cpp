@@ -60,13 +60,23 @@ void World::initializeHUD() {
 
   // need to create a loop for multiple players to display health of player
 
-  /*testText = CreateText(0.1f, 0.1f, "DAT LABEL: ");
-  testText->setColour(0xFFFF0000);
-  testText->setStyle(26);
-  testText->outline();*/
+  health = CreateText(0.1f, 0.1f, "Health: ");
+  health->setColour(0xFFFF0000);
+  health->setStyle(26);
+  health->outline();
 
-  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
-    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
+  thrusters = CreateText(0.6f, 0.1f, "Thrusters: ");
+  thrusters->setColour(0xFFFF0000);
+  thrusters->setStyle(26);
+  thrusters->outline();
+
+  score = CreateText(0.1f, 0.9f, "Score: ");
+  score->setColour(0xFFFF0000);
+  score->setStyle(26);
+  score->outline();
+
+  //CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
+  //  Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
 
 }
 
@@ -87,8 +97,6 @@ void World::initializeObjects() {
   };
   skybox = CreateSkybox(files);
   map.create(this);
-
-  add(CreateSprite(L"hudBackground.bmp", Vector(0.10f, 0.10f, 0.0f), 10));
   
   const wchar_t* gundamTextures[] = {
     L"gundam-tex.png", L"gundam-tex-2.png",
@@ -103,6 +111,7 @@ void World::initializeObjects() {
     players.push_back(player);
     add(player);
   }
+  sprite = CreateSprite(L"hudBackground.bmp", Vector(100, 100, 0.0f), 10);
 }
 
 void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
@@ -115,7 +124,8 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
 }
 
 void World::updateWorld() {
-  //testText->set("TESTING");
+  health->set(players[0]->health);
+  thrusters->set(players[0]->thruster);
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
   physics->update();
