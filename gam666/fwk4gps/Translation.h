@@ -44,9 +44,9 @@
 
 // backbuffer background colour
 //
-#define BGROUND_R 200
-#define BGROUND_G 200
-#define BGROUND_B 200
+#define BGROUND_R 0
+#define BGROUND_G 0
+#define BGROUND_B 0
 
 // maximum number of attached input devices
 #define MAX_INPUT_DEVICES 32
@@ -458,6 +458,7 @@ typedef enum LightType {
 #define TEXT_B 0
 #define TEXT_A 255
 #define TEXT_COLOUR  (TEXT_A << 24 | TEXT_R << 16 | TEXT_G << 8 | TEXT_B)
+#define TEXT_YELLOW  (TEXT_A << 24 | 255 << 16 | 255 << 8 | TEXT_B)
 
 // Texture filtering flags
 //

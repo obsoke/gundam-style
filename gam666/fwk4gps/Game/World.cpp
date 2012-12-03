@@ -33,15 +33,26 @@ World::World(Game* game, Map& map) : Coordinator(game->apiObjects),
 }
 
 void World::initialize() {
+  loadingScreen();
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
-  //numberOfPlayers = 4;
   farcp = 10000.0f;
   nearcp = 80.0f;
   initializeLighting();
   initializeObjects();
   initializeHUD();
   createProjection();
+  showCursor(false);
+}
+
+void World::loadingScreen() {  
+  iObject* loadScr;
+  loadScr = CreateSprite(L"loading.bmp");  
+  display->beginDrawFrame(&view);  
+  loadScr->render();  
+  display->endDrawFrame();  
+  remove(loadScr);
+  delete loadScr;
 }
 
 void World::initializeHUD() {
@@ -139,12 +150,8 @@ void World::render() {
   for (unsigned i=0; i<players.size(); ++i) {
     const Viewport& viewport = calcViewport(i);
     setViewport(viewport);
-    for (unsigned j=0; j<sprites.size(); ++j)
-      sprites[j]->translate((float)viewport.x, (float)viewport.y, 0);
     currentCam = players[i]->getCamera();
     Coordinator::render();
-    for (unsigned j=0; j<sprites.size(); ++j)
-      sprites[j]->translate((float)-viewport.x, (float)-viewport.y, 0);
   }
 }
 
@@ -189,8 +196,14 @@ void World::createProjection() {
 }
 
 iObject* World::CreateSprite(const wchar_t* file, const Vector& position, unsigned char a) {
+/*<<<<<<< HEAD
   iObject* sprite = ::CreateSprite(CreateGraphic(120,120), a);
   sprite->attach(CreateTexture(file));
+=======*/
+  iTexture* tex = CreateTexture(file);
+  iObject* sprite = ::CreateSprite(CreateGraphic(tex->getWidth(), tex->getHeight()), a);
+  sprite->attach(tex);
+//>>>>>>> master
   sprite->translate(position.x, position.y, 0);
   sprites.push_back(sprite);
   return sprite;

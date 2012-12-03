@@ -40,6 +40,7 @@ class iObject : public Frame, public Base {
   friend class Coordinator;
   friend class Design;
   friend class World;
+  friend class Menu;
 public:
   virtual void setReflectivity(Reflectivity* r)    = 0;
   virtual void setClip(Rect* source)               = 0;

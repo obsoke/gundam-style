@@ -100,6 +100,7 @@ public:
   void beginDrawFrame(const void*);
   void set(RenderState, bool);
   void setViewport(const Viewport& viewport);
+  void displayMouse(bool show);
   void beginDraw(unsigned flags);
   void endDraw();
   void endDrawFrame();
