@@ -528,6 +528,13 @@ void APIDisplay::setViewport(const Viewport& viewport) {
   }
 }
 
+void APIDisplay::displayMouse(bool show) {
+  if (d3dd) {
+    d3dd->ShowCursor(show);
+	d3dd->SetCursorPosition(50, 50, D3DCURSOR_IMMEDIATE_UPDATE);
+  }
+}
+
 // destructor releases the APIDisplay object along with the Interface to the
 // reference object
 //

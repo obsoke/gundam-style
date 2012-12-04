@@ -34,6 +34,7 @@ class iHUD : public iSwitch, public Base {
   friend class Coordinator;
   friend class Design;
   friend class Text;
+  friend class Menu;
 };
 
 iHUD* CreateHUD(iGraphic*, float, float, float, float, iTexture* = 0); 

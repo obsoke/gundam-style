@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include <time.h>
 #include "Player.h"
+#include "GameTimer.h"
 
 class Player;
 
@@ -15,17 +16,10 @@ public:
   int currentHeat;
   Player* owner;
   
-  double cooldownLeft;
-  double cooldownDuration;
-  bool coolingDown;
-  clock_t cooldownTimer;
-  
-  double refireLeft;
-  double refireDelay;
-  bool pausingForRefire;
-  clock_t refireTimer;
+  GameTimer cooldownTimer;
+  GameTimer refireTimer;
 
-  Weapon(Player* o, int cdDuration, int mHeat, int hPerShot);
+  Weapon(Player* o, float cdDuration, int mHeat, int hPerShot);
   void fireProjectile();
   bool checkOverHeat();
   void checkRefireTime();

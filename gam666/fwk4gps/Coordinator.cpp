@@ -74,7 +74,9 @@ Coordinator::Coordinator(APIObjects* objects) {
   mainHUD = CreateHUD(CreateGraphic(), 0, 0, 1, 1, nullptr);
   mainHUD->toggle();
 
-  updateOnRender = true;
+  updateOnRender = true;  
+  displayCursor = false;
+  terminate = false;
 }
 
 // setConfiguration retrieves the configuration selection from the user
@@ -356,8 +358,6 @@ void Coordinator::render() {
   view = *((Matrix*)Camera::getView());
   display->beginDrawFrame(&view);
   Light::setAmbient(ambient);
-  // render all of the sprite objects
-  render(SPRITE);
   // render all of the lit objects - include translucency
   display->set(LIGHTING, false);
   display->set(ALPHA_BLEND, true);
@@ -370,10 +370,16 @@ void Coordinator::render() {
   display->set(ALPHA_BLEND, true);
   render(TRANSLUCENT_OBJECT);
   display->set(ALPHA_BLEND, false);
+
+  display->set(Z_BUFFERING, false);
+  // render all of the sprite objects
+  render(SPRITE);
   // render all of the hud and text objects
   display->beginDraw(HUD_ALPHA);
   render(ALL_HUDS);
   display->endDraw();
+  display->set(Z_BUFFERING, true);
+
   // finished the graphics part
   display->endDrawFrame();
 

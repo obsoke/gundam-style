@@ -25,7 +25,8 @@ public:
   void setRotation(const Vector& axis, float angle);
   void resetRotation();
   void setAngularSpeed(const Vector& v);
-  void applyForce(const Vector& v);
+  void applyForce(const Vector& v, const Vector& offset = Vector(0,0,0));
+  void applyImpulse(const Vector& v, const Vector& offset = Vector(0,0,0));
   void create();
   void remove();
   void update();
