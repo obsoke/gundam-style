@@ -5,6 +5,7 @@
 #include "..\Utilities\ObjImporter.h"
 #include "..\Mesh.h"
 #include "..\..\iTexture.h"
+#include "..\..\Sound.h"
 #include "GameTimer.h"
 
 #define CPS (float)CLOCKS_PER_SEC
@@ -15,6 +16,7 @@ Weapon::Weapon(Player* o, float cdDuration, int mHeat, int hPerShot) :
 	maxHeat = mHeat;
 	heatPerShot = hPerShot;
 	currentHeat = 0;
+	fireSound = CreateSound(L"sfx/pew.wav", false);
 }
 
 void Weapon::fireProjectile() {
@@ -29,6 +31,7 @@ void Weapon::fireProjectile() {
     proj->translate(0, 20, 0);
     proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
 		proj->shoot();
+		fireSound->play();
 		currentHeat += heatPerShot;
 
 		//Refire
