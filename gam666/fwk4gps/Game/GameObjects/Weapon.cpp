@@ -21,7 +21,7 @@ Weapon::Weapon(Player* o, float cdDuration, int mHeat, int hPerShot) :
 
 void Weapon::fireProjectile() {
 	if(refireTimer.timerActive) {
-    refireTimer.checkTimer();
+      refireTimer.checkTimer();
 	}
 
   if(!cooldownTimer.timerActive && !refireTimer.timerActive) {

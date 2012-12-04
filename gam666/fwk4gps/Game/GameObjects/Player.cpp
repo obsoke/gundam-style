@@ -45,7 +45,7 @@ void Player::createCamera() {
 
 void Player::update() {
   physics->stayUpright = isAlive;
-  if(isAlive()) {
+  if(isAlive) {
     recoverThrusters();
     input.update(world, this);
     weaponSet[0]->cooldownTimer.checkTimer();

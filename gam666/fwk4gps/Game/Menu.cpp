@@ -112,9 +112,6 @@ void Menu::updateMenu() {
 	}
 	if (!pressed(MOVE_BACKWARD) && isMovingDown)
 		isMovingDown = false;
-	if (ptrPressed()) {
-		stop();
-	}
 }
 
 void Menu::render() {

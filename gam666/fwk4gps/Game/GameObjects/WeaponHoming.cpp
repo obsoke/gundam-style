@@ -6,37 +6,37 @@
 #include "..\Utilities\ObjImporter.h"
 #include "..\Mesh.h"
 #include "..\..\iTexture.h"
+#include "..\..\Sound.h"
+#include "GameTimer.h"
 
 #define CPS (float)CLOCKS_PER_SEC
 
-WeaponHoming::WeaponHoming(Player* o, int cdDuration, int mHeat, int hPerShot) : Weapon(o, cdDuration, mHeat, hPerShot) {
+WeaponHoming::WeaponHoming(Player* o, float cdDuration, int mHeat, int hPerShot) : Weapon(o, cdDuration, mHeat, hPerShot) {
 }
 
 void WeaponHoming::fireProjectile() {
-	if(pausingForRefire) {
-		checkRefireTime();
-	}
+  if(refireTimer.timerActive) {
+    refireTimer.checkTimer();
+  }
 
-	if(!coolingDown && !pausingForRefire) {
+  if(!cooldownTimer.timerActive && !refireTimer.timerActive) {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
-		Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 10);
+    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 10, true, 10.0f);
     proj->translate(0, 20, 0);
     proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
-		proj->shoot();
-		currentHeat += heatPerShot;
+	proj->isHoming = true;
+    proj->shoot();
+	//fireSound->play();
+    currentHeat += heatPerShot;
 
-		//Refire
-		pausingForRefire = true;
-		refireLeft = refireDelay;
-		refireTimer = clock();
+	//Refire
+	refireTimer.reset();
 
-		//Check Overheat
-		if(checkOverHeat()) {
-			coolingDown = true;
-			currentHeat = 0;
-			cooldownLeft = cooldownDuration;
-			cooldownTimer = clock();
-		}
-	}	
+	//Check Overheat
+    if(checkOverHeat()) {
+      currentHeat = 0;
+      cooldownTimer.reset();
+	}
+  }	
 }

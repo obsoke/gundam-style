@@ -24,8 +24,6 @@ public:
   Weapon(Player* o, float cdDuration, int mHeat, int hPerShot);
   virtual void fireProjectile();
   virtual bool checkOverHeat();
-  virtual void checkRefireTime();
-  virtual void checkCoolDown();
   ~Weapon();
 };
 
