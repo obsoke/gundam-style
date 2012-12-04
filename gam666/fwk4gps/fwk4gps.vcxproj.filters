@@ -141,6 +141,9 @@
     <ClCompile Include="Game\GameObjects\WeaponSpread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameObjects\WeaponHoming.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIAudio.h">
@@ -339,6 +342,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameObjects\WeaponSpread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObjects\WeaponHoming.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

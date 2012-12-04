@@ -31,6 +31,9 @@ void InputComponent::update(World* world, Player* object) {
   if (world->pressed(FIRE_WEAPON_2, id)) {
 	object->weaponSet[1]->fireProjectile();
   }
+  if (world->pressed(FIRE_WEAPON_3, id)) {
+	object->weaponSet[2]->fireProjectile();
+  }
 
   Vector displacement = 
     (float) dx * 300 * object->orientation('x') +

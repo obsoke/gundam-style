@@ -4,6 +4,7 @@
 #include "..\..\Camera.h"
 #include "Weapon.h"
 #include "WeaponSpread.h"
+#include "WeaponHoming.h"
 #include "Projectile.h"
 
 Player::Player(World* world, int id, iGraphic* graphic) : 
@@ -19,6 +20,7 @@ Player::Player(World* world, int id, iGraphic* graphic) :
   int heatPerShot = 10;
   weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
   weaponSet[1] = new WeaponSpread(this, cooldownDuration, maxHeat, heatPerShot);
+  weaponSet[2] = new WeaponHoming(this, cooldownDuration, maxHeat, heatPerShot);
   setTranslation(findSpawnPoint());
 };
 
@@ -35,6 +37,7 @@ void Player::update() {
 		input.update(world, this);
 		weaponSet[0]->checkCoolDown();
 		weaponSet[1]->checkCoolDown();
+		weaponSet[2]->checkCoolDown();
 	} else {
 		physics->stayUpright = false;
 	}

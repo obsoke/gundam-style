@@ -27,11 +27,12 @@ void Weapon::fireProjectile() {
 	}
 
 	if(!coolingDown && !pausingForRefire) {
-    Mesh* mesh = ObjImporter::import("sphere.obj");
-    mesh->buildScale = 20;
+		Mesh* mesh = ObjImporter::import("sphere.obj");
+		mesh->buildScale = 20;
 		Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 10);
-    proj->translate(0, 20, 0);
-    proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
+		proj->translate(0, 20, 0);
+		proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
+		proj->isHoming = false;
 		proj->shoot();
 		currentHeat += heatPerShot;
 
