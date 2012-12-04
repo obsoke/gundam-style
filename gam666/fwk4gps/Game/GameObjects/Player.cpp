@@ -2,6 +2,7 @@
 #include "..\World.h"
 #include "..\PhysicsObject.h"
 #include "..\..\Camera.h"
+#include "..\..\Sound.h" // Sound & Music
 #include "Weapon.h"
 #include "Projectile.h"
 
@@ -14,7 +15,7 @@ GameObject(world, graphic), thruster(300), id(id),
   lifeTimer(0.0f), respawnTimer(10.0f) { 
     startingHealth = health;
     createCamera();
-
+	initSounds();
     physics = new PhysicsObject(world->physics, this);
     physics->stayUpright = true;
 
@@ -24,6 +25,12 @@ GameObject(world, graphic), thruster(300), id(id),
     weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
     setTranslation(findSpawnPoint());
 };
+
+void Player::initSounds() {
+	jumpSound = CreateSound(L"sfx/jump.wav", false);
+	deathSound = CreateSound(L"sfx/death.wav", false);
+	beenHitSound = CreateSound(L"sfx/hit.wav", false);
+}
 
 void Player::createCamera() {
   camera = (Camera*)CreateCamera();
@@ -46,6 +53,7 @@ void Player::update() {
 
 void Player::useThruster(int amount) {
   thruster -= amount;
+  jumpSound->play();
   if (thruster <= 0) {
     thruster = 0;
     thrusterCooldown = 200;
@@ -62,6 +70,7 @@ void Player::recoverThrusters() {
 
 void Player::onCollision(Projectile* projectile) {
   health -= projectile->damage;
+  beenHitSound->play();
   applyForce(projectile->force * direction(getAABB().center(), projectile->getAABB().center()));
 }
 
@@ -104,6 +113,7 @@ Vector Player::findSpawnPoint() {
 void Player::die() {
   deaths.push_back((clock() - lifeTimer.getTime()) / CPS);
   respawnTimer.reset();
+  deathSound->play();
   physics->applyImpulse(Vector(0, 0, -750), Vector(0, 100, 0));
   isAlive = false;
 }

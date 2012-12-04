@@ -7,8 +7,10 @@
 #include "GameTimer.h"
 
 class Player;
+class iSound;
 
 class Weapon {
+	iSound* fireSound;
 public:
   //Weapon Attributes
   int maxHeat;
