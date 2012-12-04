@@ -13,6 +13,7 @@
 #include "..\Translation.h" // for Action enumerations
 #include "..\APIDisplay.h" // for Viewport
 #include "..\APIUserInput.h" // for Viewport
+#include "..\Sound.h" // Sound & Music
 #include "..\iAPIWindow.h"
 #include "../Utils.h"
 
@@ -33,6 +34,7 @@ World::World(Game* game, Map& map) : Coordinator(game->apiObjects),
 }
 
 void World::initialize() {
+  loadingScreen();
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
   farcp = 10000.0f;
@@ -40,7 +42,20 @@ void World::initialize() {
   initializeLighting();
   initializeObjects();
   initializeHUD();
+  initializeMusic();
   createProjection();
+  showCursor(false);
+  updateOnRender = false;
+}
+
+void World::loadingScreen() {  
+  iObject* loadScr;
+  loadScr = CreateSprite(L"loading.bmp");  
+  display->beginDrawFrame(&view);  
+  loadScr->render();  
+  display->endDrawFrame();  
+  remove(loadScr);
+  delete loadScr;
 }
 
 void World::initializeHUD() {
@@ -48,6 +63,11 @@ void World::initializeHUD() {
   testText->setColour(0xFFFF0000);
   testText->setStyle(26);
   testText->outline();*/
+}
+
+void World::initializeMusic() {
+  // GUNDAM STYLE, YO
+  music = CreateSound(L"music/battle.wav");
 }
 
 void World::initializeLighting() {
@@ -96,23 +116,21 @@ void World::updateWorld() {
   //testText->set("TESTING");
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
-  physics->update();
   for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
     gameObjects[i]->update();
   checkBoundaryCollision();
+  physics->update();
 }
 
 void World::render() {
   updateWorld();
+  updateOther();
   for (unsigned i=0; i<players.size(); ++i) {
     const Viewport& viewport = calcViewport(i);
     setViewport(viewport);
-    for (unsigned j=0; j<sprites.size(); ++j)
-      sprites[j]->translate((float)viewport.x, (float)viewport.y, 0);
     currentCam = players[i]->getCamera();
+    currentCam->update();
     Coordinator::render();
-    for (unsigned j=0; j<sprites.size(); ++j)
-      sprites[j]->translate((float)-viewport.x, (float)-viewport.y, 0);
   }
 }
 
@@ -157,8 +175,9 @@ void World::createProjection() {
 }
 
 iObject* World::CreateSprite(const wchar_t* file, const Vector& position, unsigned char a) {
-  iObject* sprite = ::CreateSprite(CreateGraphic(), a);
-  sprite->attach(CreateTexture(file));
+  iTexture* tex = CreateTexture(file);
+  iObject* sprite = ::CreateSprite(CreateGraphic(tex->getWidth(), tex->getHeight()), a);
+  sprite->attach(tex);
   sprite->translate(position.x, position.y, 0);
   sprites.push_back(sprite);
   return sprite;
@@ -199,4 +218,5 @@ bool World::collidesWithFloors(const AABB& aabb) {
 World::~World() { 
   if (skybox) delete skybox;
   if (physics) delete physics;
+  if (music) delete music;
 }

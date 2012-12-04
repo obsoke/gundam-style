@@ -128,6 +128,9 @@ protected:
   unsigned               currentHUD;       // index - current HUD
   unsigned               lastHUDToggle;    // time - most recent hud toggle
   unsigned               lastAudioUpdate;  // time - most recent audio update
+  
+  bool displayCursor;                         // display windows cursor
+  bool terminate;
 
   // configuration
   virtual void initialize()                 { }
@@ -157,6 +160,7 @@ public:
   int   run(bool configure = true);
   void  stop();
   void  resize();
+  void updateOther();
   // termination
   void  suspend();
   void  restore();
@@ -176,6 +180,9 @@ public:
   virtual void render();
   void setViewport(const Viewport& viewport);
   void setAPIObjects(APIObjects* objects);
+  void showCursor(bool show) { displayCursor = show; }
+  bool getCursor() { return displayCursor; }
+  bool quit() { return terminate; } 
   iHUD* getHUD() { return mainHUD; }
 };
 

@@ -74,7 +74,9 @@ Coordinator::Coordinator(APIObjects* objects) {
   mainHUD = CreateHUD(CreateGraphic(), 0, 0, 1, 1, nullptr);
   mainHUD->toggle();
 
-  updateOnRender = true;
+  updateOnRender = true;  
+  displayCursor = false;
+  terminate = false;
 }
 
 // setConfiguration retrieves the configuration selection from the user
@@ -327,11 +329,7 @@ void Coordinator::update() {
   }
 }
 
-// renders draws a complete frame
-//
-void Coordinator::render() {
-
-  if (updateOnRender) {
+void Coordinator::updateOther() {
     // update the user input devices
     userInput->update();  
     Coordinator::update();
@@ -345,19 +343,25 @@ void Coordinator::render() {
     // update the audio
     audio->setVolume(volume);
     audio->setFrequencyRatio(frequency);
-    audio->update(Camera::getView());
+	audio->update(Camera::getView());
     // update the sound sources
     for (unsigned i = 0; i < sound.size(); i++)
       if (sound[i]) 
         sound[i]->update();
-  }
+}
+
+// renders draws a complete frame
+//
+void Coordinator::render() {
+
+  if (updateOnRender) updateOther();
+
+  if (!keepgoing) return;
 
   // draw the frame 
   view = *((Matrix*)Camera::getView());
   display->beginDrawFrame(&view);
   Light::setAmbient(ambient);
-  // render all of the sprite objects
-  render(SPRITE);
   // render all of the lit objects - include translucency
   display->set(LIGHTING, false);
   display->set(ALPHA_BLEND, true);
@@ -370,10 +374,16 @@ void Coordinator::render() {
   display->set(ALPHA_BLEND, true);
   render(TRANSLUCENT_OBJECT);
   display->set(ALPHA_BLEND, false);
+
+  display->set(Z_BUFFERING, false);
+  // render all of the sprite objects
+  render(SPRITE);
   // render all of the hud and text objects
   display->beginDraw(HUD_ALPHA);
   render(ALL_HUDS);
   display->endDraw();
+  display->set(Z_BUFFERING, true);
+
   // finished the graphics part
   display->endDrawFrame();
 

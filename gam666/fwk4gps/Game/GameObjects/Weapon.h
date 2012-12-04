@@ -4,10 +4,13 @@
 #include "Projectile.h"
 #include <time.h>
 #include "Player.h"
+#include "GameTimer.h"
 
 class Player;
+class iSound;
 
 class Weapon {
+	iSound* fireSound;
 public:
   //Weapon Attributes
   int maxHeat;
@@ -15,17 +18,10 @@ public:
   int currentHeat;
   Player* owner;
   
-  double cooldownLeft;
-  double cooldownDuration;
-  bool coolingDown;
-  clock_t cooldownTimer;
-  
-  double refireLeft;
-  double refireDelay;
-  bool pausingForRefire;
-  clock_t refireTimer;
+  GameTimer cooldownTimer;
+  GameTimer refireTimer;
 
-  Weapon(Player* o, int cdDuration, int mHeat, int hPerShot);
+  Weapon(Player* o, float cdDuration, int mHeat, int hPerShot);
   virtual void fireProjectile();
   virtual bool checkOverHeat();
   virtual void checkRefireTime();

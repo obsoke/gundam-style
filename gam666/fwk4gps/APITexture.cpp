@@ -33,7 +33,10 @@ APITexture::APITexture(const wchar_t* file, unsigned k) : key(k), addressing(1) 
   }
   else
     this->file = nullptr;
-
+  imageInfo.Width = 0;
+  imageInfo.Height = 0;
+  imageInfo.Depth = 24;
+  setup(0, 0);
   tex    = nullptr;
 }
 
@@ -82,12 +85,11 @@ void APITexture::setAnisotropy(int d) {
 // setup creates the api texture from the texture file
 //
 void APITexture::setup(int w, int h) {
-
   // create a texture COM object from the texture file
   //
   if (file && FAILED(D3DXCreateTextureFromFileEx(d3dd, file, 
     w ? w : width, h ? h : height, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, 
-    D3DX_DEFAULT, D3DX_DEFAULT, key, nullptr, nullptr, &tex))) {
+    D3DX_DEFAULT, D3DX_DEFAULT, key, &imageInfo, nullptr, &tex))) {
       error(L"APITexture::11 Failed to create texture COM object from file");
       tex = nullptr;
   }

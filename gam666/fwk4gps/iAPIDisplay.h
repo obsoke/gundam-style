@@ -51,12 +51,14 @@ class iAPIDisplay {
   virtual void beginDraw(unsigned flags)            = 0;
   virtual void endDraw()                            = 0;
   virtual void endDrawFrame()                       = 0;
+  virtual void displayMouse(bool)                   = 0;
   // termination
   virtual void suspend()                            = 0;
   virtual bool restore()                            = 0;
   virtual void release()                            = 0;
   virtual void Delete()                             = 0;
   friend class Coordinator;
+  friend class Menu;
   friend class World;
   friend class APIUserInput;
   friend struct APIObjects;
