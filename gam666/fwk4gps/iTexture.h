@@ -35,7 +35,7 @@ public:
   virtual iTexture* clone() const        = 0;
 };
 
-iTexture* CreateTexture(const wchar_t*, unsigned = 0u);
+iTexture* CreateTexture(const wchar_t*, unsigned = 0xFF00FF00);
 iTexture* Clone(const iTexture*);
 
 #endif

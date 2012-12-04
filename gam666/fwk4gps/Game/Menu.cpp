@@ -45,14 +45,19 @@ void Menu::initialize() {
   currentLevel = 0;
   isMovingUp = isMovingDown = isSelected = false;
   levelList.push_back("DefaultMap");
-  levelList.push_back("NonexistantMap");  
+  //levelList.push_back("NonexistantMap");  
 }
 
-void Menu::loadingScreen() {  
-  iObject* loadScr;  
-  loadScr = CreateSprite(L"title.bmp");      
+void Menu::loadingScreen() {
+  Object* bg = (Object*) ::CreateSprite(CreateGraphic(width, height));
+  bg->attach(CreateTexture(L"blue_nebula.jpg"));
+  Object* guy = (Object*) CreateSprite(L"gundam-style-main.png", Vector(10, 0), 0.5f);
+  Object* title = (Object*) CreateSprite(L"gundam-style-text.png", Vector(-40, 40), 0.5f);
+  title->alignRight();
   display->beginDrawFrame(&view);  
-  loadScr->render();  
+  bg->render();
+  guy->render();  
+  title->render();  
   display->endDrawFrame();
 }
 
@@ -119,9 +124,10 @@ void Menu::render() {
   Coordinator::render();  
 }
 
-iObject* Menu::CreateSprite(const wchar_t* file, const Vector& position, unsigned char a) {
-  iObject* sprite = ::CreateSprite(CreateGraphic(), a);
-  sprite->attach(CreateTexture(file));
+iObject* Menu::CreateSprite(const wchar_t* file, const Vector& position, float scale, unsigned char a) {
+  iTexture* tex = CreateTexture(file);
+  iObject* sprite = ::CreateSprite(CreateGraphic((int)(tex->getWidth() * scale), (int)(tex->getHeight() * scale)));
+  sprite->attach(tex);
   sprite->translate(position.x, position.y, 0);
   sprites.push_back(sprite);
   return sprite;
