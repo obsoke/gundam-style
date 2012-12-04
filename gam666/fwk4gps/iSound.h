@@ -26,9 +26,6 @@ class iSound : public Frame, public iSwitch, public Base {
   virtual void loop(bool)                    = 0;
   // execution
   virtual bool isOn() const                  = 0;
-  virtual bool toggle()                      = 0;
-  virtual void update()                      = 0;
-  virtual bool stop()                        = 0;
   virtual void render()                      = 0;
   virtual void suspend()                     = 0;
   virtual void restore()                     = 0;
@@ -39,6 +36,9 @@ class iSound : public Frame, public iSwitch, public Base {
   friend class Coordinator;
   friend class Design;
 public:
+  virtual void update()                      = 0;
+  virtual bool stop()                        = 0;
+  virtual bool toggle()                      = 0;
   virtual iSound* clone() const              = 0;
   virtual bool play()                        = 0;
 };

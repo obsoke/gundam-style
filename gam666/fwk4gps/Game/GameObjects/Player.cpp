@@ -15,7 +15,7 @@ GameObject(world, graphic), thruster(300), id(id),
   lifeTimer(0.0f), respawnTimer(10.0f) { 
     startingHealth = health;
     createCamera();
-
+	initSounds();
     physics = new PhysicsObject(world->physics, this);
     physics->stayUpright = true;
 
@@ -28,6 +28,7 @@ GameObject(world, graphic), thruster(300), id(id),
 
 void Player::initSounds() {
 	jumpSound = CreateSound(L"sfx/jump.wav", false);
+	deathSound = CreateSound(L"sfx/death.wav", false);
 }
 
 void Player::createCamera() {
@@ -110,6 +111,7 @@ Vector Player::findSpawnPoint() {
 void Player::die() {
   deaths.push_back((clock() - lifeTimer.getTime()) / CPS);
   respawnTimer.reset();
+  deathSound->play();
   physics->applyImpulse(Vector(0, 0, -750), Vector(0, 100, 0));
   isAlive = false;
 }
