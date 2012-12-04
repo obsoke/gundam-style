@@ -25,7 +25,6 @@ class Object : public iObject  {
   iGraphic*     graphic;       // points to the object's vertex list
   unsigned char alpha;         // transparency '\x00' to '\xFF'
   Reflectivity  reflectivity;  // material reflectivity
-  iTexture*     texture;       // points to attached texture
   unsigned      flags;         // texture sampling flags
   unsigned      texAddr;         // texture sampling flags
 
@@ -33,6 +32,8 @@ protected:
   virtual       ~Object();
 
 public:
+  iTexture*     texture;       // points to attached texture
+
   Object(Category, iGraphic*, const Reflectivity* = nullptr);
   Object(Category, iGraphic*, unsigned char);
   Object(const Object&);            
@@ -44,6 +45,7 @@ public:
   int  height() const;
   float radius() const;
   AABB getAABB() const;
+  void alignRight();
   void setClip(Rect* source);
   void setTextureFilter(unsigned f)      { flags = f; }
   void setTextureAddressing(unsigned f) { texAddr = f; }
