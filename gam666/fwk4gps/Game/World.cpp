@@ -48,9 +48,8 @@ void World::initialize() {
   updateOnRender = false;
 }
 
-void World::loadingScreen() {  
-  iObject* loadScr;
-  loadScr = CreateSprite(L"loading.bmp");  
+void World::loadingScreen() {
+  iObject* loadScr = ::CreateSprite(L"loading.bmp", &Rect(0,0,width,height));  
   display->beginDrawFrame(&view);  
   loadScr->render();  
   display->endDrawFrame();  

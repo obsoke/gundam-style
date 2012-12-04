@@ -161,3 +161,7 @@ void Object::setReflectivity(Reflectivity* r) {
   if (r->translucent())
     category = TRANSLUCENT_OBJECT;
 }
+
+void Object::alignRight() { 
+  translate((float)(Base::width - (texture->getWidth() / 2.0f)), 0, 0); 
+};
