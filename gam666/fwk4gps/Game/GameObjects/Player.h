@@ -11,13 +11,19 @@
 class World;
 class iCamera;
 class iGraphic;
+class iSound;
 class Projectile;
 class Weapon;
 
 class Player : public GameObject {
   InputComponent input;
   iCamera* camera;
+  iSound* jumpSound;
+  iSound* deathSound;
+  iSound* shootingSound;
   Vector cameraDistance;
+
+  void initSounds();
 public:
   int thrusterCooldown;
   int thruster;

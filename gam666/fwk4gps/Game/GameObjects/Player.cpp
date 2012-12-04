@@ -2,6 +2,7 @@
 #include "..\World.h"
 #include "..\PhysicsObject.h"
 #include "..\..\Camera.h"
+#include "..\..\Sound.h" // Sound & Music
 #include "Weapon.h"
 #include "Projectile.h"
 
@@ -25,6 +26,10 @@ GameObject(world, graphic), thruster(300), id(id),
     setTranslation(findSpawnPoint());
 };
 
+void Player::initSounds() {
+	jumpSound = CreateSound(L"sfx/jump.wav", false);
+}
+
 void Player::createCamera() {
   camera = (Camera*)CreateCamera();
   camera->attachTo(this);
@@ -46,6 +51,7 @@ void Player::update() {
 
 void Player::useThruster(int amount) {
   thruster -= amount;
+  jumpSound->play();
   if (thruster <= 0) {
     thruster = 0;
     thrusterCooldown = 200;

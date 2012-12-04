@@ -29,7 +29,6 @@ class iSound : public Frame, public iSwitch, public Base {
   virtual bool toggle()                      = 0;
   virtual void update()                      = 0;
   virtual bool stop()                        = 0;
-  virtual bool play()                        = 0;
   virtual void render()                      = 0;
   virtual void suspend()                     = 0;
   virtual void restore()                     = 0;
@@ -41,6 +40,7 @@ class iSound : public Frame, public iSwitch, public Base {
   friend class Design;
 public:
   virtual iSound* clone() const              = 0;
+  virtual bool play()                        = 0;
 };
 
 iSound* CreateSound(const wchar_t*, bool = true);
