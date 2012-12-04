@@ -20,7 +20,7 @@ class Player : public GameObject {
   iCamera* camera;
   iSound* jumpSound;
   iSound* deathSound;
-  iSound* shootingSound;
+  iSound* beenHitSound;
   Vector cameraDistance;
 
   void initSounds();

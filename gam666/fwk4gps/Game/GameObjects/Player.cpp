@@ -29,6 +29,7 @@ GameObject(world, graphic), thruster(300), id(id),
 void Player::initSounds() {
 	jumpSound = CreateSound(L"sfx/jump.wav", false);
 	deathSound = CreateSound(L"sfx/death.wav", false);
+	beenHitSound = CreateSound(L"sfx/hit.wav", false);
 }
 
 void Player::createCamera() {
@@ -69,6 +70,7 @@ void Player::recoverThrusters() {
 
 void Player::onCollision(Projectile* projectile) {
   health -= projectile->damage;
+  beenHitSound->play();
   applyForce(projectile->force * direction(getAABB().center(), projectile->getAABB().center()));
 }
 
