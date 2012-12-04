@@ -4,6 +4,8 @@
 #include "..\..\Camera.h"
 #include "..\..\Sound.h" // Sound & Music
 #include "Weapon.h"
+#include "WeaponSpread.h"
+#include "WeaponHoming.h"
 #include "Projectile.h"
 
 #define CPS (float)CLOCKS_PER_SEC
@@ -19,11 +21,13 @@ GameObject(world, graphic), thruster(300), id(id),
     physics = new PhysicsObject(world->physics, this);
     physics->stayUpright = true;
 
-    float cooldownDuration = 1.0f;
-    int maxHeat = 100;
-    int heatPerShot = 10;
-    weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
-    setTranslation(findSpawnPoint());
+  float cooldownDuration = 1.0f;
+  int maxHeat = 100;
+  int heatPerShot = 10;
+  weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
+  weaponSet[1] = new WeaponSpread(this, cooldownDuration, maxHeat, heatPerShot);
+  weaponSet[2] = new WeaponHoming(this, cooldownDuration, maxHeat, heatPerShot);
+  setTranslation(findSpawnPoint());
 };
 
 void Player::initSounds() {
@@ -45,10 +49,12 @@ void Player::update() {
     recoverThrusters();
     input.update(world, this);
     weaponSet[0]->cooldownTimer.checkTimer();
-  } else {
-    if (!respawnTimer.checkTimer()) respawn();
-  }
-  GameObject::update();
+    weaponSet[1]->cooldownTimer.checkTimer();
+    weaponSet[2]->cooldownTimer.checkTimer();
+    } else {
+      if (!respawnTimer.checkTimer()) respawn();
+    }
+    GameObject::update();
 }
 
 void Player::useThruster(int amount) {

@@ -44,6 +44,8 @@
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Game\GameObjects\Weapon.cpp" />
     <ClCompile Include="Game\GameObjects\GameTimer.cpp" />
+    <ClCompile Include="Game\GameObjects\WeaponSpread.cpp" />
+    <ClCompile Include="Game\GameObjects\WeaponHoming.cpp">
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIAudio.h" />
@@ -112,6 +114,8 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Translation.h" />
     <ClInclude Include="Game\GameObjects\Weapon.h" />
+    <ClInclude Include="Game\GameObjects\WeaponSpread.h" />
+    <ClInclude Include="Game\GameObjects\WeaponHoming.h" />
     <ClInclude Include="Game\GameObjects\GameTimer.h" />
   </ItemGroup>
   <ItemGroup>
