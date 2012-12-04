@@ -13,10 +13,11 @@ void InputComponent::update(World* world, Player* object) {
   int aimChangeY = world->change(RPOSY, id);
 
   // add changes introduced through keyboard input
+  ang -= aimChangeX / 5;
   if (changeX < -50 || world->pressed(MOVE_LEFT, id))
-    ang += delta;
+    dx -= delta;
   if (changeX > 50 || world->pressed(MOVE_RIGHT, id))
-    ang -= delta;
+    dx += delta;
   if (changeY > 50 || world->pressed(MOVE_BACKWARD, id))
     dz -= delta;
   if (changeY < -50 || world->pressed(MOVE_FORWARD, id))
@@ -35,5 +36,5 @@ void InputComponent::update(World* world, Player* object) {
     (float) dz * 300 * object->orientation('z');
   if (dx || dy || dz)
     object->applyForce(displacement.x, displacement.y, displacement.z);
-  object->setAngularSpeed(0, ang / 1.75f, 0);
+  object->setAngularSpeed(0, ang, 0);
 }
