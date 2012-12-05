@@ -15,7 +15,9 @@
 #include "iUtilities.h"   // for error()
 #include "Model.h"        // for TEXT_MIN, TEXT_MAX, TEXT_ON, TEXT_OFF
 #include "Translation.h"  // for MAX_DESC
+#include "Game\GameObjects\Player.h" // for player object
 #include "Utils.h"
+
 
 //-------------------------------- Text --------------------------------------
 //
@@ -54,25 +56,27 @@ iText* CreateText(Rectf r, void* h, const wchar_t* t,
     return new Text(r, h, t, v, s, j, u, f, c);
 }
 
-iText* CreateText(float x, float y, const wchar_t* label, unsigned colour) {
-  return new Text(Rectf(x, y), nullptr, label, nullptr, nullptr, 0, nullptr, 0, colour);
+
+iText* CreateText(float x, float y, void* h, const wchar_t* label, unsigned colour) {
+  return new Text(Rectf(x, y), h, label, nullptr, nullptr, 0, nullptr, 0, colour);
 }
 
-iText* CreateText(float x, float y, const char* label, unsigned colour) {
+iText* CreateText(float x, float y, void* h, const char* label, unsigned colour) {
   wchar_t newLabel[MAX_DESC + 1] = L"";
   toWCString(newLabel, label, MAX_DESC);
-  return CreateText(x, y, newLabel, colour);
+  return CreateText(x, y, h, newLabel, colour);
 }
 
-iText* CreateText(Rectf rect, const wchar_t* label, unsigned colour) {
-  return new Text(rect, nullptr, label, nullptr, nullptr, 0, nullptr, 0, colour);
+iText* CreateText(Rectf rect, void* h, const wchar_t* label, unsigned colour) {
+  return new Text(rect, h, label, nullptr, nullptr, 0, nullptr, 0, colour);
 }
 
-iText* CreateText(Rectf rect, const char* label, unsigned colour) {
+iText* CreateText(Rectf rect, void* h, const char* label, unsigned colour) {
   wchar_t newLabel[MAX_DESC + 1] = L"";
   toWCString(newLabel, label, MAX_DESC);
-  return CreateText(rect, newLabel, colour);
+  return CreateText(rect, h, newLabel, colour);
 }
+
 
 iText* Clone(const iText* src) {
 
@@ -161,6 +165,15 @@ Text::Text(Rectf r, void* h, const wchar_t* text,
 
     init(r, text, type, j, flags, colour);
 }
+
+/*Text::Text(Rectf r, void* h, const wchar_t* text, 
+  const wchar_t* (*fn)(wchar_t*, const Player*), Frame** q, 
+  char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
+  unsigned colour) : frame(nullptr), axis(c), factor(x), intToWCStr(fn), 
+  boolToWCStr(nullptr), swtch(nullptr), pFrame(q), hud((iHUD*)h) {
+
+    init(r, text, type, j, flags, colour);
+}*/
 
 // copy constructor adds the new object's address to the coordinator,
 // initializes the instance pointers and calls the assignment operator
@@ -342,3 +355,14 @@ const wchar_t* onOff(wchar_t* str, const iSwitch* item) {
 
   return str;
 }
+
+
+// health returns a text string representation of the player's health
+const wchar_t* health(wchar_t* str, const Player* player) {
+	const wchar_t* health = toString(player->health).c_str();
+
+	if (player) 
+		strcpy(str, health, strlen(health));
+	return str;
+}
+

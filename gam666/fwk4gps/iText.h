@@ -21,6 +21,7 @@ struct Rectf;
 class Frame;
 class iSwitch;
 class iHUD;
+class Player;
 
 class iText : public Base {
   virtual const wchar_t* text() const    = 0;
@@ -56,10 +57,12 @@ iText* CreateText(Rectf, void*, const wchar_t*,
 iText* CreateText(Rectf, void*, const wchar_t*, 
   const wchar_t* (*)(wchar_t*, const iSwitch*), iSwitch*, int = 0, 
   const wchar_t* = 0, unsigned = 0, unsigned = 0);
-iText* CreateText(float x, float y, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFFF);
-iText* CreateText(float x, float y, const char* label = "", unsigned colour = 0xFFFFFFFF);
-iText* CreateText(Rectf rect, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFFF);
-iText* CreateText(Rectf rect, const char* label = "", unsigned colour = 0xFFFFFFFF);
+
+iText* CreateText(float x, float y, void*, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFFF);
+iText* CreateText(float x, float y, void*, const char* label = "", unsigned colour = 0xFFFFFFFF);
+iText* CreateText(Rectf rect, void*, const wchar_t* label =  L"", unsigned colour = 0xFFFFFFF);
+iText* CreateText(Rectf rect, void*, const char* label = "", unsigned colour = 0xFFFFFFFF);
+
 
 iText* Clone(const iText*);
 
@@ -67,5 +70,6 @@ iText* Clone(const iText*);
 const wchar_t* orient(wchar_t*, const Frame*, char, unsigned = 1u);
 const wchar_t* position(wchar_t*, const Frame*, char = ' ', unsigned = 1u);
 const wchar_t* onOff(wchar_t*, const iSwitch*);
+const wchar_t* health(wchar_t* str, const Player*);
 
 #endif

@@ -71,19 +71,21 @@
 #define STEP_FREQUENCY	   1
 
 // foreground texture transparency [\x00,\xff]
-#define TEXTURE_ALPHA '\x20'
+#define TEXTURE_ALPHA '\x00'
 
 // hud and text controls
 //
 // hud background image
 #define HUD_IMAGE L"hudBackground.bmp"
+#define HUD_HEALTH L"health.bmp"
+#define HUD_THRUSTER L"thruster.bmp"
 // relative limits on the size of the hud [0,1]
 #define HUD_MAX    0.99f
 #define HUD_MIN    0.01f
 #define HUD_SPEED  (0.5f /* screen units per sec */ / UNITS_PER_SEC) 
 // hud location within window [0,1]
-#define HUD_W     0.43f
-#define HUD_H     0.43f
+#define HUD_W     0.99f
+#define HUD_H     0.99f
 // text limits within the hud [0,1]
 #define TEXT_MAX   0.99f
 #define TEXT_MIN   0.01f

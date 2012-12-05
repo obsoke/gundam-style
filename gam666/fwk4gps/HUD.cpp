@@ -28,7 +28,7 @@ iHUD* CreateHUD(iGraphic* graphic, float x, float y, float w, float h, iTexture*
 // to the coordinator and validates the position and dimensions
 //
 HUD::HUD(iGraphic* g, float x, float y, float w, float h, iTexture* t) : graphic(g), texture(t), 
-  on(false) {
+  on(true) {
 
     coordinator->add(this);
 
@@ -124,7 +124,7 @@ bool HUD::toggle() {
     lastToggle = now;
     on         = !on;
   }
-  return on;
+  return true;
 }
 
 // beginDraw prepares the HUD for drawing using its graphic

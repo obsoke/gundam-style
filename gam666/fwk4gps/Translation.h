@@ -476,7 +476,7 @@ typedef enum LightType {
 //
 // HUD Transparency
 //
-#define HUD_ALPHA 1
+#define HUD_ALPHA 9
 
 //-------------------------------- APIAudio -----------------------------------
 //

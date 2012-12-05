@@ -14,9 +14,12 @@ class Floor;
 struct Viewport;
 
 class World : public Coordinator {
+	iObject* sprite; 
   iLight* defaultLight;
+
   iText* testText;
   iSound* music;
+
   int numberOfPlayers;
   AABB boundary;
   Map& map;
@@ -31,6 +34,15 @@ public:
   std::vector<Projectile*> projectiles;
   std::vector<iObject*> sprites;
   std::vector<Vector> spawnPoints;
+
+  std::vector<iText*> healths;
+  std::vector<iHUD*> HUD_healths;
+  std::vector<iText*> thrusters;
+  std::vector<iHUD*> HUD_thrusters;
+  std::vector<iText*> scores;
+  std::vector<iHUD*> HUD_scores;
+  std::vector<bool> cooldown;
+  std::vector<iText*> respawnTimers;
 
   Frame* skybox;
   Game* game;
