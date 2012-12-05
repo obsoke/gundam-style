@@ -15,7 +15,7 @@
 #include "..\APIUserInput.h" // for Viewport
 #include "..\Sound.h" // Sound & Music
 #include "..\iAPIWindow.h"
-#include "../Utils.h"
+#include "..\Utils.h"
 
 #include "Game.h"
 #include "GameObject.h"
@@ -119,7 +119,7 @@ void World::initializeHUD() {
 
 void World::initializeMusic() {
   // GUNDAM STYLE, YO
-  music = CreateSound(L"music/battle.wav");
+  music = CreateSound(L"music/battleSofter.wav");
 }
 
 void World::initializeLighting() {
