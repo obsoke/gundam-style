@@ -72,11 +72,12 @@ Coordinator::Coordinator(APIObjects* objects) {
   nearcp = 1.0f;
   farcp  = 1000.0f;
   mainHUD = CreateHUD(CreateGraphic(), 0, 0, 1, 1, nullptr);
-  mainHUD->toggle();
+  
 
   updateOnRender = true;  
   displayCursor = false;
   terminate = false;
+  //mainHUD->toggle();
 }
 
 // setConfiguration retrieves the configuration selection from the user
@@ -362,6 +363,7 @@ void Coordinator::render() {
   view = *((Matrix*)Camera::getView());
   display->beginDrawFrame(&view);
   Light::setAmbient(ambient);
+
   // render all of the lit objects - include translucency
   display->set(LIGHTING, false);
   display->set(ALPHA_BLEND, true);
@@ -382,7 +384,13 @@ void Coordinator::render() {
   display->beginDraw(HUD_ALPHA);
   render(ALL_HUDS);
   display->endDraw();
+/*<<<<<<< HEAD
+
+  // render all of the sprite objects
+  render(SPRITE);
+=======*/
   display->set(Z_BUFFERING, true);
+//>>>>>>> master
 
   // finished the graphics part
   display->endDrawFrame();
@@ -408,12 +416,15 @@ void Coordinator::render(Category category) {
   switch (category) {
   case ALL_HUDS:
     // draw all huds
-    for (unsigned i = 0; i < hud.size(); i++)
-      if (hud[i] && hud[i]->isOn())
-        hud[i]->render();
-    for (unsigned i = 0; i < text.size(); i++)
-      if (text[i])
-        text[i]->render();
+            for (unsigned i = 0; i < hud.size(); i++)
+                if (hud[i] && hud[i]->isOn()) {
+                    hud[i]->beginDraw();
+                    hud[i]->render();
+                    for (unsigned j = 0; j < text.size(); j++)
+                        if (text[j] && text[j]->getHUD() == hud[i])
+                            text[j]->render();
+                    hud[i]->endDraw();
+                }
     break;
   case ALL_SOUNDS:
     // render all sounds
