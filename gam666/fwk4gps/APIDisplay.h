@@ -95,6 +95,8 @@ public:
   // configuration
   void configure(int, int, int);
   void setProjection(void*);
+  void clear();
+  void present();
   bool setup();
   // execution
   void beginDrawFrame(const void*);

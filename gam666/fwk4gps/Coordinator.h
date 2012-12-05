@@ -156,6 +156,7 @@ public:
   void  add(iText* t)    { ::add(text, t); }
   void  add(iHUD* h)     { ::add(hud, h); }
   void  reset();
+  void  present();
   // execution
   int   run(bool configure = true);
   void  stop();
@@ -163,6 +164,7 @@ public:
   void updateOther();
   // termination
   void  suspend();
+  void  clearScreen();
   void  restore();
   void  release();
   void  remove(iObject* o);

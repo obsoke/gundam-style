@@ -52,6 +52,8 @@ class iAPIDisplay {
   virtual void endDraw()                            = 0;
   virtual void endDrawFrame()                       = 0;
   virtual void displayMouse(bool)                   = 0;
+  virtual void clear()                              = 0;
+  virtual void present()                            = 0;
   // termination
   virtual void suspend()                            = 0;
   virtual bool restore()                            = 0;
