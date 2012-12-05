@@ -25,8 +25,8 @@ GameObject(world, graphic), thruster(300), id(id),
   int maxHeat = 100;
   int heatPerShot = 10;
   weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
-  weaponSet[1] = new WeaponSpread(this, 2.0f, maxHeat, maxHeat / 2);
-  weaponSet[2] = new WeaponHoming(this, 5.0f, maxHeat, maxHeat);
+  weaponSet[1] = new WeaponSpread(this, 2.0f, maxHeat, maxHeat / 2, 0.0005f * CPS);
+  weaponSet[2] = new WeaponHoming(this, 5.0f, maxHeat, maxHeat, 0.001f * CPS);
   setTranslation(findSpawnPoint());
 };
 
