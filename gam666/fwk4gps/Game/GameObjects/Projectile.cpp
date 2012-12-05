@@ -4,7 +4,7 @@
 #include "../../Camera.h"
 #include <cmath>
 
-#define AIMASSISTDISTANCE 50
+#define AIMASSISTDISTANCE 75
 #define PI 3.14159265f
 
 Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed, float lifespan, int damagePerProjectile, bool iHoming, 
