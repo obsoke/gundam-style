@@ -32,6 +32,7 @@ class Text : public iText {
   unsigned _colour;
   unsigned _flags;
   int      _height;
+  bool     _useScreenCoords;
   Text*    topLeft;
   Text*    bottomLeft;
   Text*    topRight;
@@ -74,6 +75,7 @@ public:
   void    setLabel(const char*);
   void    setStyle(int height, unsigned flags = 0);
   void    setColour(unsigned colour);
+  void    useScreenCoords(bool use = true);
   void    outline(unsigned colour = 0xFF000000, bool turnOff = false);
   iHUD*   getHUD() const        { return hud; }
   const   wchar_t* text() const { return label; }

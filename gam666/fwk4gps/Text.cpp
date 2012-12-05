@@ -98,14 +98,6 @@ void Text::init(Rectf& r, const wchar_t* text, const wchar_t* face, int height,
     _flags = flags;
     font = CreateAPIText(face, height, flags, colour);
 
-    if (r.topLeftX < TEXT_MIN) r.topLeftX = TEXT_MIN;
-    else if (r.topLeftX > TEXT_MAX) r.topLeftX = TEXT_MAX;
-    if (r.topLeftY < TEXT_MIN) r.topLeftY = TEXT_MIN;
-    else if (r.topLeftY > TEXT_MAX) r.topLeftY = TEXT_MAX;
-    if (r.bottomRightX < TEXT_MIN) r.bottomRightX = TEXT_MIN;
-    else if (r.bottomRightX > TEXT_MAX) r.bottomRightX = TEXT_MAX;
-    if (r.bottomRightY < TEXT_MIN) r.bottomRightY = TEXT_MIN;
-    else if (r.bottomRightY > TEXT_MAX) r.bottomRightY = TEXT_MAX;
     rect  = new Rectf;
     *rect = r;
 
@@ -118,12 +110,14 @@ void Text::setStyle(int height, unsigned flags) {
   _height = height;
   _flags = flags;
   font = CreateAPIText(value, _height, _flags, _colour);
+  font->useScreenCoords(_useScreenCoords);
 }
 
 void Text::setColour(unsigned colour) {
   if (font) delete font;
   _colour = colour;
   font = CreateAPIText(value, _height, _flags, _colour);
+  font->useScreenCoords(_useScreenCoords);
 }
 
 void Text::outline(unsigned colour, bool turnOff) {
@@ -135,7 +129,7 @@ void Text::outline(unsigned colour, bool turnOff) {
 //
 Text::Text(Rectf r, void* h, const wchar_t* text, int j, const wchar_t* type,
   unsigned flags, unsigned colour) :  intToWCStr(nullptr), boolToWCStr(nullptr), 
-  swtch(nullptr), pFrame(nullptr), frame(nullptr), hud((iHUD*)h) {
+  swtch(nullptr), pFrame(nullptr), frame(nullptr), hud((iHUD*)h), _useScreenCoords(false) {
 
     init(r, text, type, j, flags, colour);
 }
@@ -144,7 +138,8 @@ Text::Text(Rectf r, void* h, const wchar_t* text,
   const wchar_t* (*fn)(wchar_t*, const Frame*, char, unsigned), Frame* q, 
   char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
   unsigned colour) : frame(q), axis(c), factor(x), intToWCStr(fn),
-  boolToWCStr(nullptr), swtch(nullptr), pFrame(nullptr), hud((iHUD*)h) {
+  boolToWCStr(nullptr), swtch(nullptr), pFrame(nullptr), hud((iHUD*)h), 
+  _useScreenCoords(false) {
 
     init(r, text, type, j, flags, colour);
 }
@@ -153,7 +148,8 @@ Text::Text(Rectf r, void* h, const wchar_t* text,
   const wchar_t* (*fn)(wchar_t*, const Frame*, char, unsigned), Frame** q, 
   char c, unsigned x, int j, const wchar_t* type, unsigned flags, 
   unsigned colour) : frame(nullptr), axis(c), factor(x), intToWCStr(fn), 
-  boolToWCStr(nullptr), swtch(nullptr), pFrame(q), hud((iHUD*)h) {
+  boolToWCStr(nullptr), swtch(nullptr), pFrame(q), hud((iHUD*)h), 
+  _useScreenCoords(false) {
 
     init(r, text, type, j, flags, colour);
 }
@@ -161,7 +157,8 @@ Text::Text(Rectf r, void* h, const wchar_t* text,
 Text::Text(Rectf r, void* h, const wchar_t* text, 
   const wchar_t* (*fn)(wchar_t*, const iSwitch*), iSwitch* s, int j, 
   const wchar_t* type, unsigned flags, unsigned colour) : swtch(s), axis(' '),
-  factor(0), boolToWCStr(fn), frame(nullptr), intToWCStr(nullptr), hud((iHUD*)h) {
+  factor(0), boolToWCStr(fn), frame(nullptr), intToWCStr(nullptr), hud((iHUD*)h), 
+  _useScreenCoords(false) {
 
     init(r, text, type, j, flags, colour);
 }
@@ -271,14 +268,27 @@ void Text::render() {
     hudRect = hud->getRect();
   float width  = hudRect.bottomRightX - hudRect.topLeftX;
   float height = hudRect.bottomRightY - hudRect.topLeftY;
-  Rectf textRect(
-    hudRect.topLeftX + width * rect->topLeftX, 
-    hudRect.topLeftY + height * rect->topLeftY, 
-    hudRect.topLeftX + width * rect->bottomRightX, 
-    hudRect.topLeftY + height * rect->bottomRightY);
 
-  if (font)
-    font->draw(textRect, text);
+  if (font) {
+    if (_useScreenCoords) {
+      if (rect->bottomRightX <= rect->topLeftX) rect->bottomRightX = rect->topLeftX + width;
+      if (rect->bottomRightY <= rect->topLeftY) rect->bottomRightY = rect->topLeftY + height;
+      Rectf textRect(rect->topLeftX, rect->topLeftY, rect->bottomRightX, rect->bottomRightY);
+      font->draw(textRect, text);
+    } else {
+      Rectf textRect(
+        hudRect.topLeftX + width * rect->topLeftX, 
+        hudRect.topLeftY + height * rect->topLeftY, 
+        hudRect.topLeftX + width * rect->bottomRightX, 
+        hudRect.topLeftY + height * rect->bottomRightY);
+      font->draw(textRect, text);
+    }
+  }
+}
+
+void Text::useScreenCoords(bool use) {
+  _useScreenCoords = use;
+  font->useScreenCoords(use);
 }
 
 // suspends suspends the font associated with the text object
@@ -359,10 +369,9 @@ const wchar_t* onOff(wchar_t* str, const iSwitch* item) {
 
 // health returns a text string representation of the player's health
 const wchar_t* health(wchar_t* str, const Player* player) {
-	const wchar_t* health = toString(player->health).c_str();
+	const wchar_t* health = toWString((float)player->health).c_str();
 
 	if (player) 
 		strcpy(str, health, strlen(health));
 	return str;
 }
-

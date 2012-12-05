@@ -77,8 +77,8 @@
 //
 // hud background image
 #define HUD_IMAGE L"hudBackground.bmp"
-#define HUD_HEALTH L"health.bmp"
-#define HUD_THRUSTER L"thruster.bmp"
+#define HUD_HEALTH L"health.png"
+#define HUD_THRUSTER L"thruster.png"
 // relative limits on the size of the hud [0,1]
 #define HUD_MAX    0.99f
 #define HUD_MIN    0.01f

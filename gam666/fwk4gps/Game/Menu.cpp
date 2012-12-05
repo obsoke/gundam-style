@@ -59,6 +59,7 @@ void Menu::loadingScreen() {
   guy->render();  
   title->render();  
   display->endDrawFrame();
+  present();
 }
 
 void Menu::initializeHUD() {	  	

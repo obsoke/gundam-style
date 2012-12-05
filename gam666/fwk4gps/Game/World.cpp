@@ -37,7 +37,6 @@ void World::initialize() {
   loadingScreen();
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
-  numberOfPlayers = 4;
   farcp = 10000.0f;
   nearcp = 80.0f;
   initializeLighting();
@@ -50,72 +49,42 @@ void World::initialize() {
 }
 
 void World::loadingScreen() {
-  iObject* loadScr = ::CreateSprite(L"loading.bmp", &Rect(0,0,width,height));  
+  iTexture* tex = CreateTexture(L"loading.png");
+  iObject* loadScr = ::CreateSprite(CreateGraphic(tex->getWidth(), tex->getHeight()));
+  loadScr->attach(tex);
+  loadScr->translate(width - tex->getWidth() - 50.0f, height - tex->getHeight() - 50.0f, 0);
   display->beginDrawFrame(&view);  
   loadScr->render();  
-  display->endDrawFrame();
-  display->present();
+  display->endDrawFrame();  
+  present();
   remove(loadScr);
   delete loadScr;  
 }
 
 void World::initializeHUD() {
-
-  /*iHUD* hud = CreateHUD(CreateGraphic(), 0.1f, 0.1f, 0.43f, 0.43f, CreateTexture(HUD_IMAGE));
-  setTimerText(CreateText(Rectf(0.0f, 0.05f, 0.2f, 0.15f), hud, L"",
-    TEXT_HEIGHT, TEXT_TYPEFACE, TEXT_LEFT));
-
-  CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Camera: at ", position,
-    Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);*/
-
-  // need to create method createText that will display the health of the player
-  // player data
-  //CreateText(Rectf(0, 0.05f, 0.65f, 0.15f), hud, L" Health: ", health,
-  //  Camera::getCurrent(), ' ', 1, 16, L"ARIAL", TEXT_CENTER);
-
-  // need to create a loop for multiple players to display health of player
-  
-  for (int i = 0; i < numberOfPlayers; i++){
-	  float x = 0.0, y = 0.0;
-	  if (i == 1 || i == 3) 
-		  x = 0.5f;
-	  if (i == 2 || i == 3)
-		  y = 0.5f;
-
-	  iHUD* healthHud = CreateHUD(CreateGraphic(), 0.05f + x, 0.05f + y, 0.2f, 0.2f, CreateTexture(HUD_HEALTH));
-      iHUD* thrusterHud = CreateHUD(CreateGraphic(), 0.05f + x, 0.20f + y, 0.2f, 0.2f, CreateTexture(HUD_THRUSTER));
-	  iHUD* scoreHud = CreateHUD(CreateGraphic(), 0.05f + x, 0.35f + y, 0.14f, 0.1f, CreateTexture(HUD_IMAGE));
-
-	  iText* health = CreateText(0.1f, 0.1f,  healthHud, "Health: ");
-	  health->setColour(0xFFFF0000);
-	  health->setStyle(26);
-	  health->outline();
-
-	  healths.push_back(health);
-	  HUD_healths.push_back(healthHud);
-
-	  iText* thruster = CreateText(0.1f, 0.1f, thrusterHud,"");
-	  thruster->setColour(0xFFFF0000);
-	  thruster->setStyle(26);
-	  thruster->outline();
-
-	  thrusters.push_back(thruster);
-	  HUD_thrusters.push_back(thrusterHud);
-
-	  iText* score = CreateText(0.1f, 0.1f, scoreHud, "Score: ");
-	  score->setColour(0xFFFF0000);
-	  score->setStyle(26);
-	  score->outline();
-
-	  scores.push_back(score);
-	  HUD_scores.push_back(scoreHud);
-	  cooldown.push_back(false);
+  float space = 20;
+  for (int i = 0; i < numberOfPlayers; i++) {
+    const Viewport& v = calcViewport(i);
+    float x = i == 1 || i == 3 ? (float)v.width : 0, 
+          y = i == 2 || i == 3 ? (float)v.height : 0;
+    sprites.push_back(CreateSprite(HUD_HEALTH, Vector((space / 2) + x, space + y), 0.33f));
+    healths.push_back(createHUDText(v, (space * 2) + x, space + y + 2, ""));
+    sprites.push_back(CreateSprite(HUD_THRUSTER, Vector((space / 2) + x, (space * 3) + y), 0.33f));
+    thrusters.push_back(createHUDText(v, (space / 2) + x, (space * 3) + y, "", 0xFFFF0000, 34));
+    scores.push_back(createHUDText(v, (space / 2) + x, v.height + y - (space * 2), "Score: "));
+    respawnTimers.push_back(createHUDText(v, x, y, "", 0x992266FF, 34, true));
+    cooldown.push_back(false);
   }
-  sprite = CreateSprite(L"health.bmp", Vector(0.1f, 0.1f, 0.0f), '\x01');
-  sprites.push_back(sprite);
-  sprite = CreateSprite(L"thruster.bmp", Vector(0.1f, 0.1f, 0.0f), '\x01');
-  sprites.push_back(sprite);
-  
+}
+
+iText* World::createHUDText(const Viewport& viewport, float x, float y, 
+                            const char* label, unsigned colour, unsigned size, bool centered) {
+  iText* text = CreateText(Rectf(x, y, x + (float)viewport.width, y + (float)viewport.height), mainHUD, label, colour);
+  text->useScreenCoords();
+  text->setColour(colour);
+  text->setStyle(size, centered ? TEXT_MIDDLE | TEXT_CENTER : TEXT_DEFAULT);
+  text->outline();
+  return text;
 }
 
 void World::initializeMusic() {
@@ -140,12 +109,12 @@ void World::initializeObjects() {
   };
   skybox = CreateSkybox(files);
   map.create(this);
-  
+
   const wchar_t* gundamTextures[] = {
     L"gundam-tex.png", L"gundam-tex-2.png",
     L"gundam-tex-3.png", L"gundam-tex-4.png"
   };
-  Mesh* mesh = ObjImporter::import("gundam.obj");
+  Mesh* mesh = ObjImporter::import("gundam-style.obj");
   iGraphic* vertexList = mesh->build();
   for (int i=0; i<numberOfPlayers; ++i) {
     Player* player = new Player(this, i, vertexList);
@@ -155,7 +124,7 @@ void World::initializeObjects() {
     add(player);
   }
   //sprite = CreateSprite(L"hudBackground.bmp", Vector(100, 100, 0.0f), 10);
-  
+
 }
 
 void World::addFloor(const Vector& position, const Vector& tiles, const Vector& tileSize, iTexture* tex) {
@@ -168,26 +137,38 @@ void World::addFloor(const Vector& position, const Vector& tiles, const Vector& 
 }
 
 void World::updateWorld() {
-	
-	for (int j = 0; j <((int)healths.size()) ; ++j){
-		healths[j]->set(players[j]->health);
-		if (players[j]->thruster == 0) 
-			cooldown[j] = true;
-		if (players[j]->thruster < 250 && cooldown[j]){
-			thrusters[j]->set("Cooldown");
-		}
-		else{
-			thrusters[j]->set("");
-			cooldown[j] = false;
-		}
-		scores[j]->set(players[j]->kills);
-	}
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
   for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
     gameObjects[i]->update();
   checkBoundaryCollision();
   physics->update();
+  updateHUD();
+}
+
+void World::updateHUD() {
+  for (unsigned j = 0; j < healths.size(); ++j) {
+    healths[j]->set(players[j]->health);
+    if (players[j]->thruster == 0) 
+      cooldown[j] = true;
+    if (players[j]->thruster < 250 && cooldown[j]) {
+      thrusters[j]->set("X");
+    } else {
+      thrusters[j]->set("");
+      cooldown[j] = false;
+    }
+    scores[j]->set(players[j]->kills);
+    if (!players[j]->isAlive) {
+      int x = 0;
+    }
+    int time = (int)(players[j]->respawnTimer.timeLimit - players[j]->respawnTimer.getTime());
+    std::string timer = players[j]->isAlive ? "" : "Respawning in ";
+    if (!players[j]->isAlive) {
+      timer += toString((float)time);
+      timer += "...";
+    }
+    respawnTimers[j]->set(timer.c_str());
+  }
 }
 
 void World::render() {
@@ -245,12 +226,10 @@ void World::createProjection() {
   display->setProjection(&projection);
 }
 
-iObject* World::CreateSprite(const wchar_t* file, const Vector& position, unsigned char a) {
-
+iObject* World::CreateSprite(const wchar_t* file, const Vector& position, float scale, unsigned char a) {
   iTexture* tex = CreateTexture(file);
-  iObject* sprite = ::CreateSprite(CreateGraphic(tex->getWidth(), tex->getHeight()), a);
+  iObject* sprite = ::CreateSprite(CreateGraphic((int)(tex->getWidth() * scale), (int)(tex->getHeight() * scale)));
   sprite->attach(tex);
-
   sprite->translate(position.x, position.y, 0);
   sprites.push_back(sprite);
   return sprite;
