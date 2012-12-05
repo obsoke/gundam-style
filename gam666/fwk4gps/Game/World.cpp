@@ -58,7 +58,7 @@ void World::loadingScreen() {
   display->endDrawFrame();  
   present();
   remove(loadScr);
-  delete loadScr;
+  delete loadScr;  
 }
 
 void World::initializeHUD() {

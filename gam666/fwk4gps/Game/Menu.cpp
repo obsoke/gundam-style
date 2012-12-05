@@ -67,7 +67,8 @@ void Menu::initializeHUD() {
   //hud->toggle();
   iText* testMe = CreateText(Rectf(0.0f, 0, 1.0f, 0.16f), hud, L"START GAME", 32, L"ARIAL", TEXT_TOP | TEXT_NORMAL | TEXT_CENTER);
   menuItem.push_back(testMe);
-  testMe = CreateText(Rectf(0.0f, 0.20f, 1.0f, 0.35f), hud, L"LEVEL: DefaultMap", 32, L"ARIAL", TEXT_TOP | TEXT_NORMAL | TEXT_CENTER);
+  //testMe = CreateText(Rectf(0.0f, 0.20f, 1.0f, 0.35f), hud, L"LEVEL: DefaultMap", 32, L"ARIAL", TEXT_TOP | TEXT_NORMAL | TEXT_CENTER);
+  testMe = CreateText(Rectf(0.0f, 0.20f, 1.0f, 0.35f), hud, L"OPTIONS", 32, L"ARIAL", TEXT_TOP | TEXT_NORMAL | TEXT_CENTER);
   menuItem.push_back(testMe);
   testMe = CreateText(Rectf(0.0f, 0.40f, 1.0f, 0.55f), hud, L"QUIT", 32, L"ARIAL", TEXT_TOP | TEXT_NORMAL | TEXT_CENTER);
   menuItem.push_back(testMe);
@@ -89,9 +90,13 @@ void Menu::updateMenu() {
 				game->addState(new World(game, DefaultMap()));
 				break;
 			case 1:
-				(currentLevel == levelList.size() - 1) ? currentLevel = 0 : currentLevel++;
+				/*(currentLevel == levelList.size() - 1) ? currentLevel = 0 : currentLevel++;
 				strcat (tmpLevel, levelList.at(currentLevel));
-				menuItem.at(currentItem)->setLabel(tmpLevel);				
+				menuItem.at(currentItem)->setLabel(tmpLevel);				*/
+				suspend();
+				reset();
+				loadingScreen();
+				restore();
 				break;
 			case 2:				
 				terminate = true;
