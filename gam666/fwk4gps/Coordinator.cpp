@@ -384,13 +384,7 @@ void Coordinator::render() {
   display->beginDraw(HUD_ALPHA);
   render(ALL_HUDS);
   display->endDraw();
-/*<<<<<<< HEAD
-
-  // render all of the sprite objects
-  render(SPRITE);
-=======*/
   display->set(Z_BUFFERING, true);
-//>>>>>>> master
 
   // finished the graphics part
   display->endDrawFrame();

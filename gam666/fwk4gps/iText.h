@@ -42,6 +42,7 @@ public:
   virtual void setLabel(const char*)     = 0;
   virtual void setStyle(int height, unsigned flags = 0) = 0;
   virtual void setColour(unsigned colour) = 0;
+  virtual void useScreenCoords(bool use = true)  = 0;
   virtual void outline(unsigned colour = 0xFF000000, bool turnOff = false) = 0;
   virtual iText* clone() const           = 0;
 };

@@ -21,6 +21,7 @@ class iAPIText {
   virtual iAPIText* clone() const                 = 0;
   // execution function
   virtual void draw(const Rectf&, const wchar_t*) = 0;
+  virtual void useScreenCoords(bool use = true)   = 0;
   // termination
   virtual void suspend()                          = 0;
   virtual bool restore()                          = 0;

@@ -26,15 +26,7 @@ std::string toString(const Vector& v) {
 
 std::string toString(float f) {
   std::stringstream ss;
-  ss << f << "\n";
-  return ss.str();
-
-}
-
-
-std::wstring toString(int i) {
-  std::wstringstream ss;
-  ss << i ;
+  ss << f;
   return ss.str();
 }
 
@@ -46,7 +38,7 @@ std::wstring toWString(const Vector& v) {
 
 std::wstring toWString(float f) {
   std::wstringstream ss;
-  ss << f << "\n";
+  ss << f;
   return ss.str();
 }
 

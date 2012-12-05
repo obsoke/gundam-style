@@ -20,11 +20,11 @@ void WeaponHoming::fireProjectile() {
   }
 
   if(!cooldownTimer.timerActive && !refireTimer.timerActive) {
-    Mesh* mesh = ObjImporter::import("sphere.obj");
-    mesh->buildScale = 20;
+    Mesh* mesh = ObjImporter::import("sphere2.obj");
+    mesh->buildScale = 80;
     Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 20.0f, 150, 15, true, 5.0f);
     proj->translate(0, 20, 0);
-    proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
+    proj->model->setReflectivity(&Reflectivity(Colour(0.8f, 0, 0, 0.5f)));
 	proj->isHoming = true;
     proj->shoot();
 	//fireSound->play();

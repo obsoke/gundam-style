@@ -23,31 +23,31 @@ void WeaponSpread::fireProjectile() {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
     for (int i = 0; i < 5; i++) {
-      Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 80, 10, 5);			
+      Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 80, 100, 5);			
       switch (i) {
-        case 0:				
-          proj->shiftDirection(0.1f);				
-          break;
-        case 1:				
-          proj->shiftDirection(0.2f);
-          break;
-        case 2:				
-          proj->shiftDirection(-0.1f);				
-          break;
-        case 3:				
-          proj->shiftDirection(-0.2f);
-          break;
-        case 4:
-          //proj->shiftDirection(Vector(0, 0, 0));
-          break;
-        }      
+      case 0:				
+        proj->shiftDirection(0.1f);				
+        break;
+      case 1:				
+        proj->shiftDirection(0.2f);
+        break;
+      case 2:				
+        proj->shiftDirection(-0.1f);				
+        break;
+      case 3:				
+        proj->shiftDirection(-0.2f);
+        break;
+      case 4:
+        //proj->shiftDirection(Vector(0, 0, 0));
+        break;
+      }      
       proj->translate(0, 20, 0);
-      proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
+      proj->model->setReflectivity(&Reflectivity(Colour(0.8f, 0, 0.8f, 0.5f)));
       proj->shoot();
     }
-	//fireSound->play();
+    //fireSound->play();
     playSound();
-	currentHeat += heatPerShot;
+    currentHeat += heatPerShot;
 
     //Refire
     refireTimer.reset();
