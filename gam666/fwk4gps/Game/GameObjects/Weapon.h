@@ -9,6 +9,7 @@
 class Player;
 class iSound;
 
+#define CPS (float)CLOCKS_PER_SEC
 class Weapon {
 	iSound* fireSound;
 public:
@@ -21,7 +22,7 @@ public:
   GameTimer cooldownTimer;
   GameTimer refireTimer;
 
-  Weapon(Player* o, float cdDuration, int mHeat, int hPerShot);
+  Weapon(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime = 0.0001f * CPS);
   virtual void fireProjectile();
   virtual bool checkOverHeat();
   ~Weapon();

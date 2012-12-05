@@ -13,7 +13,7 @@
 Player::Player(World* world, int id, iGraphic* graphic) : 
 GameObject(world, graphic), thruster(300), id(id), 
   thrusterCooldown(0), health(50), kills(0), deaths(0), 
-  isAlive(true), cameraDistance(Vector(0, 40, -100)),
+  isAlive(true), cameraDistance(Vector(0, 40, -150)),
   lifeTimer(0.0f), respawnTimer(10.0f) { 
     startingHealth = health;
     createCamera();
@@ -25,8 +25,8 @@ GameObject(world, graphic), thruster(300), id(id),
   int maxHeat = 100;
   int heatPerShot = 10;
   weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
-  weaponSet[1] = new WeaponSpread(this, cooldownDuration, maxHeat, heatPerShot);
-  weaponSet[2] = new WeaponHoming(this, cooldownDuration, maxHeat, heatPerShot);
+  weaponSet[1] = new WeaponSpread(this, 2.0f, maxHeat, maxHeat / 2);
+  weaponSet[2] = new WeaponHoming(this, 5.0f, maxHeat, maxHeat);
   setTranslation(findSpawnPoint());
 };
 

@@ -9,9 +9,9 @@
 #include "GameTimer.h"
 
 #define CPS (float)CLOCKS_PER_SEC
-
-Weapon::Weapon(Player* o, float cdDuration, int mHeat, int hPerShot) : 
-  cooldownTimer(cdDuration), refireTimer(0.0001f * CPS) {
+//0.0001f * cps
+Weapon::Weapon(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime) : 
+  cooldownTimer(cdDuration), refireTimer(refireTime) {
 	owner = o;
 	maxHeat = mHeat;
 	heatPerShot = hPerShot;
@@ -27,7 +27,7 @@ void Weapon::fireProjectile() {
   if(!cooldownTimer.timerActive && !refireTimer.timerActive) {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
-    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 50);
+    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList());
     proj->translate(0, 20, 0);
     proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
     proj->isHoming = false;

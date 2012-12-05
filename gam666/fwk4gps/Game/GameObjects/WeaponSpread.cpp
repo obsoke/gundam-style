@@ -23,7 +23,7 @@ void WeaponSpread::fireProjectile() {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
     for (int i = 0; i < 5; i++) {
-      Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 20);			
+      Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 80, 10, 5);			
       switch (i) {
         case 0:				
           proj->shiftDirection(0.1f);				

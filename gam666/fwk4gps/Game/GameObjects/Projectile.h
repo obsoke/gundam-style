@@ -23,7 +23,7 @@ public:
   bool isHoming;
 
   Projectile(World* world, Player* owner = nullptr, 
-    iGraphic* model = nullptr, float speed = 0, 
+    iGraphic* model = nullptr, float speed = 80, float lifespan = 500.0f, int damage = 8.0f, 
     bool iHoming = false, float mHomeAngle = 10.0f);
   ~Projectile();
   void shoot();

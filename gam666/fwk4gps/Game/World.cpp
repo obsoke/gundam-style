@@ -15,7 +15,7 @@
 #include "..\APIUserInput.h" // for Viewport
 #include "..\Sound.h" // Sound & Music
 #include "..\iAPIWindow.h"
-#include "../Utils.h"
+#include "..\Utils.h"
 
 #include "Game.h"
 #include "GameObject.h"

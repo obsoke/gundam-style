@@ -50,11 +50,13 @@ void InputComponent::update(World* world, Player* object) {
     (float) dz * 300 * object->orientation('z');
   if (dx || dy || dz)
     object->applyForce(displacement.x, displacement.y, displacement.z);
-  object->setAngularSpeed(angy, ang, 0);
+  object->setAngularSpeed(0, ang, 0);
   Camera* playerCamera = (Camera*)object->getCamera();
-  Matrix* camMat = (Matrix*)playerCamera->getView();
-  //debug(camMat->direction('x'));
-  //playerCamera->rotate(object->orientation('x'), angy);
-  playerCamera->rotatex(angy);
-  debug(playerCamera->orientation('z'));
+  Matrix camMat = playerCamera->transform();
+  Matrix rotated = camMat.rotatex(angy);
+
+  if(rotated.m32 > -0.28 && rotated.m32 < 0.19)
+  {
+    playerCamera->rotatex(angy);
+  }
 }
