@@ -5,6 +5,7 @@
 #include "..\Utilities\ObjImporter.h"
 #include "..\Mesh.h"
 #include "..\..\iTexture.h"
+#include "..\..\Sound.h"
 #include "GameTimer.h"
 
 #define CPS (float)CLOCKS_PER_SEC
@@ -15,31 +16,34 @@ Weapon::Weapon(Player* o, float cdDuration, int mHeat, int hPerShot) :
 	maxHeat = mHeat;
 	heatPerShot = hPerShot;
 	currentHeat = 0;
+	fireSound = CreateSound(L"sfx/pew.wav", false);
 }
 
 void Weapon::fireProjectile() {
 	if(refireTimer.timerActive) {
-    refireTimer.checkTimer();
+      refireTimer.checkTimer();
 	}
 
   if(!cooldownTimer.timerActive && !refireTimer.timerActive) {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
-		Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 50);
+    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 50);
     proj->translate(0, 20, 0);
     proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
-		proj->shoot();
-		currentHeat += heatPerShot;
+    proj->isHoming = false;
+    proj->shoot();
+    fireSound->play();
+    currentHeat += heatPerShot;
 
-		//Refire
+    //Refire
     refireTimer.reset();
 
-		//Check Overheat
-		if(checkOverHeat()) {
-			currentHeat = 0;
-			cooldownTimer.reset();
-		}
-	}
+    //Check Overheat
+    if(checkOverHeat()) {
+      currentHeat = 0;
+      cooldownTimer.reset();
+    }
+  }
 }
 
 bool Weapon::checkOverHeat() {
