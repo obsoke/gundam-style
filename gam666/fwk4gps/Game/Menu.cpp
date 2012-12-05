@@ -82,8 +82,11 @@ void Menu::updateMenu() {
 	int testPoint = userInput->getDeviceCount(POINTER);
 	bool testInput = userInput->pressed(HUD_SELECT);
 	char tmpLevel[80] = "LEVEL: ";
+  int changeX = change(POSX);
+  int changeY = change(POSY);
+  bool buttonPressed = pressed(FIRE_WEAPON_1) || pressed(THRUSTER);
 
-	if (pressed(FIRE_WEAPON_1)  && !isSelected) {		
+	if (buttonPressed && !isSelected) {		
 		isSelected = true;
 		switch (currentItem) {
 			case 0:
@@ -103,25 +106,27 @@ void Menu::updateMenu() {
 				break;
 		}		
 	}
-	if (!pressed(FIRE_WEAPON_1) && isSelected)
+	if (!buttonPressed && isSelected)
 		isSelected = false;
-	if (pressed(MOVE_FORWARD) && !isMovingUp) {		
+  bool forward = (pressed(MOVE_FORWARD) || changeY < -50),
+       backward = (pressed(MOVE_BACKWARD) || changeY > 50);
+	if (forward && !isMovingUp) {		
 		isMovingUp = true;
 		//userInput->release(MOVE_FORWARD);
 		menuItem.at(currentItem)->setColour(TEXT_COLOUR);
 		(currentItem == 0) ? currentItem = menuItem.size() - 1 : currentItem--;
 		menuItem.at(currentItem)->setColour(TEXT_YELLOW);
 	}
-	if (!pressed(MOVE_FORWARD) && isMovingUp)
+	if (!forward && isMovingUp)
 		isMovingUp = false;
 
-	if (pressed(MOVE_BACKWARD) && !isMovingDown) {
+	if (backward && !isMovingDown) {
 		isMovingDown = true;
 		menuItem.at(currentItem)->setColour(TEXT_COLOUR);
 		(currentItem == menuItem.size() - 1) ? currentItem = 0 : currentItem++;
 		menuItem.at(currentItem)->setColour(TEXT_YELLOW);
 	}
-	if (!pressed(MOVE_BACKWARD) && isMovingDown)
+	if (!backward && isMovingDown)
 		isMovingDown = false;
 }
 
