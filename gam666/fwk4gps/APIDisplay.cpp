@@ -397,6 +397,13 @@ void APIDisplay::beginDrawFrame(const void* view) {
   }
 }
 
+void APIDisplay::clear() {
+   if (d3dd) {
+     d3dd->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 
+       D3DCOLOR_XRGB(BGROUND_R, BGROUND_G, BGROUND_B), 1.0, 0);
+   }
+}
+
 // set turns on off the specified render state
 //
 void APIDisplay::set(RenderState state, bool b) {
@@ -443,7 +450,6 @@ void APIDisplay::beginDraw(unsigned flags) {
 // endDraw ends the drawing of all text items
 //
 void APIDisplay::endDraw() {
-
   if (d3dd && manager)
     manager->End();
 }
@@ -451,11 +457,15 @@ void APIDisplay::endDraw() {
 // endDrawFrame presents the backbuffer to the primary buffer
 //
 void APIDisplay::endDrawFrame() {
-
   // present the backbuffer to the primary buffer
-  //
   if (d3dd) {
     d3dd->EndScene();
+  }
+}
+
+
+void APIDisplay::present() {
+  if (d3dd) {
     if (FAILED(d3dd->Present(nullptr, nullptr, nullptr, nullptr)))
       error(L"APIDisplay::40 Failed to flip backbuffer");
   }
