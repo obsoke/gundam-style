@@ -24,7 +24,7 @@ GameObject(world, graphic), thruster(300), id(id),
   float cooldownDuration = 1.0f;
   int maxHeat = 100;
   int heatPerShot = 10;
-  weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot, 0.0001f * CPS, CreateSound(L"sfx/mgun.wav", false));
+  weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot, 0.0001f * CPS, CreateSound(L"sfx/mgun2.wav", false));
   weaponSet[1] = new WeaponSpread(this, 2.0f, maxHeat, maxHeat / 2, 0.0005f * CPS, CreateSound(L"sfx/laser.wav", false));
   weaponSet[2] = new WeaponHoming(this, 5.0f, maxHeat, maxHeat, 0.001f * CPS, CreateSound(L"sfx/homing.wav", false));
   setTranslation(findSpawnPoint());

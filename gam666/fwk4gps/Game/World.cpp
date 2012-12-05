@@ -66,7 +66,7 @@ void World::initializeHUD() {
 
 void World::initializeMusic() {
   // GUNDAM STYLE, YO
-  music = CreateSound(L"music/battle.wav");
+  music = CreateSound(L"music/battleSofter.wav");
 }
 
 void World::initializeLighting() {
