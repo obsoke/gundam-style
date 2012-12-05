@@ -394,9 +394,18 @@ void Coordinator::render() {
 
   // finished the graphics part
   display->endDrawFrame();
+  if (updateOnRender) display->present();
 
   // render all of the sounds
   render(ALL_SOUNDS);
+}
+
+void Coordinator::clearScreen() {
+  display->clear();
+}
+
+void Coordinator::present() {
+  display->present();
 }
 
 // render draws the coordinator elements for the specified Category
