@@ -44,6 +44,7 @@ public:
   std::vector<iText*> scores;
   std::vector<iHUD*> HUD_scores;
   std::vector<bool> cooldown;
+  std::vector<iText*> respawnTimers;
 
   Frame* skybox;
   Game* game;
