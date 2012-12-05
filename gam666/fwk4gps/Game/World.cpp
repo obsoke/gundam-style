@@ -13,6 +13,7 @@
 #include "..\Translation.h" // for Action enumerations
 #include "..\APIDisplay.h" // for Viewport
 #include "..\APIUserInput.h" // for Viewport
+#include "..\Sound.h" // Sound & Music
 #include "..\iAPIWindow.h"
 #include "../Utils.h"
 
@@ -42,13 +43,14 @@ void World::initialize() {
   initializeLighting();
   initializeObjects();
   initializeHUD();
+  initializeMusic();
   createProjection();
   showCursor(false);
+  updateOnRender = false;
 }
 
-void World::loadingScreen() {  
-  iObject* loadScr;
-  loadScr = CreateSprite(L"loading.bmp");  
+void World::loadingScreen() {
+  iObject* loadScr = ::CreateSprite(L"loading.bmp", &Rect(0,0,width,height));  
   display->beginDrawFrame(&view);  
   loadScr->render();  
   display->endDrawFrame();  
@@ -115,6 +117,11 @@ void World::initializeHUD() {
   
 }
 
+void World::initializeMusic() {
+  // GUNDAM STYLE, YO
+  music = CreateSound(L"music/battle.wav");
+}
+
 void World::initializeLighting() {
   Colour white(1, 1, 1);
   Colour gray(0.6f, 0.6f, 0.6f);
@@ -176,18 +183,20 @@ void World::updateWorld() {
 	}
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
-  physics->update();
   for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
     gameObjects[i]->update();
   checkBoundaryCollision();
+  physics->update();
 }
 
 void World::render() {
   updateWorld();
+  updateOther();
   for (unsigned i=0; i<players.size(); ++i) {
     const Viewport& viewport = calcViewport(i);
     setViewport(viewport);
     currentCam = players[i]->getCamera();
+    currentCam->update();
     Coordinator::render();
   }
 }
@@ -278,4 +287,5 @@ bool World::collidesWithFloors(const AABB& aabb) {
 World::~World() { 
   if (skybox) delete skybox;
   if (physics) delete physics;
+  if (music) delete music;
 }

@@ -17,11 +17,8 @@ class World : public Coordinator {
 	iObject* sprite; 
   iLight* defaultLight;
 
-  // HUD text
-  /*iText* health;*/
-  //iText* thrusters;
-  //iText* weapon;
-  //iText* score;
+  iText* testText;
+  iSound* music;
 
   int numberOfPlayers;
   AABB boundary;
@@ -29,6 +26,7 @@ class World : public Coordinator {
   void initializeLighting();
   void initializeObjects();
   void initializeHUD();
+  void initializeMusic();
 public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;

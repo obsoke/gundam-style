@@ -45,11 +45,6 @@ bool APIAudio::setup() {
   bool rc = false;
   UINT32 flags = 0;
 
-  // enable XAudio2 debugging if we're running in debug mode
-#ifdef _DEBUG
-  flags |= XAUDIO2_DEBUG_ENGINE;
-#endif
-
   if (FAILED(XAudio2Create(&pXAudio2, flags))) {
     error(L"APIAudio::11 Failed to initialize the XAudio2 engine");
     release();
@@ -95,7 +90,7 @@ void APIAudio::update(const void* view) {
     Listener.Position    = ePosition;
     Listener.OrientTop   = eUp;
   }
-  pMasteringVoice->SetVolume(volume);
+  if (pMasteringVoice) pMasteringVoice->SetVolume(volume);
 }
 
 // suspend suspends the master voice

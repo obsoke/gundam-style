@@ -33,6 +33,7 @@ public:
   void initializeFromOwner();
   void onCollision(GameObject* other);
   virtual void onCollision(Player* other);
+  void shiftDirection(float rad);
   int hitBoundary() { life /= 1.1f; return 1; };
 };
 
