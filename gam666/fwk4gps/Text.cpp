@@ -57,24 +57,24 @@ iText* CreateText(Rectf r, void* h, const wchar_t* t,
 }
 
 
-iText* CreateText(float x, float y, const wchar_t* label, unsigned colour) {
-  return new Text(Rectf(x, y), nullptr, label, nullptr, nullptr, 0, nullptr, 0, colour);
+iText* CreateText(float x, float y, void* h, const wchar_t* label, unsigned colour) {
+  return new Text(Rectf(x, y), h, label, nullptr, nullptr, 0, nullptr, 0, colour);
 }
 
-iText* CreateText(float x, float y, const char* label, unsigned colour) {
+iText* CreateText(float x, float y, void* h, const char* label, unsigned colour) {
   wchar_t newLabel[MAX_DESC + 1] = L"";
   toWCString(newLabel, label, MAX_DESC);
-  return CreateText(x, y, newLabel, colour);
+  return CreateText(x, y, h, newLabel, colour);
 }
 
-iText* CreateText(Rectf rect, const wchar_t* label, unsigned colour) {
-  return new Text(rect, nullptr, label, nullptr, nullptr, 0, nullptr, 0, colour);
+iText* CreateText(Rectf rect, void* h, const wchar_t* label, unsigned colour) {
+  return new Text(rect, h, label, nullptr, nullptr, 0, nullptr, 0, colour);
 }
 
-iText* CreateText(Rectf rect, const char* label, unsigned colour) {
+iText* CreateText(Rectf rect, void* h, const char* label, unsigned colour) {
   wchar_t newLabel[MAX_DESC + 1] = L"";
   toWCString(newLabel, label, MAX_DESC);
-  return CreateText(rect, newLabel, colour);
+  return CreateText(rect, h, newLabel, colour);
 }
 
 

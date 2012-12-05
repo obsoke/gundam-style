@@ -72,11 +72,12 @@ Coordinator::Coordinator(APIObjects* objects) {
   nearcp = 1.0f;
   farcp  = 1000.0f;
   mainHUD = CreateHUD(CreateGraphic(), 0, 0, 1, 1, nullptr);
-  mainHUD->toggle();
+  
 
   updateOnRender = true;  
   displayCursor = false;
   terminate = false;
+  //mainHUD->toggle();
 }
 
 // setConfiguration retrieves the configuration selection from the user

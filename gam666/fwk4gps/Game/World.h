@@ -18,10 +18,10 @@ class World : public Coordinator {
   iLight* defaultLight;
 
   // HUD text
-  iText* health;
-  iText* thrusters;
-  iText* weapon;
-  iText* score;
+  /*iText* health;*/
+  //iText* thrusters;
+  //iText* weapon;
+  //iText* score;
 
   int numberOfPlayers;
   AABB boundary;
@@ -36,6 +36,14 @@ public:
   std::vector<Projectile*> projectiles;
   std::vector<iObject*> sprites;
   std::vector<Vector> spawnPoints;
+
+  std::vector<iText*> healths;
+  std::vector<iHUD*> HUD_healths;
+  std::vector<iText*> thrusters;
+  std::vector<iHUD*> HUD_thrusters;
+  std::vector<iText*> scores;
+  std::vector<iHUD*> HUD_scores;
+  std::vector<bool> cooldown;
 
   Frame* skybox;
   Game* game;
