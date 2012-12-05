@@ -16,18 +16,8 @@ struct Viewport;
 class World : public Coordinator {
 	iObject* sprite; 
   iLight* defaultLight;
-<<<<<<< HEAD
-
-  // HUD text
-  /*iText* health;*/
-  //iText* thrusters;
-  //iText* weapon;
-  //iText* score;
-
-=======
   iText* testText;
   iSound* music;
->>>>>>> a022df14e7c1176571b1ee63c70a0752b7904738
   int numberOfPlayers;
   AABB boundary;
   Map& map;
