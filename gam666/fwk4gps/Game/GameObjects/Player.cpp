@@ -2,7 +2,10 @@
 #include "..\World.h"
 #include "..\PhysicsObject.h"
 #include "..\..\Camera.h"
+#include "..\..\Sound.h" // Sound & Music
 #include "Weapon.h"
+#include "WeaponSpread.h"
+#include "WeaponHoming.h"
 #include "Projectile.h"
 
 #define CPS (float)CLOCKS_PER_SEC
@@ -14,16 +17,24 @@ GameObject(world, graphic), thruster(300), id(id),
   lifeTimer(0.0f), respawnTimer(10.0f) { 
     startingHealth = health;
     createCamera();
-
+	initSounds();
     physics = new PhysicsObject(world->physics, this);
     physics->stayUpright = true;
 
-    float cooldownDuration = 1.0f;
-    int maxHeat = 100;
-    int heatPerShot = 10;
-    weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
-    setTranslation(findSpawnPoint());
+  float cooldownDuration = 1.0f;
+  int maxHeat = 100;
+  int heatPerShot = 10;
+  weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
+  weaponSet[1] = new WeaponSpread(this, cooldownDuration, maxHeat, heatPerShot);
+  weaponSet[2] = new WeaponHoming(this, cooldownDuration, maxHeat, heatPerShot);
+  setTranslation(findSpawnPoint());
 };
+
+void Player::initSounds() {
+	jumpSound = CreateSound(L"sfx/jump.wav", false);
+	deathSound = CreateSound(L"sfx/death.wav", false);
+	beenHitSound = CreateSound(L"sfx/hit.wav", false);
+}
 
 void Player::createCamera() {
   camera = (Camera*)CreateCamera();
@@ -38,14 +49,17 @@ void Player::update() {
     recoverThrusters();
     input.update(world, this);
     weaponSet[0]->cooldownTimer.checkTimer();
-  } else {
-    if (!respawnTimer.checkTimer()) respawn();
-  }
-  GameObject::update();
+    weaponSet[1]->cooldownTimer.checkTimer();
+    weaponSet[2]->cooldownTimer.checkTimer();
+    } else {
+      if (!respawnTimer.checkTimer()) respawn();
+    }
+    GameObject::update();
 }
 
 void Player::useThruster(int amount) {
   thruster -= amount;
+  jumpSound->play();
   if (thruster <= 0) {
     thruster = 0;
     thrusterCooldown = 200;
@@ -62,6 +76,7 @@ void Player::recoverThrusters() {
 
 void Player::onCollision(Projectile* projectile) {
   health -= projectile->damage;
+  beenHitSound->play();
   applyForce(projectile->force * direction(getAABB().center(), projectile->getAABB().center()));
 }
 
@@ -104,6 +119,7 @@ Vector Player::findSpawnPoint() {
 void Player::die() {
   deaths.push_back((clock() - lifeTimer.getTime()) / CPS);
   respawnTimer.reset();
+  deathSound->play();
   physics->applyImpulse(Vector(0, 0, -750), Vector(0, 100, 0));
   isAlive = false;
 }

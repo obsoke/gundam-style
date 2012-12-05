@@ -29,7 +29,7 @@ public:
   virtual void updateMenu();
   void render();
   iObject* CreateSprite(const wchar_t* file, const Vector& position = Vector(0,0,0),
-    unsigned char a = '\xFF');  
+    float scale = 1, unsigned char a = '\xFF');  
 };
 
 #endif

@@ -888,6 +888,10 @@ void Controller::update() {
         motion[2] = state.lZ;
       if (axisIsActive[3])
         motion[3] = state.lRz;
+	    else {
+		    motion[2] = (state.lRx - 32767) / 3000;
+		    motion[3] = (state.lRy - 32767) / 3000;
+	    }
       if (povIsActive)
         for (int i = 0; i < 4; i++)
           motion[i + 8] = state.rgdwPOV[i];

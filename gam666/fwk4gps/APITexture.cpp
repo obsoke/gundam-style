@@ -89,7 +89,7 @@ void APITexture::setup(int w, int h) {
   //
   if (file && FAILED(D3DXCreateTextureFromFileEx(d3dd, file, 
     w ? w : width, h ? h : height, D3DX_DEFAULT, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, 
-    D3DX_DEFAULT, D3DX_DEFAULT, key, &imageInfo, nullptr, &tex))) {
+    D3DX_DEFAULT, D3DX_DEFAULT, 0x00000000, &imageInfo, nullptr, &tex))) {
       error(L"APITexture::11 Failed to create texture COM object from file");
       tex = nullptr;
   }

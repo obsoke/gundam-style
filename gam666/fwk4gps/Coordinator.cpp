@@ -329,11 +329,7 @@ void Coordinator::update() {
   }
 }
 
-// renders draws a complete frame
-//
-void Coordinator::render() {
-
-  if (updateOnRender) {
+void Coordinator::updateOther() {
     // update the user input devices
     userInput->update();  
     Coordinator::update();
@@ -347,12 +343,20 @@ void Coordinator::render() {
     // update the audio
     audio->setVolume(volume);
     audio->setFrequencyRatio(frequency);
-    audio->update(Camera::getView());
+	audio->update(Camera::getView());
     // update the sound sources
     for (unsigned i = 0; i < sound.size(); i++)
       if (sound[i]) 
         sound[i]->update();
-  }
+}
+
+// renders draws a complete frame
+//
+void Coordinator::render() {
+
+  if (updateOnRender) updateOther();
+
+  if (!keepgoing) return;
 
   // draw the frame 
   view = *((Matrix*)Camera::getView());
