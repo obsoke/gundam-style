@@ -10,13 +10,14 @@
 
 #define CPS (float)CLOCKS_PER_SEC
 //0.0001f * cps
-Weapon::Weapon(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime) : 
+Weapon::Weapon(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound) : 
   cooldownTimer(cdDuration), refireTimer(refireTime) {
 	owner = o;
 	maxHeat = mHeat;
 	heatPerShot = hPerShot;
 	currentHeat = 0;
-	fireSound = CreateSound(L"sfx/pew.wav", false);
+
+  fireSound = fSound;
 }
 
 void Weapon::fireProjectile() {
@@ -32,7 +33,8 @@ void Weapon::fireProjectile() {
     proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
     proj->isHoming = false;
     proj->shoot();
-    fireSound->play();
+    //fireSound->play();
+    playSound();
     currentHeat += heatPerShot;
 
     //Refire
@@ -44,6 +46,11 @@ void Weapon::fireProjectile() {
       cooldownTimer.reset();
     }
   }
+}
+
+void Weapon::playSound()
+{
+  fireSound->play();
 }
 
 bool Weapon::checkOverHeat() {

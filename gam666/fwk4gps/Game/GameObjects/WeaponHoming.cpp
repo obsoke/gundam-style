@@ -11,7 +11,7 @@
 
 #define CPS (float)CLOCKS_PER_SEC
 
-WeaponHoming::WeaponHoming(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime) : Weapon(o, cdDuration, mHeat, hPerShot, refireTime) {
+WeaponHoming::WeaponHoming(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound) : Weapon(o, cdDuration, mHeat, hPerShot, refireTime, fSound) {
 }
 
 void WeaponHoming::fireProjectile() {
@@ -28,6 +28,7 @@ void WeaponHoming::fireProjectile() {
 	proj->isHoming = true;
     proj->shoot();
 	//fireSound->play();
+    playSound();
     currentHeat += heatPerShot;
 
 	//Refire

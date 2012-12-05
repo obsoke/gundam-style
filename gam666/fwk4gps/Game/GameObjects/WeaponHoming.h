@@ -7,7 +7,7 @@ class Player;
 class WeaponHoming : public Weapon {
 public:
 	void fireProjectile();
-	WeaponHoming(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime);
+	WeaponHoming(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound);
 	~WeaponHoming();
 };
 

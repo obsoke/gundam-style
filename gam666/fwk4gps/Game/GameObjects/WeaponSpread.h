@@ -7,7 +7,7 @@ class Player;
 class WeaponSpread : public Weapon {
 public:
 	void fireProjectile();
-	WeaponSpread(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime);
+	WeaponSpread(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound);
 	~WeaponSpread();
 };
 

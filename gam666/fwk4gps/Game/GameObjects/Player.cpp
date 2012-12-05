@@ -24,14 +24,14 @@ GameObject(world, graphic), thruster(300), id(id),
   float cooldownDuration = 1.0f;
   int maxHeat = 100;
   int heatPerShot = 10;
-  weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot);
-  weaponSet[1] = new WeaponSpread(this, 2.0f, maxHeat, maxHeat / 2, 0.0005f * CPS);
-  weaponSet[2] = new WeaponHoming(this, 5.0f, maxHeat, maxHeat, 0.001f * CPS);
+  weaponSet[0] = new Weapon(this, cooldownDuration, maxHeat, heatPerShot, 0.0001f * CPS, CreateSound(L"sfx/mgun.wav", false));
+  weaponSet[1] = new WeaponSpread(this, 2.0f, maxHeat, maxHeat / 2, 0.0005f * CPS, CreateSound(L"sfx/laser.wav", false));
+  weaponSet[2] = new WeaponHoming(this, 5.0f, maxHeat, maxHeat, 0.001f * CPS, CreateSound(L"sfx/homing.wav", false));
   setTranslation(findSpawnPoint());
 };
 
 void Player::initSounds() {
-	jumpSound = CreateSound(L"sfx/jump.wav", false);
+	jumpSound = CreateSound(L"sfx/thrusters.wav", false);
 	deathSound = CreateSound(L"sfx/death.wav", false);
 	beenHitSound = CreateSound(L"sfx/hit.wav", false);
 }

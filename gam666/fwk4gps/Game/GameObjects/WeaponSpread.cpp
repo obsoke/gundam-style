@@ -11,7 +11,7 @@
 
 #define CPS (float)CLOCKS_PER_SEC
 
-WeaponSpread::WeaponSpread(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime) : Weapon(o, cdDuration, mHeat, hPerShot, refireTime) {
+WeaponSpread::WeaponSpread(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound) : Weapon(o, cdDuration, mHeat, hPerShot, refireTime, fSound) {
 }
 
 void WeaponSpread::fireProjectile() {
@@ -46,6 +46,7 @@ void WeaponSpread::fireProjectile() {
       proj->shoot();
     }
 	//fireSound->play();
+    playSound();
 	currentHeat += heatPerShot;
 
     //Refire
