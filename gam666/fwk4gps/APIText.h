@@ -31,6 +31,7 @@ class APIText : public iAPIText, public APIBase {
   unsigned       quality;   // antialias, cleartype
   const wchar_t* typeFace;  // typeFace name of font
   int            fontHght;  // height of font
+  bool           _useScreenCoords;
   bool outlined;
   unsigned outlineColour;
 
@@ -46,6 +47,7 @@ public:
   void   draw(int x, int y, int r, int b, const wchar_t* text, unsigned colour);
   void   draw(const Rectf& r, const wchar_t* text);
   void outline(unsigned colour = 0xFF000000, bool turnOff = false);
+  void useScreenCoords(bool use = true) { _useScreenCoords = use; };
   // termination
   void   suspend();
   bool   restore();

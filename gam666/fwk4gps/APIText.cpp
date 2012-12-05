@@ -25,7 +25,7 @@ iAPIText* CreateAPIText(const wchar_t* t, int h, unsigned f, unsigned c) {
 // constructor initializes the instance variables
 //
 APIText::APIText(const wchar_t* t, int h, unsigned f, unsigned c) : 
-typeFace(t), fontHght(h) {
+typeFace(t), fontHght(h), _useScreenCoords(false) {
 
   d3dfont = nullptr;
   outlined = false;
@@ -113,8 +113,12 @@ void APIText::draw(const Rectf& r, const wchar_t* text) {
   if (d3dfont && manager && text) {
     // creates the drawing rectangle in screen coordinates
     RECT rect;
-    SetRect(&rect, (int)(width * r.topLeftX), (int)(height * r.topLeftY), 
-      (int)(width * r.bottomRightX), (int)(height * r.bottomRightY));
+    if (!_useScreenCoords)
+      SetRect(&rect, (int)(width * r.topLeftX), (int)(height * r.topLeftY), 
+        (int)(width * r.bottomRightX), (int)(height * r.bottomRightY));
+    else
+      SetRect(&rect, (int)(r.topLeftX), (int)(r.topLeftY), 
+        (int)(r.bottomRightX), (int)(r.bottomRightY));
     if (outlined) {
       draw(rect.left - 1, rect.top - 1, rect.right, rect.bottom, text, outlineColour);
       draw(rect.left - 1, rect.top + 1, rect.right, rect.bottom, text, outlineColour);
