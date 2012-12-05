@@ -4,13 +4,13 @@
 #include "../../Camera.h"
 #include <cmath>
 
-#define AIMASSISTDISTANCE 50
+#define AIMASSISTDISTANCE 75
 #define PI 3.14159265f
 
-Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed, bool iHoming, float mHomeAngle) : 
-    GameObject(world, model), owner(owner), pSpeed(pSpeed), damage(10),
-    time(0), force(1000), life(5000), target(nullptr),
-    maxHomeAngle(10.0f) {
+Projectile::Projectile(World* world, Player* owner, iGraphic* model, float pSpeed, float lifespan, int damagePerProjectile, bool iHoming, 
+  float mHomeAngle) : 
+    GameObject(world, model), owner(owner), pSpeed(pSpeed), life(lifespan), damage(damagePerProjectile),
+    time(0), force(1000), target(nullptr), maxHomeAngle(10.0f) {
   isHoming = iHoming;
   maxHomeAngle = mHomeAngle;
 
@@ -46,7 +46,7 @@ void Projectile::update() {
   if (time >= life) {
     world->remove(this);
   } else {
-    if(isHoming) {
+    if(isHoming && time > 20) {
       homeOnTarget();
     }
     speed = pSpeed * direction;
@@ -120,7 +120,7 @@ void Projectile::initializeFromOwner() {
   if(target && !isHoming) {
     direction = (target->position() - owner->position()) / (target->position() - owner->position()).length();
   } else {
-	  direction = owner->orientation('z');	  
+	  direction = owner->getCamera()->orientation('z');
   }
 	setMatrix(owner->rotation());
   setTranslation(owner->position());
