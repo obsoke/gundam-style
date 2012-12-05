@@ -106,9 +106,18 @@ void World::initializeHUD() {
 	  score->setStyle(26);
 	  score->outline();
 
+	  iText* respawnTimer = CreateText(0.1 + x, 0.1 + y, nullptr, " ");
+
+	  respawnTimer->setColour(0xF1238590);
+	  respawnTimer->setStyle(50);
+	  respawnTimer->outline();
+
+	  respawnTimers.push_back(respawnTimer);
+
 	  scores.push_back(score);
 	  HUD_scores.push_back(scoreHud);
 	  cooldown.push_back(false);
+	  respawning.push_back(false);
   }
   sprite = CreateSprite(L"health.bmp", Vector(0.1f, 0.1f, 0.0f), '\x01');
   sprites.push_back(sprite);
@@ -180,7 +189,18 @@ void World::updateWorld() {
 			cooldown[j] = false;
 		}
 		scores[j]->set(players[j]->kills);
+		float spawnTime = players[j]->respawnTimer.getTime();
+
+		if (players[j]->isAlive) {
+			respawnTimers[j]->set(" ");
+		}
+		else {
+			
+			respawnTimers[j]->set("Respawning" + int(10 - spawnTime));
+		}
+
 	}
+	
   checkProjectileCollision<Player>(players);
   checkProjectileCollision<Floor>(floors);
   for (int i = ((int)gameObjects.size()) - 1; i >= 0; --i)
