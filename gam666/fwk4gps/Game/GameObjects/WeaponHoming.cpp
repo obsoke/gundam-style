@@ -11,7 +11,7 @@
 
 #define CPS (float)CLOCKS_PER_SEC
 
-WeaponHoming::WeaponHoming(Player* o, float cdDuration, int mHeat, int hPerShot) : Weapon(o, cdDuration, mHeat, hPerShot) {
+WeaponHoming::WeaponHoming(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound) : Weapon(o, cdDuration, mHeat, hPerShot, refireTime, fSound) {
 }
 
 void WeaponHoming::fireProjectile() {
@@ -22,12 +22,13 @@ void WeaponHoming::fireProjectile() {
   if(!cooldownTimer.timerActive && !refireTimer.timerActive) {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
-    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 10, true, 10.0f);
+    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 20.0f, 150, 15, true, 5.0f);
     proj->translate(0, 20, 0);
     proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
 	proj->isHoming = true;
     proj->shoot();
 	//fireSound->play();
+    playSound();
     currentHeat += heatPerShot;
 
 	//Refire

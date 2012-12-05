@@ -11,7 +11,7 @@
 
 #define CPS (float)CLOCKS_PER_SEC
 
-WeaponSpread::WeaponSpread(Player* o, float cdDuration, int mHeat, int hPerShot) : Weapon(o, cdDuration, mHeat, hPerShot) {
+WeaponSpread::WeaponSpread(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound) : Weapon(o, cdDuration, mHeat, hPerShot, refireTime, fSound) {
 }
 
 void WeaponSpread::fireProjectile() {
@@ -23,7 +23,7 @@ void WeaponSpread::fireProjectile() {
     Mesh* mesh = ObjImporter::import("sphere.obj");
     mesh->buildScale = 20;
     for (int i = 0; i < 5; i++) {
-      Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 20);			
+      Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList(), 80, 10, 5);			
       switch (i) {
         case 0:				
           proj->shiftDirection(0.1f);				
@@ -46,6 +46,7 @@ void WeaponSpread::fireProjectile() {
       proj->shoot();
     }
 	//fireSound->play();
+    playSound();
 	currentHeat += heatPerShot;
 
     //Refire
