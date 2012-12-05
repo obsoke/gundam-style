@@ -53,9 +53,10 @@ void World::loadingScreen() {
   iObject* loadScr = ::CreateSprite(L"loading.bmp", &Rect(0,0,width,height));  
   display->beginDrawFrame(&view);  
   loadScr->render();  
-  display->endDrawFrame();  
+  display->endDrawFrame();
+  display->present();
   remove(loadScr);
-  delete loadScr;
+  delete loadScr;  
 }
 
 void World::initializeHUD() {
