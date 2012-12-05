@@ -52,6 +52,7 @@ void Player::update() {
     weaponSet[1]->cooldownTimer.checkTimer();
     weaponSet[2]->cooldownTimer.checkTimer();
     } else {
+      health = 0;
       if (!respawnTimer.checkTimer()) respawn();
     }
     GameObject::update();
