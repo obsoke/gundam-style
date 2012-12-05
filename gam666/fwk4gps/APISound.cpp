@@ -39,7 +39,7 @@ iAPISound* CreateAPISound(float o, float i) {
 // constructor initializes the instance pointers
 //
 APISound::APISound(float o, float i) : outerCone(o), innerCone(i), 
-  matrix(nullptr), matrixSize(0) {
+  matrix(nullptr), matrixSize(0), fileType(0) {
 
     // align inner and outer cones
     if (!outerCone)
@@ -94,11 +94,9 @@ bool APISound::setup(const wchar_t* sound, bool local, bool continuous) {
 
   bool rc = false;
   HANDLE file;
-  DWORD chunkSize = 0, chunkDataPosition = 0, fileType = 0;
+  DWORD chunkSize = 0, chunkDataPosition = 0;
 
   WAVEFORMATEXTENSIBLE wfx = {0};
-  XAUDIO2_BUFFER buffer = {0};
-  XAUDIO2_BUFFER_WMA wmaBuffer = {0};
 
   file = CreateFile(sound, GENERIC_READ, FILE_SHARE_READ, 
     nullptr, OPEN_EXISTING, 0, nullptr);
@@ -148,16 +146,8 @@ bool APISound::setup(const wchar_t* sound, bool local, bool continuous) {
       (WAVEFORMATEX*)&wfx, XAUDIO2_VOICE_USEFILTER , 
       XAUDIO2_DEFAULT_FREQ_RATIO, nullptr, nullptr, nullptr)))
       error(L"APISound::14 Failed to create Source Voice");
-    else if (fileType == fourccXWMA) {
-      if(FAILED(pSourceVoice->SubmitSourceBuffer(&buffer, &wmaBuffer)))
-        error(L"APISound::15 Failed to submit XWMA Source Buffer");
-    }
-    else {
-      if(FAILED(pSourceVoice->SubmitSourceBuffer(&buffer)))
-        error(L"APISound::16 Failed to submit WAVE Source Buffer ");
-      else
-        rc = true;
-    }
+    else
+      SubmitSourceBuffer();
 
     // Setup X3DAUDIO_DSP_SETTINGS and X3DAUDIO_EMITTER if this is a local sound
     // http://msdn.microsoft.com/en-us/library/microsoft.directx_sdk.x3daudio.x3daudio_dsp_settings(v=VS.85).aspx
@@ -240,6 +230,8 @@ void APISound::play(const wchar_t* file, const Vector& position,
       update(position, heading);
 
     if (pSourceVoice) {
+      pSourceVoice->FlushSourceBuffers();
+      SubmitSourceBuffer();
       pSourceVoice->Start(0);
       pSourceVoice->SetVolume(volume);
     }
@@ -359,4 +351,22 @@ HRESULT APISound::ReadChunkData(HANDLE hFile, void * buffer, DWORD buffersize, D
   if( 0 == ReadFile( hFile, buffer, buffersize, &dwRead, nullptr ) )
     hr = HRESULT_FROM_WIN32( GetLastError() );
   return hr;
+}
+
+
+bool APISound::SubmitSourceBuffer() {
+  bool rc = false;
+  if (fileType == fourccXWMA) {
+    if(FAILED(pSourceVoice->SubmitSourceBuffer(&buffer, &wmaBuffer)))
+      error(L"APISound::15 Failed to submit XWMA Source Buffer");
+    else
+      rc = true;
+  }
+  else {
+    if(FAILED(pSourceVoice->SubmitSourceBuffer(&buffer)))
+      error(L"APISound::16 Failed to submit WAVE Source Buffer ");
+    else
+      rc = true;
+  }
+  return rc;
 }
