@@ -26,6 +26,7 @@ public:
   Weapon(Player* o, float cdDuration, int mHeat, int hPerShot, float refireTime, iSound* fSound);
   virtual void fireProjectile();
   virtual bool checkOverHeat();
+  virtual void fireSingleProjectile(const Vector& offset = Vector(0,0,0));
   void playSound();
   ~Weapon();
 };

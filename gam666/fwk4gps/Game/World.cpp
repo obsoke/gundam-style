@@ -37,7 +37,6 @@ void World::initialize() {
   loadingScreen();
   numberOfPlayers = userInput->getDeviceCount(CONTROLLER);
   if (!numberOfPlayers) numberOfPlayers = 1;
-  numberOfPlayers = 4;
   farcp = 10000.0f;
   nearcp = 80.0f;
   initializeLighting();
@@ -115,7 +114,7 @@ void World::initializeObjects() {
     L"gundam-tex.png", L"gundam-tex-2.png",
     L"gundam-tex-3.png", L"gundam-tex-4.png"
   };
-  Mesh* mesh = ObjImporter::import("gundam.obj");
+  Mesh* mesh = ObjImporter::import("gundam-style.obj");
   iGraphic* vertexList = mesh->build();
   for (int i=0; i<numberOfPlayers; ++i) {
     Player* player = new Player(this, i, vertexList);
@@ -162,7 +161,7 @@ void World::updateHUD() {
     if (!players[j]->isAlive) {
       int x = 0;
     }
-    int time = (int)players[j]->respawnTimer.timeLeft;
+    int time = (int)(players[j]->respawnTimer.timeLimit - players[j]->respawnTimer.getTime());
     std::string timer = players[j]->isAlive ? "" : "Respawning in ";
     if (!players[j]->isAlive) {
       timer += toString((float)time);

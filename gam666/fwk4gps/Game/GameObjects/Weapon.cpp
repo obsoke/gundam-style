@@ -26,14 +26,8 @@ void Weapon::fireProjectile() {
 	}
 
   if(!cooldownTimer.timerActive && !refireTimer.timerActive) {
-    Mesh* mesh = ObjImporter::import("sphere.obj");
-    mesh->buildScale = 20;
-    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList());
-    proj->translate(0, 20, 0);
-    proj->model->setReflectivity(&Reflectivity(Colour(0, 0.8f, 0, 0.5f)));
-    proj->isHoming = false;
-    proj->shoot();
-    //fireSound->play();
+    fireSingleProjectile(Vector(3, 5, 0));
+    fireSingleProjectile(Vector(-13, 5, 0));
     playSound();
     currentHeat += heatPerShot;
 
@@ -46,6 +40,19 @@ void Weapon::fireProjectile() {
       cooldownTimer.reset();
     }
   }
+}
+
+void Weapon::fireSingleProjectile(const Vector& offset) {
+    Vector pos = (Vector)offset * owner->rotation();
+    Mesh* mesh = ObjImporter::import("shot.obj");
+    mesh->buildScale = 30;
+    Projectile* proj = new Projectile(owner->getWorld(), owner, mesh->getVertexList());
+    proj->model->setReflectivity(&Reflectivity(Colour(0.8f, 0.8f, 0.3f, 0.8f)));
+    proj->translate(pos.x, pos.y, pos.z);
+    proj->isHoming = false;
+    proj->shoot();
+    proj->update();
+    //fireSound->play();
 }
 
 void Weapon::playSound()
