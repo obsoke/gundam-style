@@ -62,7 +62,7 @@ void Menu::loadingScreen() {
 }
 
 void Menu::initializeHUD() {	  	
-  iHUD* hud = CreateHUD(CreateGraphic(), 0.0f, 0.6f, 0.99f, 0.4f, CreateTexture(L"buttonBackground.bmp"));  
+  iHUD* hud = CreateHUD(CreateGraphic(), 0.0f, 0.6f, 0.99f, 0.4f, nullptr);  
   //hud->toggle();
   iText* testMe = CreateText(Rectf(0.0f, 0, 1.0f, 0.16f), hud, L"START GAME", 32, L"ARIAL", TEXT_TOP | TEXT_NORMAL | TEXT_CENTER);
   menuItem.push_back(testMe);

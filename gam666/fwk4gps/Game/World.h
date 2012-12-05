@@ -16,10 +16,15 @@ struct Viewport;
 class World : public Coordinator {
 	iObject* sprite; 
   iLight* defaultLight;
+<<<<<<< HEAD
 
   iText* testText;
   iSound* music;
 
+=======
+  iText* testText;
+  iSound* music;
+>>>>>>> 83142437d81ae5a9edeae417ee1f093b1f9b20b8
   int numberOfPlayers;
   AABB boundary;
   Map& map;
