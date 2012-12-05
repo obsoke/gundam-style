@@ -120,7 +120,7 @@ void Projectile::initializeFromOwner() {
   if(target && !isHoming) {
     direction = (target->position() - owner->position()) / (target->position() - owner->position()).length();
   } else {
-	  direction = owner->orientation('z');
+	  direction = owner->getCamera()->orientation('z');
   }
 	setMatrix(owner->rotation());
   setTranslation(owner->position());
