@@ -13,6 +13,7 @@
 #include "..\Translation.h" // for Action enumerations
 #include "..\APIDisplay.h" // for Viewport
 #include "..\APIUserInput.h" // for Viewport
+#include "..\Sound.h" // Sound & Music
 #include "..\iAPIWindow.h"
 #include "../Utils.h"
 
@@ -41,14 +42,14 @@ void World::initialize() {
   initializeLighting();
   initializeObjects();
   initializeHUD();
+  initializeMusic();
   createProjection();
   showCursor(false);
   updateOnRender = false;
 }
 
-void World::loadingScreen() {  
-  iObject* loadScr;
-  loadScr = CreateSprite(L"loading.bmp");  
+void World::loadingScreen() {
+  iObject* loadScr = ::CreateSprite(L"loading.bmp", &Rect(0,0,width,height));  
   display->beginDrawFrame(&view);  
   loadScr->render();  
   display->endDrawFrame();  
@@ -61,6 +62,11 @@ void World::initializeHUD() {
   testText->setColour(0xFFFF0000);
   testText->setStyle(26);
   testText->outline();*/
+}
+
+void World::initializeMusic() {
+  // GUNDAM STYLE, YO
+  music = CreateSound(L"music/battle.wav");
 }
 
 void World::initializeLighting() {
@@ -211,4 +217,5 @@ bool World::collidesWithFloors(const AABB& aabb) {
 World::~World() { 
   if (skybox) delete skybox;
   if (physics) delete physics;
+  if (music) delete music;
 }

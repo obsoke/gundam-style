@@ -16,12 +16,14 @@ struct Viewport;
 class World : public Coordinator {
   iLight* defaultLight;
   iText* testText;
+  iSound* music;
   int numberOfPlayers;
   AABB boundary;
   Map& map;
   void initializeLighting();
   void initializeObjects();
   void initializeHUD();
+  void initializeMusic();
 public:
   std::vector<GameObject*> gameObjects;
   std::vector<Floor*> floors;

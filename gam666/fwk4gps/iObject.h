@@ -47,6 +47,7 @@ public:
   virtual void setTextureAddressing(unsigned)      = 0;
   virtual void attach(iTexture* t)                 = 0;
   virtual AABB getAABB() const                     = 0;
+  virtual void alignRight()                        = 0;
   virtual iObject* clone() const                   = 0;
   virtual const std::vector<Frame*>& getChildren() = 0;
 };

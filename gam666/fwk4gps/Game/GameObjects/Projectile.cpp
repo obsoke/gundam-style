@@ -126,6 +126,19 @@ void Projectile::initializeFromOwner() {
   setTranslation(owner->position());
 }
 
+//rotates around the yaw axis to change direction of the projectile 
+void Projectile::shiftDirection(float rad) {  
+  Matrix tmp;
+  rad    *= COORD_SYSTEM;
+  float c = cosf(rad);
+  float s = sinf(rad);	
+  Matrix rot(c, 0, s, 0,
+    0, 1, 0, 0,
+    -s, 0, c, 0,
+    0, 0, 0, 1);
+  direction *= rot;
+}
+
 Projectile::~Projectile() {
 
 }
