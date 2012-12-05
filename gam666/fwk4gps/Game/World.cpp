@@ -124,6 +124,8 @@ void World::updateWorld() {
 void World::render() {
   updateWorld();
   updateOther();
+  setViewport(Viewport(0, 0, width, height));
+  clearScreen();
   for (unsigned i=0; i<players.size(); ++i) {
     const Viewport& viewport = calcViewport(i);
     setViewport(viewport);
@@ -131,6 +133,7 @@ void World::render() {
     currentCam->update();
     Coordinator::render();
   }
+  present();
 }
 
 Viewport World::calcViewport(int player) {
