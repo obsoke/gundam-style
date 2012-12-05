@@ -17,10 +17,10 @@
 #define ASSET_DIRECTORY   L"..\\..\\resources\\assets"
 
 // default foreground texture transparency [\x00,\xff]
-#define TEX_ALPHA '\xAF'
+#define TEX_ALPHA '\xFF'
 
 // default color key for textures
-#define COLOR_KEY 0xFF000000  // black
+#define COLOR_KEY 0xFF00FF00  // lime
 
 // Timing Factors
 //

@@ -7,8 +7,10 @@
 #include "GameTimer.h"
 
 class Player;
+class iSound;
 
 class Weapon {
+	iSound* fireSound;
 public:
   //Weapon Attributes
   int maxHeat;
@@ -20,10 +22,8 @@ public:
   GameTimer refireTimer;
 
   Weapon(Player* o, float cdDuration, int mHeat, int hPerShot);
-  void fireProjectile();
-  bool checkOverHeat();
-  void checkRefireTime();
-  void checkCoolDown();
+  virtual void fireProjectile();
+  virtual bool checkOverHeat();
   ~Weapon();
 };
 

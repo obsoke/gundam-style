@@ -34,6 +34,9 @@ class APISound : public iAPISound, public APIAudioBase {
   float                 innerCone;     // inner cone angle in degrees
   unsigned              matrixSize;    // size of translation matrix 
   float*                matrix;	     // calculates output volumes
+  XAUDIO2_BUFFER buffer;
+  XAUDIO2_BUFFER_WMA wmaBuffer;
+  DWORD fileType;
 
   virtual ~APISound();
 
@@ -42,6 +45,7 @@ class APISound : public iAPISound, public APIAudioBase {
     DWORD & dwChunkDataPosition);
   HRESULT ReadChunkData(HANDLE hFile, void * buffer, DWORD buffersize, 
     DWORD bufferoffset);
+  bool SubmitSourceBuffer();
 
 public:
   APISound(float, float);

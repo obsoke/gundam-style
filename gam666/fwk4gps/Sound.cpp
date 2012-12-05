@@ -185,6 +185,9 @@ bool Sound::play() {
   bool rc = false;
 
   if (now - lastToggle > KEY_LATENCY) {
+    if (on) {
+      stop();
+    }
     setToStart = true;
     lastToggle = now;
     rc = true;
