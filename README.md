@@ -4,11 +4,11 @@
 Developed for Seneca College's [GAM666](https://scs.senecac.on.ca/~gam666/) class
 
 ### Dev Team
-* @JSilver99 (lead developer)
-* @daliuss
-* @limed3
-* @mafidchao
-* @phucher
+* [@JSilver99](https://github.com/JSilver99) (lead developer)
+* [@daliuss](https://github.com/daliuss)
+* [@limed3](https://github.com/limed3)
+* [@mafidchao](https://github.com/mafidchao)
+* [@phucher](https://github.com/phucher)
 
 ### Requirements
 * [DirectX9 SDK](http://www.microsoft.com/en-us/download/details.aspx?id=6812)
