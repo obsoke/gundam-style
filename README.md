@@ -3,6 +3,15 @@
 
 Developed for Seneca College's [GAM666](https://scs.senecac.on.ca/~gam666/) class
 
+### Features
+* Robots
+* Fighting
+* K-Pop
+* Up to four players
+* Local split-screen fun!
+* Supports keyboard controls or gamepad (Xbox 360 controllers supported)
+* Did we mention K-Pop?
+
 ### Dev Team
 * [@JSilver99](https://github.com/JSilver99) (lead developer)
 * [@daliuss](https://github.com/daliuss)
