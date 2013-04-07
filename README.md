@@ -14,4 +14,6 @@ Developed for Seneca College's [GAM666](https://scs.senecac.on.ca/~gam666/) clas
 * [DirectX9 SDK](http://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
 ### License
-[GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
+Gundal Style uses a customized version of the fwk4gps DirectX9 framework by
+[Dr. Chris Szalwinski](https://scs.senecac.on.ca/~chris.szalwinski/). License
+can be found [here](https://github.com/daliuss/gundam-style/blob/master/gam666/License.txt).
